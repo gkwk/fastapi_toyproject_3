@@ -1,0 +1,4 @@
+API_V1_ROUTER_PREFIX = "/api/v1"
+
+MAIN_ROUTER_PREFIX = ""
+MAIN_ROOT = "/"
