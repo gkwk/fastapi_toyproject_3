@@ -1,7 +1,5 @@
-from database.database import Base
-
 from datetime import datetime
-from typing import List, Optional
+from typing import List, Optional, TYPE_CHECKING
 
 from sqlalchemy import (
     Integer,
@@ -16,12 +14,11 @@ from sqlalchemy import (
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
-from typing import TYPE_CHECKING
-
+from database.database import Base
 
 if TYPE_CHECKING:
-    from models.test import Test
-    
+    pass
+
 
 class User(Base):
     __tablename__ = "user"
@@ -33,10 +30,9 @@ class User(Base):
     email: Mapped[str] = mapped_column(String(256), unique=True)
     password: Mapped[str] = mapped_column(String())
     password_salt: Mapped[str] = mapped_column(String())
+    role : Mapped[str] = mapped_column(String())
     join_date: Mapped[DateTime] = mapped_column(DateTime(), default=datetime.now)
     update_date: Mapped[Optional[DateTime]] = mapped_column(
         DateTime(), onupdate=datetime.now
     )
-    
-    test: Mapped["Test"] = relationship(back_populates="user")
-    # test_id: Mapped[int] = mapped_column(ForeignKey("test.id"))
+    is_banned: Mapped[bool] = mapped_column(Boolean(), default=False)
