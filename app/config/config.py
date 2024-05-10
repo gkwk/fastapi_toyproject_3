@@ -6,7 +6,9 @@ from functools import lru_cache
 class Settings(BaseSettings):
     APP_DOMAIN: str
     APP_JWT_SECRET_KEY: str
-    APP_JWT_EXPIRE_MINUTES: int
+    APP_JWT_ACCESS_TOKEN_EXPIRE_MINUTES: int
+    APP_JWT_REFRESH_TOKEN_EXPIRE_MINUTES: int
+    OAUTH_TOKEN_URL : str
     PASSWORD_ALGORITHM: str
     SQLALCHEMY_DATABASE_URL: str
 
