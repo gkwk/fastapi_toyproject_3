@@ -2,3 +2,9 @@ API_V1_ROUTER_PREFIX = "/api/v1"
 
 MAIN_ROUTER_PREFIX = ""
 MAIN_ROOT = "/"
+
+LOGIN_ROUTER_PREFIX = "/login"
+LOGIN_ROOT = "/"
+
+JOIN_ROUTER_PREFIX = "/join"
+JOIN_ROOT = "/"
