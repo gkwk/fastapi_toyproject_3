@@ -9,6 +9,7 @@ import uvicorn
 from router.v1 import v1_router
 from lifespan.lifespan import app_lifespan
 from config.config import origins
+from terminal_command.create_super_user import create_admin_with_terminal
 
 
 app = FastAPI(
@@ -37,3 +38,6 @@ if __name__ == "__main__":
 
     if len(argv) == 0:
         uvicorn.run("main:app", reload=True, log_level="debug")
+    else:
+        if "createsuperuser" in argv:
+            create_admin_with_terminal(data_base=None)
