@@ -4,10 +4,11 @@ MAIN_ROUTER_PREFIX = ""
 MAIN_ROOT = "/"
 
 LOGIN_ROUTER_PREFIX = "/login"
-LOGIN_ROOT = "/"
+LOGIN_ROOT = ""
 
 LOGOUT_ROUTER_PREFIX = "/logout"
-LOGOUT_ROOT = "/"
+LOGOUT_ROOT = ""
 
 USERS_ROUTER_PREFIX = "/users"
-USERS_ROOT = "/"
+USERS_ROOT = ""
+USERS_ID = "/{id}"
