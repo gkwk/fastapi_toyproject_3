@@ -11,6 +11,7 @@ def validate_after_access_token(data_base: database_dependency, payload: dict):
     credentials_exception = HTTPException(**http_exception_params["not_verified_token"])
 
     try:
+        sub: str = payload.get("sub")
         domain: str = payload.get(get_settings().APP_DOMAIN)
         user_name: str = payload.get("user_name")
         user_id: int = payload.get("user_id")
@@ -23,7 +24,8 @@ def validate_after_access_token(data_base: database_dependency, payload: dict):
         token_unix_timestamp: int = payload.get("uuid")
 
         if (
-            (user_name is None)
+            (sub == "access_token")
+            or (user_name is None)
             or (user_id is None)
             or (user_validation_information is None)
             or (domain is None)
