@@ -4,7 +4,7 @@ from jose import JWTError
 from database.database import database_dependency
 from config.config import get_settings
 from execption_message.http_execption_params import http_exception_params
-from models import JWTRefreshTokenList
+from models import JWTList
 
 
 def validate_after_refresh_token(data_base: database_dependency, payload: dict):
@@ -14,8 +14,8 @@ def validate_after_refresh_token(data_base: database_dependency, payload: dict):
         domain: str = payload.get(get_settings().APP_DOMAIN)
         user_id: int = payload.get("user_id")
         user_validation_information = (
-            data_base.query(JWTRefreshTokenList)
-            .filter_by(user_id=payload.get("user_id"))
+            data_base.query(JWTList)
+            .filter_by(user_id=user_id)
             .first()
         )
         token_uuid: str = payload.get("exp")
@@ -26,10 +26,10 @@ def validate_after_refresh_token(data_base: database_dependency, payload: dict):
             or (user_validation_information is None)
             or (domain is None)
             or not (
-                (token_uuid == user_validation_information.token_uuid)
+                (token_uuid == user_validation_information.refresh_token_uuid)
                 and (
                     token_unix_timestamp
-                    == user_validation_information.token_unix_timestamp
+                    == user_validation_information.refresh_token_unix_timestamp
                 )
             )
         ):
