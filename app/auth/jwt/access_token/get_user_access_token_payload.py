@@ -3,10 +3,10 @@ from typing import Annotated
 from fastapi import Depends
 
 from database.database import database_dependency
-from app.auth.jwt.access_token.validate_before_access_token import (
+from auth.jwt.access_token.validate_before_access_token import (
     validate_before_access_token,
 )
-from app.auth.jwt.access_token.validate_after_access_token import (
+from auth.jwt.access_token.validate_after_access_token import (
     validate_after_access_token,
 )
 from auth.jwt.access_token.decode_access_token import decode_access_token
@@ -23,4 +23,6 @@ def get_user_access_token_payload(
     return payload
 
 
-current_user_access_token_payload = Annotated[dict, Depends(get_user_access_token_payload)]
+current_user_access_token_payload = Annotated[
+    dict, Depends(get_user_access_token_payload)
+]

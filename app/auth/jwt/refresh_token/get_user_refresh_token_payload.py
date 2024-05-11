@@ -6,7 +6,7 @@ from database.database import database_dependency
 from auth.jwt.refresh_token.validate_before_refresh_token import (
     validate_before_refresh_token,
 )
-from app.auth.jwt.refresh_token.validate_after_refresh_token import (
+from auth.jwt.refresh_token.validate_after_refresh_token import (
     validate_after_refresh_token,
 )
 from auth.jwt.access_token.decode_access_token import decode_access_token
