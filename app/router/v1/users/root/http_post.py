@@ -4,11 +4,11 @@ from fastapi import HTTPException
 from starlette import status
 
 from router.v1 import v1_url
-from router.v1.join.router import router
+from router.v1.users.router import router
 from database.database import database_dependency
 from models import User
 from auth.jwt.password_context import get_password_context
-from schema.join.request_user_join import RequestUserJoin
+from app.schema.users.request_user_join import RequestUserJoin
 from execption_message.http_execption_params import http_exception_params
 
 
@@ -51,8 +51,8 @@ def create_user(
     return user.id
 
 
-@router.post(v1_url.JOIN_ROOT, status_code=status.HTTP_201_CREATED)
-def page(data_base: database_dependency, schema: RequestUserJoin):
+@router.post(v1_url.USERS_ROOT, status_code=status.HTTP_201_CREATED)
+def http_post(data_base: database_dependency, schema: RequestUserJoin):
     user_id = create_user(
         data_base=data_base,
         name=schema.name,
