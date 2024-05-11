@@ -18,7 +18,7 @@ def get_user_access_token_payload(
 ):
     validate_before_access_token()
     payload = decode_access_token(encoded_access_token=token)
-    validate_after_access_token()
+    validate_after_access_token(data_base=data_base, payload=payload)
 
     return payload
 

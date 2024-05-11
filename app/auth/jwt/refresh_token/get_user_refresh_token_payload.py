@@ -18,7 +18,7 @@ def get_user_refresh_token_payload(
 ):
     validate_after_refresh_token()
     payload = decode_access_token(encoded_access_token=token)
-    validate_after_refresh_token()
+    validate_after_refresh_token(data_base=data_base, payload=payload)
 
     return payload
 

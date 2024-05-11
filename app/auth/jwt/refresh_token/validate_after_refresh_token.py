@@ -21,7 +21,7 @@ def validate_after_refresh_token(data_base: database_dependency, payload: dict):
         token_unix_timestamp: int = payload.get("uuid")
 
         if (
-            (sub == "access_token")
+            (sub != "refresh_token")
             or (user_id is None)
             or (user_validation_information is None)
             or (domain is None)

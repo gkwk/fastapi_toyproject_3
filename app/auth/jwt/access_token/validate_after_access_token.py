@@ -24,12 +24,12 @@ def validate_after_access_token(data_base: database_dependency, payload: dict):
         token_unix_timestamp: int = payload.get("uuid")
 
         if (
-            (sub == "access_token")
+            (sub != "access_token")
             or (user_name is None)
             or (user_id is None)
             or (user_validation_information is None)
             or (domain is None)
-            or not (
+            or (
                 (token_uuid == user_validation_information.access_token_uuid)
                 and (
                     token_unix_timestamp
