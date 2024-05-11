@@ -11,7 +11,7 @@ from auth.jwt.issue_user_jwt import issue_user_jwt
 
 # @router.post(v1_url.LOGIN_ROOT, response_model=user_schema.ResponseUserToken)
 @router.post(v1_url.LOGIN_ROOT)
-def page(
+def http_post(
     response: Response,
     data_base: database_dependency,
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],

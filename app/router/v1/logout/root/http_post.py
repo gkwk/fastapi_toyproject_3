@@ -11,7 +11,7 @@ from auth.jwt.access_token.get_user_access_token_payload import (
 
 
 @router.post(v1_url.LOGOUT_ROOT)
-def page(
+def http_post(
     response: Response,
     data_base: database_dependency,
     access_token: current_user_access_token_payload,
