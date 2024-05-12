@@ -1,0 +1,68 @@
+import secrets
+
+from fastapi import HTTPException
+from starlette import status
+
+from router.v1 import v1_url
+from router.v1.users.router import router
+from database.database import database_dependency
+from models import User
+from auth.jwt.access_token.get_user_access_token_payload import (
+    current_user_access_token_payload,
+)
+from auth.jwt.password_context import get_password_context
+from schema.users.request_user_detail_patch import RequestUserDetailPatch
+from execption_message.http_execption_params import http_exception_params
+
+
+def get_user_with_email(
+    data_base: database_dependency,
+    eamil: str,
+):
+    return data_base.query(User).filter_by(email=eamil).first()
+
+
+def update_user_detail(
+    data_base: database_dependency,
+    token: current_user_access_token_payload,
+    schema: RequestUserDetailPatch,
+    id: int,
+):   
+    if token.get("user_id") != id:
+        raise HTTPException(**http_exception_params["not_verified_token"])
+    
+    user = data_base.query(User).filter_by(id=token.get("user_id")).first()
+
+    if not user:
+        raise HTTPException(**http_exception_params["not_exist_user"])
+
+    schema_dump = schema.model_dump()
+
+    if (schema_dump.get("email") != None) and (
+        get_user_with_email(data_base=data_base, eamil=schema.email)
+    ):
+        raise HTTPException(**http_exception_params["not_unique_email"])
+
+    if schema_dump.get("email") != None:
+        user.email = schema.email
+    if (schema_dump.get("password1") != None) and (schema_dump.get("password1") != None):
+        generated_password_salt = secrets.token_hex(4)
+        user.password = get_password_context().hash(
+            schema.password1 + generated_password_salt
+        )
+        user.password_salt = generated_password_salt
+
+    data_base.add(user)
+    data_base.commit()
+
+    # 차후 access token 재발행 여부를 묻는 과정을 추가해도 될 것 같다.
+
+
+@router.patch(v1_url.USERS_ID, status_code=status.HTTP_204_NO_CONTENT)
+def http_patch(
+    data_base: database_dependency,
+    token: current_user_access_token_payload,
+    schema: RequestUserDetailPatch,
+    id: int,
+):
+    update_user_detail(data_base=data_base, token=token, schema=schema, id=id)
