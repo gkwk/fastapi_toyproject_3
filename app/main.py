@@ -18,6 +18,7 @@ app = FastAPI(
         # {"url": "/test", "description": "Test environment"},
         # {"url": "/", "description": "Production environment"},
     ],
+    docs_url='/'
 )
 
 app.mount("/static", StaticFiles(directory="volume/staticfile"), name="static")
