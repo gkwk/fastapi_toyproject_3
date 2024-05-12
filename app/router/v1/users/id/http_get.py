@@ -9,6 +9,8 @@ from schema.users.response_user_detail import ResponseUserDetail
 
 
 def get_user_detail(data_base: database_dependency, id: int):
+    # 존재하지 않는 사용자 번호를 조회하는 예외 상황에 맞는 기능을 추가해야 한다.
+    
     return data_base.query(User).filter_by(id=id).first()
 
 
