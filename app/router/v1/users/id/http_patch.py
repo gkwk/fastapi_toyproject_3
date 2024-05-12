@@ -65,4 +65,7 @@ def http_patch(
     schema: RequestUserDetailPatch,
     id: int,
 ):
+    """
+    사용자 상세 정보를 수정한다.
+    """
     update_user_detail(data_base=data_base, token=token, schema=schema, id=id)

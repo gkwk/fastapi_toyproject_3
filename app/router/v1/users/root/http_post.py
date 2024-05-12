@@ -53,6 +53,10 @@ def create_user(
 
 @router.post(v1_url.USERS_ROOT, status_code=status.HTTP_201_CREATED)
 def http_post(data_base: database_dependency, schema: RequestUserJoin):
+    """
+    사용자를 생성한다.
+    """
+    
     user_id = create_user(
         data_base=data_base,
         name=schema.name,

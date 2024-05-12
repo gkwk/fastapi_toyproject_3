@@ -18,4 +18,7 @@ def http_get(
     token: current_user_access_token_payload,
     id: int,
 ):
+    """
+    사용자 상세 정보를 조회한다.
+    """
     return get_user_detail(data_base=data_base, id=id)
