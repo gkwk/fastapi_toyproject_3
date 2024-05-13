@@ -17,7 +17,8 @@ from sqlalchemy.orm import Mapped, mapped_column, relationship
 from database.database import Base
 
 if TYPE_CHECKING:
-    pass
+    from models.board import Board
+    from models.user_board_table import UserPermissionTable
 
 
 class User(Base):
@@ -36,3 +37,6 @@ class User(Base):
         DateTime(), onupdate=datetime.now
     )
     is_banned: Mapped[bool] = mapped_column(Boolean(), default=False)
+    boards: Mapped[List["Board"]] = relationship(
+        secondary="user_board_table", back_populates="users"
+    )  # N to M
