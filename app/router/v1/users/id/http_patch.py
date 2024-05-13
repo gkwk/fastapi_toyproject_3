@@ -68,4 +68,5 @@ def http_patch(
     """
     사용자 상세 정보를 수정한다.
     """
+    # 차후 권한에 따라 수정 가능한 필드를 제한하는 기능을 추가한다.
     update_user_detail(data_base=data_base, token=token, schema=schema, id=id)
