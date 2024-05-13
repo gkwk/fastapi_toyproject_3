@@ -6,7 +6,7 @@ from router.v1.main import router as main_router
 from router.v1.login import router as login_router
 from router.v1.logout import router as logout_router
 from router.v1.users import router as users_router
-
+from router.v1.boards import router as boards_router
 
 router = APIRouter(
     prefix=v1_url.API_V1_ROUTER_PREFIX,
@@ -16,3 +16,4 @@ router.include_router(main_router.router)
 router.include_router(login_router.router)
 router.include_router(logout_router.router)
 router.include_router(users_router.router)
+router.include_router(boards_router.router)

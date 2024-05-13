@@ -12,3 +12,7 @@ LOGOUT_ROOT = ""
 USERS_ROUTER_PREFIX = "/users"
 USERS_ROOT = ""
 USERS_ID = "/{id}"
+
+BOARDS_ROUTER_PREFIX = "/boards"
+BOARDS_ROOT = ""
+BOARDS_ID = "/{id}"
