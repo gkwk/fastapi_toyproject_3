@@ -32,4 +32,13 @@ http_exception_params = {
         "status_code": status.HTTP_400_BAD_REQUEST,
         "detail": "Bad Request",
     },
+    "not_exist_resource": {
+        "status_code": status.HTTP_404_NOT_FOUND,
+        "detail": "해당 리소스는 존재하지 않습니다.",
+        "headers": {"WWW-Authenticate": "Bearer"},
+    },
+    "not_unique_attribute_value": {
+        "status_code": status.HTTP_409_CONFLICT,
+        "detail": "변경 요청한 속성값은 이미 사용중입니다.",
+    },
 }
