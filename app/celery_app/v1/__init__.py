@@ -1,0 +1,1 @@
+from .ais import tasks as ais_tasks

@@ -16,3 +16,7 @@ USERS_ID = "/{id}"
 BOARDS_ROUTER_PREFIX = "/boards"
 BOARDS_ROOT = ""
 BOARDS_ID = "/{id}"
+
+AIS_ROUTER_PREFIX = "/ais"
+AIS_ROOT = ""
+AIS_ID = "/{id}"
