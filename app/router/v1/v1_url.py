@@ -20,3 +20,7 @@ BOARDS_ID = "/{id}"
 AIS_ROUTER_PREFIX = "/ais"
 AIS_ROOT = ""
 AIS_ID = "/{id}"
+
+AILOGS_ROUTER_PREFIX = "/ailogs"
+AILOGS_ROOT = ""
+AILOGS_ID = "/{id}"

@@ -41,4 +41,8 @@ http_exception_params = {
         "status_code": status.HTTP_409_CONFLICT,
         "detail": "변경 요청한 속성값은 이미 사용중입니다.",
     },
+    "not_exist_ai_model": {
+        "status_code": status.HTTP_404_NOT_FOUND,
+        "detail": "AI 모델이 존재하지 않습니다.",
+    },
 }
