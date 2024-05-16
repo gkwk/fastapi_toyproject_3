@@ -1,7 +1,7 @@
 from fastapi import Response
 
-from router.v1 import v1_url
-from router.v1.logout.router import router
+from router.v1 import v1_url, v1_tags
+from router.v1.auth.logout.router import router
 from database.database import database_dependency
 from auth.jwt.refresh_token.delete_refresh_token import delete_refresh_token
 from auth.jwt.access_token.ban_access_token import ban_access_token
@@ -10,7 +10,7 @@ from auth.jwt.access_token.get_user_access_token_payload import (
 )
 
 
-@router.post(v1_url.LOGOUT_ROOT)
+@router.post(v1_url.ENDPOINT, tags=[v1_tags.AUTH_TAG])
 def http_post(
     response: Response,
     data_base: database_dependency,

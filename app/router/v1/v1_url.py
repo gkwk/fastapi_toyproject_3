@@ -1,26 +1,26 @@
+ENDPOINT = ""
+ENDPOINT_SLASH = "/"
+
 API_V1_ROUTER_PREFIX = "/api/v1"
 
+AUTH_ROUTER_PREFIX = "/auth"
+AUTH_LOGIN_ROUTER_PREFIX = "/login"
+AUTH_LOGOUT_ROUTER_PREFIX = "/logout"
+AUTH_REISSUE_ACCESS_TOKEN_ROUTER_PREFIX = "/reissue-access-token"
+
 MAIN_ROUTER_PREFIX = ""
-MAIN_ROOT = "/"
-
-LOGIN_ROUTER_PREFIX = "/login"
-LOGIN_ROOT = ""
-
-LOGOUT_ROUTER_PREFIX = "/logout"
-LOGOUT_ROOT = ""
 
 USERS_ROUTER_PREFIX = "/users"
-USERS_ROOT = ""
-USERS_ID = "/{id}"
+USERS_ID_ROUTER_PREFIX = "/{user_id}"
 
 BOARDS_ROUTER_PREFIX = "/boards"
-BOARDS_ROOT = ""
-BOARDS_ID = "/{id}"
+BOARDS_ID_ROUTER_PREFIX = "/{board_id}"
+
+POSTS_ROUTER_PREFIX = "/posts"
+POSTS_ID_ROUTER_PREFIX = "/{post_id}"
 
 AIS_ROUTER_PREFIX = "/ais"
-AIS_ROOT = ""
-AIS_ID = "/{id}"
+AIS_ID_ROUTER_PREFIX = "/{ai_id}"
 
 AILOGS_ROUTER_PREFIX = "/ailogs"
-AILOGS_ROOT = ""
-AILOGS_ID = "/{id}"
+AILOGS_ID_ROUTER_PREFIX = "/{ailog_id}"

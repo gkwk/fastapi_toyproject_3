@@ -4,8 +4,8 @@ from fastapi import HTTPException
 from starlette import status
 from sqlalchemy import select
 
-from router.v1 import v1_url
-from router.v1.boards.router import router
+from router.v1 import v1_url, v1_tags
+from router.v1.boards.id.router import router
 from database.database import database_dependency
 from models import Board, UserPermissionTable, User
 from auth.jwt.access_token.get_user_access_token_payload import (
@@ -68,9 +68,9 @@ def update_board_detail(
     data_base: database_dependency,
     token: current_user_access_token_payload,
     schema: RequestBoardDetailPatch,
-    id: int,
+    board_id: int,
 ):
-    board = data_base.query(Board).filter_by(id=id).first()
+    board = data_base.query(Board).filter_by(id=board_id).first()
 
     if not board:
         raise HTTPException(**http_exception_params["not_exist_resource"])
@@ -92,15 +92,15 @@ def update_board_detail(
     data_base.commit()
 
 
-@router.patch(v1_url.BOARDS_ID, status_code=status.HTTP_204_NO_CONTENT)
+@router.patch(v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.BOARD_TAG])
 def http_patch(
     data_base: database_dependency,
     token: current_user_access_token_payload,
     schema: RequestBoardDetailPatch,
-    id: int,
+    board_id: int,
 ):
     """
     게시판 상세 정보를 수정한다.
     """
     # 차후 권한에 따라 수정 가능한 필드를 제한하는 기능을 추가한다.
-    update_board_detail(data_base=data_base, token=token, schema=schema, id=id)
+    update_board_detail(data_base=data_base, token=token, schema=schema, board_id=board_id)

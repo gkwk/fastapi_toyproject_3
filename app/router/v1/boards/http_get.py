@@ -1,6 +1,6 @@
 from typing import Union
 
-from router.v1 import v1_url
+from router.v1 import v1_url, v1_tags
 from router.v1.boards.router import router
 from database.database import database_dependency
 from models import Board
@@ -21,8 +21,9 @@ def get_boards(
 
 
 @router.get(
-    v1_url.BOARDS_ROOT,
+    v1_url.ENDPOINT,
     response_model=Union[ResponseBoardsForUser, ResponseBoardsForAdmin],
+    tags=[v1_tags.BOARD_TAG],
 )
 def http_get(
     data_base: database_dependency,

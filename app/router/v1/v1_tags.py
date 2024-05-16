@@ -1,0 +1,8 @@
+MAIN_TAG = "main"
+AUTH_TAG = "auth"
+USER_TAG = "user"
+BOARD_TAG = "board"
+POST_TAG = "post"
+COMMENT_TAG = "comment"
+AI_TAG = "ai"
+AILOG_TAG = "ailog"

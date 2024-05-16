@@ -3,14 +3,14 @@ from typing import Annotated
 from fastapi import Depends, Response
 from fastapi.security import OAuth2PasswordRequestForm
 
-from router.v1 import v1_url
-from router.v1.login.router import router
+from router.v1 import v1_url, v1_tags
+from router.v1.auth.login.router import router
 from database.database import database_dependency
 from auth.jwt.issue_user_jwt import issue_user_jwt
 
 
 # @router.post(v1_url.LOGIN_ROOT, response_model=user_schema.ResponseUserToken)
-@router.post(v1_url.LOGIN_ROOT)
+@router.post(v1_url.ENDPOINT, tags=[v1_tags.AUTH_TAG])
 def http_post(
     response: Response,
     data_base: database_dependency,

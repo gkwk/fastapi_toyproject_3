@@ -1,7 +1,7 @@
 from celery import uuid
 from starlette import status
 
-from router.v1 import v1_url
+from router.v1 import v1_url, v1_tags
 from router.v1.ais.router import router
 from database.database import database_dependency
 from models import User, JWTList, Board, AI
@@ -35,7 +35,7 @@ def create_ai(
     return (async_task, ai.id)
 
 
-@router.post(v1_url.AIS_ROOT, status_code=status.HTTP_202_ACCEPTED)
+@router.post(v1_url.ENDPOINT, status_code=status.HTTP_202_ACCEPTED, tags=[v1_tags.AI_TAG])
 def http_post(
     data_base: database_dependency,
     token: current_user_access_token_payload,

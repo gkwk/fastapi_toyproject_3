@@ -4,7 +4,6 @@ from pydantic import BaseModel, Field, ValidationInfo, field_validator
 
 
 class RequestAIlogCreate(BaseModel):
-    ai_id: int = Field(ge=1)
     description: str = Field(min_length=1, max_length=256)
 
     @field_validator("description")

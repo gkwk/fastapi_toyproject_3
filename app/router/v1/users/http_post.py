@@ -3,7 +3,7 @@ import secrets
 from fastapi import HTTPException
 from starlette import status
 
-from router.v1 import v1_url
+from router.v1 import v1_url,v1_tags
 from router.v1.users.router import router
 from database.database import database_dependency
 from models import User
@@ -51,7 +51,7 @@ def create_user(
     return user.id
 
 
-@router.post(v1_url.USERS_ROOT, status_code=status.HTTP_201_CREATED)
+@router.post(v1_url.ENDPOINT, status_code=status.HTTP_201_CREATED, tags=[v1_tags.USER_TAG])
 def http_post(data_base: database_dependency, schema: RequestUserJoin):
     """
     사용자를 생성한다.

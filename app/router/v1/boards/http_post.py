@@ -1,11 +1,15 @@
 from starlette import status
 
-from router.v1 import v1_url
+from router.v1 import v1_url, v1_tags
 from router.v1.boards.router import router
 from database.database import database_dependency
 from models import User, JWTList, Board
 from auth.jwt.access_token.ban_access_token import ban_access_token
+from auth.jwt.access_token.get_user_access_token_payload import (
+    current_user_access_token_payload,
+)
 from schema.boards.request_board_create import RequestBoardCreate
+
 
 def user_board_permission_init(
     data_base: database_dependency,
@@ -77,8 +81,13 @@ def create_board(
     board = Board(name=name, information=information)
     data_base.add(board)
     data_base.commit()
-    
-    user_board_permission_init(data_base=data_base, board=board, is_visible=is_visible, user_id_list=user_id_list)
+
+    user_board_permission_init(
+        data_base=data_base,
+        board=board,
+        is_visible=is_visible,
+        user_id_list=user_id_list,
+    )
 
     board.is_visible = is_visible
     board.is_available = is_available
@@ -88,8 +97,14 @@ def create_board(
     return board.id
 
 
-@router.post(v1_url.BOARDS_ROOT, status_code=status.HTTP_201_CREATED)
-def http_post(data_base: database_dependency, schema: RequestBoardCreate):
+@router.post(
+    v1_url.ENDPOINT, status_code=status.HTTP_201_CREATED, tags=[v1_tags.BOARD_TAG]
+)
+def http_post(
+    data_base: database_dependency,
+    token: current_user_access_token_payload,
+    schema: RequestBoardCreate,
+):
     """
     게시판을 생성한다.
     """
