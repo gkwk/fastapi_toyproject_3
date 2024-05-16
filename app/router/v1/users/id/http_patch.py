@@ -12,7 +12,7 @@ from auth.jwt.access_token.get_user_access_token_payload import (
 )
 from auth.jwt.password_context import get_password_context
 from schema.users.request_user_detail_patch import RequestUserDetailPatch
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 
 
 def get_user_with_email(

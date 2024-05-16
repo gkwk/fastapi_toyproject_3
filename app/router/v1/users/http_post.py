@@ -9,7 +9,7 @@ from database.database import database_dependency
 from models import User
 from auth.jwt.password_context import get_password_context
 from schema.users.request_user_join import RequestUserJoin
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 
 
 def get_user_with_username(

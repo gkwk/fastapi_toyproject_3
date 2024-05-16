@@ -7,7 +7,7 @@ from models import User
 from schema.terminal import AdminCreateEmail, AdminCreateName, AdminCreatePassword
 from database.database import database_dependency, get_data_base_decorator
 from auth.jwt.password_context import get_password_context
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 
 
 def get_user_with_username(

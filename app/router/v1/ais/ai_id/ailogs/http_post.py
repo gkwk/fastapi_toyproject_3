@@ -13,7 +13,7 @@ from schema.ailogs.request_ailog_create import RequestAIlogCreate
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 from celery_app.v1.ailogs.tasks import celery_task_ai_infer
 
 json_encoder = json.JSONEncoder()

@@ -9,7 +9,7 @@ from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
 from auth.jwt.refresh_token.delete_refresh_token import delete_refresh_token
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 
 
 def delete_user(

@@ -1,6 +1,6 @@
 from fastapi import HTTPException
 
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 from auth.jwt.access_token.get_user_access_token_payload import current_user_access_token_payload
 
 def scope_checker(accees_token_payload: current_user_access_token_payload, target_scopes: list):

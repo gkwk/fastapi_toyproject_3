@@ -4,7 +4,7 @@ from fastapi.security import OAuth2PasswordRequestForm
 from models import User
 
 from database.database import database_dependency
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 from auth.jwt.password_context import get_password_context
 
 

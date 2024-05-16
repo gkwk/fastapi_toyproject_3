@@ -13,7 +13,7 @@ from auth.jwt.access_token.get_user_access_token_payload import (
 )
 from auth.jwt.password_context import get_password_context
 from schema.boards.request_board_detail_patch import RequestBoardDetailPatch
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 
 
 def get_board_with_name(data_base: database_dependency, name: str):

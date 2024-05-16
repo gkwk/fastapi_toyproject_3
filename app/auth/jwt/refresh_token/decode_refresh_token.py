@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from jose import jwt, JWTError
 
 from config.config import get_settings
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 
 SECRET_KEY = get_settings().APP_JWT_SECRET_KEY
 ALGORITHM = get_settings().PASSWORD_ALGORITHM

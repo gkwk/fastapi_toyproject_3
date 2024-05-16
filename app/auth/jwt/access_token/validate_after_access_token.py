@@ -3,7 +3,7 @@ from jose import JWTError
 
 from database.database import database_dependency
 from config.config import get_settings
-from execption_message.http_execption_params import http_exception_params
+from exception_message.http_exception_params import http_exception_params
 from models import JWTList
 
 
