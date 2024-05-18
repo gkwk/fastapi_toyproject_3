@@ -49,3 +49,6 @@ celery -A celery_app worker -l info --pool=solo
 - celery의 Task 타입 힌트 문제
     > `celery` 사용을 위해 관련 함수에 데코레이터를 붙여도 IDE가 데코레이터가 붙은 함수를 `Task` 타입으로 인식하지 못했다. 이를 해결하기 위해 `typing`의 `cast`를 사용하였다.
     `(ex: app\celery_app\v1\ais\tasks.py)`
+- Form과 Pydantic의 유효성 검사 사용하기
+    > 파일을 받고 처리하기 위해서 FastAPI의 `Form`을 사용하였다. 하지만 이런 접근으로는 Pydantic의 유효성 검사를 사용할 수 없으므로 성능 손해를 감수하고 Form 스키마에 Pydantic 스키마의 인스턴스를 생성하는 과정을 추가하였다. 또한 의존성 주입 과정에서 유효성 검사를 통과하지 못할 경우 `HTTPException`을 발생시키도록 하여 사용자가 오류 원인을 알 수 있게 하였다.
+    `(ex: app\router\v1\boards\id\posts\http_post.py)`
