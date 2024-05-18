@@ -18,6 +18,7 @@ from database.database import Base
 
 if TYPE_CHECKING:
     from models.user import User
+    from models.post import Post
     from models.user_board_table import UserPermissionTable
 
 
@@ -32,6 +33,9 @@ class Board(Base):
         secondary="user_board_table",
         back_populates="boards",
     )  # N to M
+    posts: Mapped[List["Post"]] = relationship(
+        back_populates="board", cascade="all, delete"
+    )  # 1 to N
     information: Mapped[str] = mapped_column(String(512))
     is_visible: Mapped[Boolean] = mapped_column(Boolean(), default=False)
     is_available: Mapped[Boolean] = mapped_column(Boolean(), default=False)

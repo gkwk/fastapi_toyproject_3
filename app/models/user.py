@@ -18,6 +18,7 @@ from database.database import Base
 
 if TYPE_CHECKING:
     from models.board import Board
+    from models.post import Post
     from models.user_board_table import UserPermissionTable
     from models.ailog import AIlog
 
@@ -28,6 +29,10 @@ class User(Base):
 
     id: Mapped[int] = mapped_column(primary_key=True)
 
+    boards: Mapped[List["Board"]] = relationship(
+        secondary="user_board_table", back_populates="users"
+    )  # N to M
+    posts: Mapped[List["Post"]] = relationship(back_populates="user")  # 1 to N
     ai_logs: Mapped[List["AIlog"]] = relationship(
         back_populates="user", cascade="all, delete"
     )  # 1 to N
@@ -42,6 +47,3 @@ class User(Base):
         DateTime(), onupdate=datetime.now
     )
     is_banned: Mapped[bool] = mapped_column(Boolean(), default=False)
-    boards: Mapped[List["Board"]] = relationship(
-        secondary="user_board_table", back_populates="users"
-    )  # N to M

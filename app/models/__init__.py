@@ -2,6 +2,8 @@ from .user import User
 from .jwt_list import JWTList
 from .jwt_access_token_blacklist import JWTAccessTokenBlackList
 from .board import Board
+from .post import Post
+from .post_file import PostFile
 from .user_board_table import UserPermissionTable
 from .ai import AI
 from .ailog import AIlog
