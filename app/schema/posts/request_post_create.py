@@ -22,7 +22,7 @@ class RequestFormPostCreate:
     name: str = Form(min_length=1, max_length=64)
     content: str = Form(min_length=1, max_length=1024)
     is_visible: bool = Form()
-    files: List[Optional[UploadFile]] = (File(None),)
+    files: List[Optional[UploadFile]] = File(None)
 
     @classmethod
     def from_form(
