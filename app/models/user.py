@@ -21,6 +21,7 @@ if TYPE_CHECKING:
     from models.post import Post
     from models.user_board_table import UserPermissionTable
     from models.ailog import AIlog
+    from models.comment import Comment
 
 
 class User(Base):
@@ -33,6 +34,8 @@ class User(Base):
         secondary="user_board_table", back_populates="users"
     )  # N to M
     posts: Mapped[List["Post"]] = relationship(back_populates="user")  # 1 to N
+    comments: Mapped[List["Comment"]] = relationship(back_populates="user")  # 1 to N
+    
     ai_logs: Mapped[List["AIlog"]] = relationship(
         back_populates="user", cascade="all, delete"
     )  # 1 to N

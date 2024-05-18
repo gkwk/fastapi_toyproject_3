@@ -4,6 +4,8 @@ from .jwt_access_token_blacklist import JWTAccessTokenBlackList
 from .board import Board
 from .post import Post
 from .post_file import PostFile
+from .comment import Comment
+from .comment_file import CommentFile
 from .user_board_table import UserPermissionTable
 from .ai import AI
 from .ailog import AIlog

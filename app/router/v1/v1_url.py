@@ -19,6 +19,9 @@ BOARDS_ID_ROUTER_PREFIX = "/{board_id}"
 POSTS_ROUTER_PREFIX = "/posts"
 POSTS_ID_ROUTER_PREFIX = "/{post_id}"
 
+COMMENTS_ROUTER_PREFIX = "/comments"
+COMMENTS_ID_ROUTER_PREFIX = "/{comment_id}"
+
 AIS_ROUTER_PREFIX = "/ais"
 AIS_ID_ROUTER_PREFIX = "/{ai_id}"
 
