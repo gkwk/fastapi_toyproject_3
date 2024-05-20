@@ -22,7 +22,8 @@ if TYPE_CHECKING:
     from models.post_file import PostFile
     from models.comment import Comment
 
-class Post(Base):    
+
+class Post(Base):
     __tablename__ = "post"
     __table_args__ = {"sqlite_autoincrement": True}
 
@@ -45,6 +46,7 @@ class Post(Base):
     number_of_comment: Mapped[int] = mapped_column(Integer(), default=0)
     number_of_like: Mapped[int] = mapped_column(Integer(), default=0)
     is_file_attached: Mapped[Boolean] = mapped_column(Boolean(), default=False)
-    attached_files: Mapped[List["PostFile"]] = relationship(back_populates="post")
+    attached_files: Mapped[List["PostFile"]] = relationship(
+        back_populates="post", cascade="all, delete"
+    )
     is_visible: Mapped[Boolean] = mapped_column(Boolean(), default=True)
-    
