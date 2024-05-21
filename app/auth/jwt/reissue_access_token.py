@@ -10,7 +10,7 @@ from auth.jwt.access_token.ban_access_token import ban_access_token
 
 
 def database_process(
-    data_base: database_dependency, user: User, access_token: str, refresh_token: str
+    data_base: database_dependency, user: User, access_token: str
 ):
     user_information = data_base.query(JWTList).filter_by(user_id=user.id).first()
 
@@ -34,7 +34,7 @@ def reissue_access_token(
     data_base: database_dependency,
     refresh_token_payload: current_user_refresh_token_payload,
 ):
-    user = data_base.query(User).filter_by(name=refresh_token_payload.get("user_id")).first()
+    user = data_base.query(User).filter_by(id=refresh_token_payload.get("user_id")).first()
 
     ban_access_token(data_base=data_base, user_id=user.id)
     access_token = generate_access_token(data_base=data_base, user=user)

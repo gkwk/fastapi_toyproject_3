@@ -20,8 +20,8 @@ def validate_after_access_token(data_base: database_dependency, payload: dict):
         user_validation_information = (
             data_base.query(JWTList).filter_by(user_id=user_id).first()
         )
-        token_uuid: str = payload.get("exp")
-        token_unix_timestamp: int = payload.get("uuid")
+        token_uuid: str = payload.get("uuid")
+        token_unix_timestamp: int = payload.get("exp")
 
         if (
             (sub != "access_token")
@@ -29,7 +29,7 @@ def validate_after_access_token(data_base: database_dependency, payload: dict):
             or (user_id is None)
             or (user_validation_information is None)
             or (domain is None)
-            or (
+            or not (
                 (token_uuid == user_validation_information.access_token_uuid)
                 and (
                     token_unix_timestamp

@@ -130,7 +130,7 @@ def http_patch(
     comment_id: int = Path(ge=1),
 ):
     """
-    게시판의 게시글 상세 정보를 수정한다.
+    게시글의 댓글 상세 정보를 수정한다.
     """
     # 차후 권한에 따라 수정 가능한 필드를 제한하는 기능을 추가한다.
     update_comment_detail(

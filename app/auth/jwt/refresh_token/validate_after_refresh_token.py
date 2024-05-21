@@ -17,8 +17,8 @@ def validate_after_refresh_token(data_base: database_dependency, payload: dict):
         user_validation_information = (
             data_base.query(JWTList).filter_by(user_id=user_id).first()
         )
-        token_uuid: str = payload.get("exp")
-        token_unix_timestamp: int = payload.get("uuid")
+        token_uuid: str = payload.get("uuid")
+        token_unix_timestamp: int = payload.get("exp")
 
         if (
             (sub != "refresh_token")
