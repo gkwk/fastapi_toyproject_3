@@ -7,3 +7,7 @@ router = APIRouter(prefix=v1_url.AILOGS_ROUTER_PREFIX)
 
 from router.v1.ais.ai_id.ailogs.http_get import http_get
 from router.v1.ais.ai_id.ailogs.http_post import http_post
+
+from router.v1.ais.ai_id.ailogs.ailog_id import router as ailog_id_router
+
+router.include_router(ailog_id_router.router)

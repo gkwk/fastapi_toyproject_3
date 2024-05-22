@@ -15,7 +15,7 @@ from schema.comments.request_comment_create import RequestFormCommentCreate
 from exception_message.http_exception_params import http_exception_params
 
 
-def create_post(
+def create_comment(
     data_base: database_dependency,
     token: current_user_access_token_payload,
     schema: RequestFormCommentCreate,
@@ -84,7 +84,7 @@ def http_post(
     """
     게시글의 댓글을 생성한다.
     """
-    comment_id = create_post(
+    comment_id = create_comment(
         data_base=data_base, token=token, schema=schema, board_id=board_id, post_id=post_id
     )
 
