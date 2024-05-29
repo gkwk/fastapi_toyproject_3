@@ -165,3 +165,5 @@ alembic.ini
 *.db
 *.sqlite
 app/volume/*
+
+test_execpt_*/
