@@ -54,3 +54,5 @@ celery -A celery_app worker -l info --pool=solo
     `(ex: app\router\v1\boards\id\posts\http_post.py)`
     > post의 patch 기능을 추가하던 중, 기존 `Form` 스키마에서 `Pydantic` 스키마로 변환하는 과정에서 요청하지 않은 필드가 포함되는 문제 등이 발생하였다. 이를 보완한 스키마를 post의 patch에 적용하였다.
     `(ex: app\schema\posts\request_post_detail_patch.py // app\router\v1\boards\id\posts\post_id\http_patch.py)`
+- 웹소켓 인증 문제
+    > 웹소켓은 공식적으로 `커스텀 헤더`를 추가할 수 없기에 사용자 인증 과정 선택에 어려움을 겪었다. 현재 프로젝트에 적용한 방법은 사용자 access token으로 `웹소켓 전용 access token`을 발행하고 쿼리 스트링으로 웹소켓 전용 access token을 받아 사용자 access token이 웹소켓 연결 과정에서 노출되는 위험을 최소화한 뒤, 연결된 웹소켓을 통해 사용자 access token을 지속적으로 받아 사용자가 검증되도록 하였다.
