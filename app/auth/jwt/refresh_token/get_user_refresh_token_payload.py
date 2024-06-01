@@ -10,7 +10,10 @@ from auth.jwt.refresh_token.validate_after_refresh_token import (
     validate_after_refresh_token,
 )
 from auth.jwt.refresh_token.decode_refresh_token import decode_refresh_token
-from auth.jwt.refresh_token.get_refresh_token_from_cookie import refresh_token_dependency
+from auth.jwt.refresh_token.get_refresh_token_from_cookie import (
+    refresh_token_dependency,
+)
+
 
 def get_user_refresh_token_payload(
     data_base: database_dependency, token: refresh_token_dependency
@@ -22,4 +25,6 @@ def get_user_refresh_token_payload(
     return payload
 
 
-current_user_refresh_token_payload = Annotated[dict, Depends(get_user_refresh_token_payload)]
+current_user_refresh_token_payload = Annotated[
+    dict, Depends(get_user_refresh_token_payload)
+]

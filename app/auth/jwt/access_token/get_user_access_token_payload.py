@@ -22,6 +22,14 @@ def get_user_access_token_payload(
 
     return payload
 
+def get_user_access_token_payload_for_websocket(
+    data_base: database_dependency, token: str
+):
+    validate_before_access_token()
+    payload = decode_access_token(encoded_access_token=token)
+    validate_after_access_token(data_base=data_base, payload=payload)
+
+    return payload
 
 current_user_access_token_payload = Annotated[
     dict, Depends(get_user_access_token_payload)
