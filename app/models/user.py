@@ -22,6 +22,9 @@ if TYPE_CHECKING:
     from models.user_board_table import UserPermissionTable
     from models.ailog import AIlog
     from models.comment import Comment
+    from models.chat_session import ChatSession
+    from models.chat import Chat
+    
 
 
 class User(Base):
@@ -39,6 +42,14 @@ class User(Base):
     ai_logs: Mapped[List["AIlog"]] = relationship(
         back_populates="user", cascade="all, delete"
     )  # 1 to N
+    
+    chat_sessions_create: Mapped[List["ChatSession"]] = relationship(
+        back_populates="user_create"
+    )  # 1 to N
+    chat_sessions_connect: Mapped[List["ChatSession"]] = relationship(
+        secondary="user_chat_session_table", back_populates="users_connect"
+    )  # N to M
+    chats: Mapped[List["Chat"]] = relationship(back_populates="user")  # 1 to N
 
     name: Mapped[str] = mapped_column(String(64), unique=True)
     email: Mapped[str] = mapped_column(String(256), unique=True)

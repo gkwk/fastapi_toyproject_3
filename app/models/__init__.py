@@ -9,3 +9,6 @@ from .comment_file import CommentFile
 from .user_board_table import UserPermissionTable
 from .ai import AI
 from .ailog import AIlog
+from .chat_session import ChatSession
+from .chat import Chat
+from .user_chat_session_table import UserChatSessionTable
