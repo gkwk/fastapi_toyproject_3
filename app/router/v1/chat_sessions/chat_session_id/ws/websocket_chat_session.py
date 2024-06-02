@@ -2,7 +2,7 @@ import json
 from typing import Any, Dict
 
 from fastapi import WebSocket, WebSocketDisconnect, Path, Query
-from jose import JWTError
+from jwt.exceptions import InvalidTokenError
 
 from router.v1 import v1_url
 from router.v1.chat_sessions.chat_session_id.ws.router import router
@@ -85,7 +85,7 @@ class ConnectionManager:
         except Exception:
             if self.active_connections[chat_session_id][websocket]["verified"] == False:
                 # 현재 처리 과정상 불필요하지만 차후를 대비해 삭제하지 않는다.
-                raise JWTError
+                raise InvalidTokenError
             else:
                 self.active_connections[chat_session_id][websocket]["verified"] = False
 
@@ -258,8 +258,8 @@ async def websocket_chat_session(
                         ),
                         websocket,
                     )
-                    raise JWTError
-        except (WebSocketDisconnect, JWTError):
+                    raise InvalidTokenError
+        except (WebSocketDisconnect, InvalidTokenError):
             if websocket in manager.active_connections[chat_session_id]:
                 await manager.disconnect(
                     websocket,

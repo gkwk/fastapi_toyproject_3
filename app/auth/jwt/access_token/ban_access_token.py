@@ -1,6 +1,7 @@
 from datetime import timedelta, datetime, UTC
 import uuid
-from jose import jwt
+import jwt
+from jwt.exceptions import InvalidTokenError
 
 
 from models import JWTAccessTokenBlackList, JWTList

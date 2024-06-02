@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from jose import JWTError
+from jwt.exceptions import InvalidTokenError
 
 from database.database import database_dependency
 from config.config import get_settings
@@ -17,7 +17,7 @@ def validate_after_websocket_access_token(
         user_id: int = payload.get("user_id")
         if (sub != "websocket_access_token") or (user_id is None) or (domain is None):
             raise credentials_exception
-    except JWTError:
+    except InvalidTokenError:
         raise credentials_exception
 
     return payload

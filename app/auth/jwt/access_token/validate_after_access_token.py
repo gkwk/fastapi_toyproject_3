@@ -1,5 +1,5 @@
 from fastapi import HTTPException
-from jose import JWTError
+from jwt.exceptions import InvalidTokenError
 
 from database.database import database_dependency
 from config.config import get_settings
@@ -38,7 +38,7 @@ def validate_after_access_token(data_base: database_dependency, payload: dict):
             )
         ):
             raise credentials_exception
-    except JWTError:
+    except InvalidTokenError:
         raise credentials_exception
 
     return payload

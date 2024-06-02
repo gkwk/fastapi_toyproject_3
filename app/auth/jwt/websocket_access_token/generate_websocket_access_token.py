@@ -1,6 +1,6 @@
 from datetime import timedelta, datetime, UTC
 import uuid
-from jose import jwt
+import jwt
 
 from models import User
 from database.database import database_dependency
