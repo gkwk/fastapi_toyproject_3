@@ -1,0 +1,40 @@
+name: Update-README-Project-Directory-Tree
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update-readme-project-directory-tree:
+    name: update README project directory tree
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout my repository
+      uses: actions/checkout@v4
+      
+    - name: Set up Python 3.11.5
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11.5"
+        
+    - name: Install dependencies
+      run: |
+        pip install anytree
+
+    - name: Change CWD
+      run: |
+        cd github_actions_py
+        
+    - name: Update README.md
+      run: |
+        python update_readme_project_directory_tree.py
+
+    - name: Commit and push Updated README.md
+      run: |
+        git config --global user.name "github-actions"
+        git add README.md
+        git commit -m "[Docs] Update Project directory tree"
+        git push
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        
