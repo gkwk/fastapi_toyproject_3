@@ -29,6 +29,7 @@ jobs:
     - name: Commit and push Updated README.md
       run: |
         git config --global user.name "github-actions"
+        git config --global user.email "github-actions@github.com"
         git add README.md
         git commit -m "[Docs] Update Project directory tree"
         git push
