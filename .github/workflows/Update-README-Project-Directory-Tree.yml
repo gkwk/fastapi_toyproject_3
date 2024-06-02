@@ -20,13 +20,10 @@ jobs:
     - name: Install dependencies
       run: |
         pip install anytree
-
-    - name: Change CWD
-      run: |
-        cd github_actions_py
         
     - name: Update README.md
       run: |
+        cd github_actions_py
         python update_readme_project_directory_tree.py
 
     - name: Commit and push Updated README.md
@@ -36,5 +33,5 @@ jobs:
         git commit -m "[Docs] Update Project directory tree"
         git push
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
         
