@@ -4,7 +4,7 @@ from anytree import Node, RenderTree
 
 
 def create_directory_tree(directory, parent_node):
-    for item in os.listdir(directory):
+    for item in sorted(os.listdir(directory)):
         item_path = os.path.join(directory, item)
         node = Node(item, parent=parent_node)
         if os.path.isdir(item_path):
