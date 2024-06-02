@@ -61,76 +61,114 @@ celery -A celery_app worker -l info --pool=solo
 # 프로젝트 구조
 ```text
 app
-├── volume
-│   ├── staticfile
-│   │   ├── AI_test.CSV
-│   │   └── .keep
-│   ├── ai_model_store
-│   │   └── .keep
-│   └── database
-│       └── .keep
-├── main.py
+├── .env-example
+├── app_init.sh
+├── app_init_local.sh
 ├── auth
 │   ├── __init__.py
 │   └── jwt
-│       ├── oauth2_scheme.py
+│       ├── __init__.py
 │       ├── access_token
 │       │   ├── __init__.py
-│       │   ├── validate_before_access_token.py
-│       │   ├── validate_after_access_token.py
-│       │   ├── get_access_token_from_header.py
-│       │   ├── get_user_access_token_payload.py
 │       │   ├── ban_access_token.py
 │       │   ├── decode_access_token.py
-│       │   └── generate_access_token.py
-│       ├── __init__.py
+│       │   ├── generate_access_token.py
+│       │   ├── get_access_token_from_header.py
+│       │   ├── get_user_access_token_payload.py
+│       │   ├── validate_after_access_token.py
+│       │   └── validate_before_access_token.py
+│       ├── issue_user_jwt.py
+│       ├── oauth2_scheme.py
+│       ├── password_context.py
 │       ├── refresh_token
 │       │   ├── __init__.py
-│       │   ├── get_user_refresh_token_payload.py
+│       │   ├── decode_refresh_token.py
 │       │   ├── delete_refresh_token.py
-│       │   ├── validate_before_refresh_token.py
-│       │   ├── validate_after_refresh_token.py
-│       │   ├── get_refresh_token_from_cookie.py
 │       │   ├── generate_refresh_token.py
-│       │   └── decode_refresh_token.py
-│       ├── websocket_access_token
-│       │   ├── generate_websocket_access_token.py
-│       │   ├── __init__.py
-│       │   ├── validate_before_websocket_access_token.py
-│       │   ├── decode_websocket_access_token.py
-│       │   ├── get_user_websocket_access_token_payload.py
-│       │   ├── get_websocket_access_token_from_query.py
-│       │   └── validate_after_websocket_access_token.py
+│       │   ├── get_refresh_token_from_cookie.py
+│       │   ├── get_user_refresh_token_payload.py
+│       │   ├── validate_after_refresh_token.py
+│       │   └── validate_before_refresh_token.py
 │       ├── reissue_access_token.py
-│       ├── validate_before_issue_user_jwt.py
-│       ├── password_context.py
 │       ├── scope_checker.py
-│       └── issue_user_jwt.py
-├── app_init.sh
+│       ├── validate_before_issue_user_jwt.py
+│       └── websocket_access_token
+│           ├── __init__.py
+│           ├── decode_websocket_access_token.py
+│           ├── generate_websocket_access_token.py
+│           ├── get_user_websocket_access_token_payload.py
+│           ├── get_websocket_access_token_from_query.py
+│           ├── validate_after_websocket_access_token.py
+│           └── validate_before_websocket_access_token.py
+├── celery_app
+│   ├── __init__.py
+│   ├── celery.py
+│   ├── tasks.py
+│   └── v1
+│       ├── __init__.py
+│       ├── ailogs
+│       │   ├── __init__.py
+│       │   └── tasks.py
+│       └── ais
+│           ├── __init__.py
+│           └── tasks.py
+├── config
+│   ├── __init__.py
+│   └── config.py
+├── database
+│   ├── __init__.py
+│   ├── alembic_template_sqlite
+│   │   ├── alembic.ini.mako
+│   │   ├── env.py
+│   │   └── script.py.mako
+│   ├── database.py
+│   └── sqlite_naming_convention.py
+├── exception_message
+│   ├── __init__.py
+│   └── http_exception_params.py
+├── lifespan
+│   ├── __init__.py
+│   └── lifespan.py
+├── main.py
+├── models
+│   ├── __init__.py
+│   ├── ai.py
+│   ├── ailog.py
+│   ├── board.py
+│   ├── chat.py
+│   ├── chat_session.py
+│   ├── comment.py
+│   ├── comment_file.py
+│   ├── jwt_access_token_blacklist.py
+│   ├── jwt_list.py
+│   ├── post.py
+│   ├── post_file.py
+│   ├── user.py
+│   ├── user_board_table.py
+│   └── user_chat_session_table.py
 ├── router
 │   ├── __init__.py
 │   └── v1
 │       ├── __init__.py
-│       ├── v1_tags.py
 │       ├── ais
+│       │   ├── __init__.py
 │       │   ├── ai_id
-│       │   │   ├── http_delete.py
 │       │   │   ├── __init__.py
-│       │   │   ├── http_get.py
-│       │   │   ├── router.py
 │       │   │   ├── ailogs
 │       │   │   │   ├── __init__.py
 │       │   │   │   ├── ailog_id
-│       │   │   │   │   ├── http_delete.py
 │       │   │   │   │   ├── __init__.py
+│       │   │   │   │   ├── http_delete.py
 │       │   │   │   │   ├── http_get.py
-│       │   │   │   │   ├── router.py
-│       │   │   │   │   └── http_patch.py
+│       │   │   │   │   ├── http_patch.py
+│       │   │   │   │   └── router.py
 │       │   │   │   ├── http_get.py
 │       │   │   │   ├── http_post.py
 │       │   │   │   └── router.py
-│       │   │   └── http_patch.py
-│       │   ├── __init__.py
+│       │   │   ├── http_delete.py
+│       │   │   ├── http_get.py
+│       │   │   ├── http_patch.py
+│       │   │   └── router.py
 │       │   ├── http_get.py
 │       │   ├── http_post.py
 │       │   └── router.py
@@ -140,198 +178,160 @@ app
 │       │   │   ├── __init__.py
 │       │   │   ├── http_get.py
 │       │   │   └── router.py
-│       │   ├── logout
-│       │   │   ├── __init__.py
-│       │   │   ├── http_post.py
-│       │   │   └── router.py
-│       │   ├── router.py
 │       │   ├── login
 │       │   │   ├── __init__.py
 │       │   │   ├── http_post.py
 │       │   │   └── router.py
-│       │   └── reissue_access_token
-│       │       ├── __init__.py
-│       │       ├── http_get.py
-│       │       └── router.py
-│       ├── chat_sessions
+│       │   ├── logout
+│       │   │   ├── __init__.py
+│       │   │   ├── http_post.py
+│       │   │   └── router.py
+│       │   ├── reissue_access_token
+│       │   │   ├── __init__.py
+│       │   │   ├── http_get.py
+│       │   │   └── router.py
+│       │   └── router.py
+│       ├── boards
 │       │   ├── __init__.py
 │       │   ├── http_get.py
-│       │   ├── chat_session_id
+│       │   ├── http_post.py
+│       │   ├── id
+│       │   │   ├── __init__.py
 │       │   │   ├── http_delete.py
+│       │   │   ├── http_get.py
+│       │   │   ├── http_patch.py
+│       │   │   ├── posts
+│       │   │   │   ├── __init__.py
+│       │   │   │   ├── http_get.py
+│       │   │   │   ├── http_post.py
+│       │   │   │   ├── post_id
+│       │   │   │   │   ├── __init__.py
+│       │   │   │   │   ├── comments
+│       │   │   │   │   │   ├── __init__.py
+│       │   │   │   │   │   ├── comment_id
+│       │   │   │   │   │   │   ├── __init__.py
+│       │   │   │   │   │   │   ├── http_delete.py
+│       │   │   │   │   │   │   ├── http_get.py
+│       │   │   │   │   │   │   ├── http_patch.py
+│       │   │   │   │   │   │   └── router.py
+│       │   │   │   │   │   ├── http_get.py
+│       │   │   │   │   │   ├── http_post.py
+│       │   │   │   │   │   └── router.py
+│       │   │   │   │   ├── http_delete.py
+│       │   │   │   │   ├── http_get.py
+│       │   │   │   │   ├── http_patch.py
+│       │   │   │   │   └── router.py
+│       │   │   │   └── router.py
+│       │   │   └── router.py
+│       │   └── router.py
+│       ├── chat_sessions
+│       │   ├── __init__.py
+│       │   ├── chat_session_id
 │       │   │   ├── __init__.py
 │       │   │   ├── chats
 │       │   │   │   ├── __init__.py
+│       │   │   │   ├── chat_id
+│       │   │   │   │   ├── __init__.py
+│       │   │   │   │   ├── http_delete.py
+│       │   │   │   │   ├── http_get.py
+│       │   │   │   │   └── router.py
 │       │   │   │   ├── http_get.py
-│       │   │   │   ├── router.py
-│       │   │   │   └── chat_id
-│       │   │   │       ├── http_delete.py
-│       │   │   │       ├── __init__.py
-│       │   │   │       ├── http_get.py
-│       │   │   │       └── router.py
-│       │   │   ├── ws
-│       │   │   │   ├── __init__.py
-│       │   │   │   ├── http_get.py
-│       │   │   │   ├── websocket_chat_session.py
 │       │   │   │   └── router.py
-│       │   │   ├── http_get.py
-│       │   │   ├── router.py
-│       │   │   └── http_patch.py
-│       │   ├── http_post.py
-│       │   └── router.py
-│       ├── v1_router.py
-│       ├── users
-│       │   ├── __init__.py
-│       │   ├── http_get.py
-│       │   ├── id
 │       │   │   ├── http_delete.py
-│       │   │   ├── __init__.py
 │       │   │   ├── http_get.py
+│       │   │   ├── http_patch.py
 │       │   │   ├── router.py
-│       │   │   └── http_patch.py
+│       │   │   └── ws
+│       │   │       ├── __init__.py
+│       │   │       ├── http_get.py
+│       │   │       ├── router.py
+│       │   │       └── websocket_chat_session.py
+│       │   ├── http_get.py
 │       │   ├── http_post.py
 │       │   └── router.py
 │       ├── main
 │       │   ├── __init__.py
 │       │   ├── http_get.py
 │       │   └── router.py
-│       ├── boards
+│       ├── users
 │       │   ├── __init__.py
 │       │   ├── http_get.py
-│       │   ├── id
-│       │   │   ├── http_delete.py
-│       │   │   ├── __init__.py
-│       │   │   ├── http_get.py
-│       │   │   ├── posts
-│       │   │   │   ├── __init__.py
-│       │   │   │   ├── http_get.py
-│       │   │   │   ├── post_id
-│       │   │   │   │   ├── http_delete.py
-│       │   │   │   │   ├── __init__.py
-│       │   │   │   │   ├── http_get.py
-│       │   │   │   │   ├── comments
-│       │   │   │   │   │   ├── __init__.py
-│       │   │   │   │   │   ├── http_get.py
-│       │   │   │   │   │   ├── http_post.py
-│       │   │   │   │   │   ├── router.py
-│       │   │   │   │   │   └── comment_id
-│       │   │   │   │   │       ├── http_delete.py
-│       │   │   │   │   │       ├── __init__.py
-│       │   │   │   │   │       ├── http_get.py
-│       │   │   │   │   │       ├── router.py
-│       │   │   │   │   │       └── http_patch.py
-│       │   │   │   │   ├── router.py
-│       │   │   │   │   └── http_patch.py
-│       │   │   │   ├── http_post.py
-│       │   │   │   └── router.py
-│       │   │   ├── router.py
-│       │   │   └── http_patch.py
 │       │   ├── http_post.py
+│       │   ├── id
+│       │   │   ├── __init__.py
+│       │   │   ├── http_delete.py
+│       │   │   ├── http_get.py
+│       │   │   ├── http_patch.py
+│       │   │   └── router.py
 │       │   └── router.py
+│       ├── v1_router.py
+│       ├── v1_tags.py
 │       └── v1_url.py
-├── terminal_command
-│   ├── create_super_user.py
-│   └── __init__.py
-├── celery_app
-│   ├── __init__.py
-│   ├── tasks.py
-│   ├── v1
-│   │   ├── __init__.py
-│   │   ├── ais
-│   │   │   ├── __init__.py
-│   │   │   └── tasks.py
-│   │   └── ailogs
-│   │       ├── __init__.py
-│   │       └── tasks.py
-│   └── celery.py
-├── exception_message
-│   ├── __init__.py
-│   └── http_exception_params.py
-├── .env-example
-├── config
-│   ├── __init__.py
-│   └── config.py
 ├── schema
 │   ├── __init__.py
-│   ├── ais
-│   │   ├── request_ai_detail_patch.py
-│   │   ├── __init__.py
-│   │   ├── response_ai_detail.py
-│   │   ├── request_ai_create.py
-│   │   └── response_ais.py
-│   ├── terminal
-│   │   ├── __init__.py
-│   │   ├── admin_create_name.py
-│   │   ├── admin_create_password.py
-│   │   └── admin_create_email.py
-│   ├── chats
-│   │   ├── __init__.py
-│   │   ├── response_chat_detail.py
-│   │   ├── response_chats.py
-│   │   └── request_chat_create.py
-│   ├── chat_sessions
-│   │   ├── __init__.py
-│   │   ├── request_chat_session_detail_patch.py
-│   │   ├── response_chat_sessions.py
-│   │   ├── response_chat_session_detail.py
-│   │   └── request_chat_session_create.py
-│   ├── comments
-│   │   ├── __init__.py
-│   │   ├── response_post_detail.py
-│   │   ├── request_comment_create.py
-│   │   ├── response_comments.py
-│   │   └── request_comment_detail_patch.py
-│   ├── posts
-│   │   ├── __init__.py
-│   │   ├── response_post_detail.py
-│   │   ├── request_post_detail_patch.py
-│   │   ├── response_posts.py
-│   │   └── request_post_create.py
 │   ├── ailogs
 │   │   ├── __init__.py
-│   │   ├── response_ailog_detail.py
-│   │   ├── response_ailogs.py
+│   │   ├── request_ailog_create.py
 │   │   ├── request_ailog_detail_patch.py
-│   │   └── request_ailog_create.py
-│   ├── users
+│   │   ├── response_ailog_detail.py
+│   │   └── response_ailogs.py
+│   ├── ais
 │   │   ├── __init__.py
-│   │   ├── request_user_join.py
-│   │   ├── request_user_detail_patch.py
-│   │   ├── response_users.py
-│   │   └── response_user_detail.py
+│   │   ├── request_ai_create.py
+│   │   ├── request_ai_detail_patch.py
+│   │   ├── response_ai_detail.py
+│   │   └── response_ais.py
+│   ├── boards
+│   │   ├── __init__.py
+│   │   ├── request_board_create.py
+│   │   ├── request_board_detail_patch.py
+│   │   ├── response_board_detail.py
+│   │   └── response_boards.py
+│   ├── chat_sessions
+│   │   ├── __init__.py
+│   │   ├── request_chat_session_create.py
+│   │   ├── request_chat_session_detail_patch.py
+│   │   ├── response_chat_session_detail.py
+│   │   └── response_chat_sessions.py
+│   ├── chats
+│   │   ├── __init__.py
+│   │   ├── request_chat_create.py
+│   │   ├── response_chat_detail.py
+│   │   └── response_chats.py
+│   ├── comments
+│   │   ├── __init__.py
+│   │   ├── request_comment_create.py
+│   │   ├── request_comment_detail_patch.py
+│   │   ├── response_comments.py
+│   │   └── response_post_detail.py
 │   ├── login
 │   │   └── __init__.py
-│   └── boards
-│       ├── response_boards.py
+│   ├── posts
+│   │   ├── __init__.py
+│   │   ├── request_post_create.py
+│   │   ├── request_post_detail_patch.py
+│   │   ├── response_post_detail.py
+│   │   └── response_posts.py
+│   ├── terminal
+│   │   ├── __init__.py
+│   │   ├── admin_create_email.py
+│   │   ├── admin_create_name.py
+│   │   └── admin_create_password.py
+│   └── users
 │       ├── __init__.py
-│       ├── request_board_detail_patch.py
-│       ├── request_board_create.py
-│       └── response_board_detail.py
-├── lifespan
+│       ├── request_user_detail_patch.py
+│       ├── request_user_join.py
+│       ├── response_user_detail.py
+│       └── response_users.py
+├── terminal_command
 │   ├── __init__.py
-│   └── lifespan.py
-├── app_init_local.sh
-├── models
-│   ├── post.py
-│   ├── post_file.py
-│   ├── __init__.py
-│   ├── chat.py
-│   ├── comment.py
-│   ├── jwt_list.py
-│   ├── user.py
-│   ├── ai.py
-│   ├── user_chat_session_table.py
-│   ├── chat_session.py
-│   ├── jwt_access_token_blacklist.py
-│   ├── board.py
-│   ├── ailog.py
-│   ├── comment_file.py
-│   └── user_board_table.py
-└── database
-    ├── __init__.py
-    ├── alembic_template_sqlite
-    │   ├── script.py.mako
-    │   ├── alembic.ini.mako
-    │   └── env.py
-    ├── sqlite_naming_convention.py
-    └── database.py
+│   └── create_super_user.py
+└── volume
+    ├── ai_model_store
+    │   └── .keep
+    ├── database
+    │   └── .keep
+    └── staticfile
+        ├── .keep
+        └── AI_test.CSV
 ```
