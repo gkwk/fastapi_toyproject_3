@@ -43,7 +43,7 @@ jobs:
         git config --global user.name "github-actions"
         git config --global user.email "github-actions@github.com"
         git add README.md
-        git commit -m "[Docs] Update Project directory tree"
+        git commit -m "[Docs] Update README.md"
         git push
       env:
         GITHUB_TOKEN: ${{ secrets.GIT_HUB_TOKEN }}
