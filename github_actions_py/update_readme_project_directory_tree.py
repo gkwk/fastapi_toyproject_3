@@ -28,7 +28,9 @@ def get_updated_readme(readme_path, replace_string, regex_pattern=None):
         content = file.read()
 
     if regex_pattern is None:
-        regex_pattern = r"(<!-- PROJECT_DIR_TREE_START -->)(.*?)(<!-- PROJECT_DIR_TREE_END -->)"
+        regex_pattern = (
+            r"(<!-- PROJECT_DIR_TREE_START -->)(.*?)(<!-- PROJECT_DIR_TREE_END -->)"
+        )
 
     updated_content = re.sub(regex_pattern, replace_string, content, flags=re.DOTALL)
 
@@ -37,8 +39,6 @@ def get_updated_readme(readme_path, replace_string, regex_pattern=None):
 
 if __name__ == "__main__":
     directory_tree_list = "\n".join(get_directory_tree_list("../app", "app"))
-    updated_readme = get_updated_readme(
-        "../readme_format/README.md", directory_tree_list
-    )
+    updated_readme = get_updated_readme("../README.md", directory_tree_list)
     with open("../README.md", "w", encoding="utf-8") as file:
         file.write(updated_readme)

@@ -1,11 +1,11 @@
-name: Update-README-Project-Directory-Tree
+name: Update-README
 on:
   push:
     branches:
       - main
 jobs:
-  update-readme-project-directory-tree:
-    name: update README project directory tree
+  update-readme:
+    name: update README
     runs-on: ubuntu-latest
 
     steps:
@@ -23,8 +23,15 @@ jobs:
         
     - name: Update README.md
       run: |
+        README_ORIGIN_PATH=./readme_format/README.md
+        README_TARGET_PATH=./README.md
+        cp $README_ORIGIN_PATH $README_TARGET_PATH
+        ENV_ORIGIN_PATH=./app/.env-sample
+        ENV_TARGET_PATH=./github_actions_py/.env
+        cp $ENV_ORIGIN_PATH $ENV_TARGET_PATH
         cd github_actions_py
         python update_readme_project_directory_tree.py
+        python update_readme_project_model.py
 
     - name: Commit and push Updated README.md
       run: |
