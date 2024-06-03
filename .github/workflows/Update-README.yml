@@ -19,8 +19,12 @@ jobs:
         
     - name: Install dependencies
       run: |
+        pip install --upgrade pip
         pip install anytree
-        pip install -r requirements.txt
+        pip install starlette
+        pip install SQLAlchemy
+        pip install pydantic_settings
+        pip install fastapi
         
     - name: Update README.md
       run: |
