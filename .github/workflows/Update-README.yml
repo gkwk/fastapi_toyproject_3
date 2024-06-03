@@ -20,6 +20,7 @@ jobs:
     - name: Install dependencies
       run: |
         pip install anytree
+        pip install -r requirements.txt
         
     - name: Update README.md
       run: |
