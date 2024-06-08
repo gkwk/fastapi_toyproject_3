@@ -164,6 +164,9 @@ alembic_migrations/
 alembic.ini
 *.db
 *.sqlite
-
+app/volume/ai_model_store/
+app/volume/database/
+app/volume/log/
+app/volume/staticfile/
 
 test_execpt_*/
