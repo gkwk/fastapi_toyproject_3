@@ -3,10 +3,10 @@ from logger.custom_logger import CustomTimedRotatingFileHandler
 from logging.handlers import TimedRotatingFileHandler
 
 
-logger = logging.getLogger("main_looger")
+logger = logging.getLogger("main_logger")
 logger.setLevel(logging.INFO)
 
-log_formatter = logging.Formatter("%(asctime)s %(levelname)s %(name)s %(message)s")
+log_formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
 log_handler = CustomTimedRotatingFileHandler(
     filename="../logger/app/app.log",
     # when='midnight',
