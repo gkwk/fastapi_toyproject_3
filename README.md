@@ -140,6 +140,13 @@ NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
 |file_path|VARCHAR|False|None|False|
 |create_date|DATETIME|False|datetime.now|False|
 
+PostViewIncrement
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
+|---|---|---|---|---|
+|id|INTEGER|False|None|True|
+|post_id|INTEGER|False|None|False|
+|timestamp|DATETIME|False|datetime.now|False|
+
 User
 NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
 |---|---|---|---|---|
@@ -259,7 +266,10 @@ app
 │       ├── ailogs
 │       │   ├── __init__.py
 │       │   └── tasks.py
-│       └── ais
+│       ├── ais
+│       │   ├── __init__.py
+│       │   └── tasks.py
+│       └── posts
 │           ├── __init__.py
 │           └── tasks.py
 ├── config
@@ -298,6 +308,7 @@ app
 │   ├── jwt_list.py
 │   ├── post.py
 │   ├── post_file.py
+│   ├── post_view_increment.py
 │   ├── user.py
 │   ├── user_board_table.py
 │   └── user_chat_session_table.py
