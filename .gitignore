@@ -164,6 +164,6 @@ alembic_migrations/
 alembic.ini
 *.db
 *.sqlite
-app/volume/*
+
 
 test_execpt_*/

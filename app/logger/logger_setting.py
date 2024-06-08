@@ -8,7 +8,7 @@ logger.setLevel(logging.INFO)
 
 log_formatter = logging.Formatter("%(asctime)s | %(levelname)s | %(name)s | %(message)s")
 log_handler = CustomTimedRotatingFileHandler(
-    filename="../logger/app/app.log",
+    filename="./volume/log/app.log",
     # when='midnight',
     when="S",
     interval=5,
