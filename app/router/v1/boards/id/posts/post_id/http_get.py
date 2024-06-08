@@ -5,7 +5,7 @@ from fastapi import Path, HTTPException
 from router.v1 import v1_url, v1_tags
 from router.v1.boards.id.posts.post_id.router import router
 from database.database import database_dependency
-from models import Post
+from models import Post, PostViewIncrement
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
@@ -35,6 +35,14 @@ def get_post_detail(
     }
 
 
+def record_post_view(data_base: database_dependency, post_id: int):
+    post_view_increment: PostViewIncrement = PostViewIncrement(
+        post_id=post_id,
+    )
+    data_base.add(post_view_increment)
+    data_base.commit()
+
+
 @router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponsePostDetailForUser, ResponsePostDetailForAdmin],
@@ -49,6 +57,8 @@ def http_get(
     """
     게시판의 게시글 정보를 조회한다.
     """
+    record_post_view(data_base=data_base, post_id=post_id)
+
     return get_post_detail(
         data_base=data_base, token=token, board_id=board_id, post_id=post_id
     )

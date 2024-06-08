@@ -19,6 +19,14 @@ celery_app = Celery(
     broker=celery_app_broker_url,
 )
 
-from celery_app.v1 import * # 순환 참조 오류 해결을 위한 import 위치 조정
+from celery_app.v1 import *  # 순환 참조 오류 해결을 위한 import 위치 조정
 
 celery_app.autodiscover_tasks([])
+
+celery_app.conf.beat_schedule = {
+    "update_post_view_counts": {
+        "task": "update_post_view_counts",
+        "schedule": 20.0,
+        "args": (None,),
+    },
+}
