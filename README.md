@@ -259,6 +259,8 @@ app
 │           └── validate_before_websocket_access_token.py
 ├── celery_app
 │   ├── __init__.py
+│   ├── beat
+│   │   └── .gitkeep
 │   ├── celery.py
 │   ├── tasks.py
 │   └── v1
@@ -494,10 +496,12 @@ app
 │   └── create_super_user.py
 └── volume
     ├── ai_model_store
-    │   └── .keep
+    │   └── .gitkeep
     ├── database
-    │   └── .keep
+    │   └── .gitkeep
+    ├── log
+    │   └── .gitkeep
     └── staticfile
-        ├── .keep
+        ├── .gitkeep
         └── AI_test.CSV
 ```
