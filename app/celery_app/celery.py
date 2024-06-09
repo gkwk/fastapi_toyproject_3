@@ -30,3 +30,5 @@ celery_app.conf.beat_schedule = {
         "args": (None,),
     },
 }
+
+celery_app.conf.beat_schedule_filename = "./celery_app/beat/celerybeat-schedule"
