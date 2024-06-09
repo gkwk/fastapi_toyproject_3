@@ -169,4 +169,6 @@ app/volume/database/
 app/volume/log/
 app/volume/staticfile/
 
+app/celery_app/beat/celerybeat-schedule.*
+
 test_execpt_*/
