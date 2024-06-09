@@ -28,13 +28,22 @@ def get_url_safe(request: Request):
 def log_before_response(request: Request):
     log_url = get_url_safe(request=request)
 
-    logger.info(f"HTTP | {request.method} | Receiving request | {request.client.host}:{request.client.port} | {log_url}")
+    if request.headers.get("X-Real-IP"):
+        logger.info(f"HTTP | {request.method} | Receiving request | {request.headers.get("X-Real-IP")} | {log_url}")
+    else:
+        logger.info(f"HTTP | {request.method} | Receiving request | {request.client.host} | {log_url}")
 
 
 def log_after_response(request: Request, response: Response):
     log_url = get_url_safe(request=request)
 
-    logger.info(
+    if request.headers.get("X-Real-IP"):
+        logger.info(
+        f"HTTP | {request.method} | {response.status_code} | Completed request | {request.headers.get("X-Real-IP")} | {log_url}"
+    )
+
+    else:
+        logger.info(
         f"HTTP | {request.method} | {response.status_code} | Completed request | {request.client.host}:{request.client.port} | {log_url}"
     )
 

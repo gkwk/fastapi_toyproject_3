@@ -64,6 +64,7 @@ services:
       - app
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+      - ./volume/log/nginx/access.log:/var/log/nginx/access.log
     networks:
       - app-network
 networks:
