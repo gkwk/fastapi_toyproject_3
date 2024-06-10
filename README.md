@@ -17,162 +17,248 @@
 
 # 데이터베이스 테이블 구조
 AI
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|name|VARCHAR(64)|False|None|False|
-|description|VARCHAR(256)|False|None|False|
-|create_date|DATETIME|False|datetime.now|False|
-|update_date|DATETIME|True|None|False|
-|finish_date|DATETIME|True|None|False|
-|is_visible|BOOLEAN|False|False|False|
-|is_available|BOOLEAN|False|False|False|
-|celery_task_id|VARCHAR(64)|False|None|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|name|VARCHAR(64)|False|None|False|False|True|
+|description|VARCHAR(256)|False|None|False|False|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+|update_date|DATETIME|True|None|False|False|None|
+|finish_date|DATETIME|True|None|False|False|None|
+|is_visible|BOOLEAN|False|False|False|False|None|
+|is_available|BOOLEAN|False|False|False|False|None|
+|celery_task_id|VARCHAR(64)|False|None|False|False|None|
+
+AI Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|ai_logs|1 : N|
 
 AIlog
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|user_id|INTEGER|False|None|False|
-|ai_id|INTEGER|False|None|False|
-|description|VARCHAR(256)|False|None|False|
-|result|VARCHAR(256)|False|None|False|
-|create_date|DATETIME|False|datetime.now|False|
-|update_date|DATETIME|True|None|False|
-|finish_date|DATETIME|True|None|False|
-|is_finished|BOOLEAN|False|False|False|
-|celery_task_id|VARCHAR(64)|False|None|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|user_id|INTEGER|False|None|False|True|None|
+|ai_id|INTEGER|False|None|False|True|None|
+|description|VARCHAR(256)|False|None|False|False|None|
+|result|VARCHAR(256)|False|None|False|False|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+|update_date|DATETIME|True|None|False|False|None|
+|finish_date|DATETIME|True|None|False|False|None|
+|is_finished|BOOLEAN|False|False|False|False|None|
+|celery_task_id|VARCHAR(64)|False|None|False|False|None|
+
+AIlog Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|user|N : 1|
+|ai|N : 1|
 
 Board
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|name|VARCHAR(128)|False|None|False|
-|information|VARCHAR(512)|False|None|False|
-|is_visible|BOOLEAN|False|False|False|
-|is_available|BOOLEAN|False|False|False|
-|permission_verified_user_id_range|INTEGER|False|0|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|name|VARCHAR(128)|False|None|False|False|True|
+|information|VARCHAR(512)|False|None|False|False|None|
+|is_visible|BOOLEAN|False|False|False|False|None|
+|is_available|BOOLEAN|False|False|False|False|None|
+|permission_verified_user_id_range|INTEGER|False|0|False|False|None|
+
+Board Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|users|N : M|
+|posts|1 : N|
 
 Chat
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|user_id|INTEGER|False|None|False|
-|chat_session_id|INTEGER|False|None|False|
-|content|VARCHAR(256)|False|None|False|
-|create_date|DATETIME|False|datetime.now|False|
-|update_date|DATETIME|True|None|False|
-|is_visible|BOOLEAN|False|True|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|user_id|INTEGER|False|None|False|True|None|
+|chat_session_id|INTEGER|False|None|False|True|None|
+|content|VARCHAR(256)|False|None|False|False|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+|update_date|DATETIME|True|None|False|False|None|
+|is_visible|BOOLEAN|False|True|False|False|None|
+
+Chat Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|user|N : 1|
+|chat_session|N : 1|
 
 ChatSession
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|user_create_id|INTEGER|False|None|False|
-|name|VARCHAR(64)|False|None|False|
-|information|VARCHAR(256)|False|None|False|
-|create_date|DATETIME|False|datetime.now|False|
-|update_date|DATETIME|True|None|False|
-|is_visible|BOOLEAN|False|True|False|
-|is_closed|BOOLEAN|False|False|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|user_create_id|INTEGER|False|None|False|True|None|
+|name|VARCHAR(64)|False|None|False|False|None|
+|information|VARCHAR(256)|False|None|False|False|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+|update_date|DATETIME|True|None|False|False|None|
+|is_visible|BOOLEAN|False|True|False|False|None|
+|is_closed|BOOLEAN|False|False|False|False|None|
+
+ChatSession Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|user_create|N : 1|
+|users_connect|N : M|
+|chats|1 : N|
 
 Comment
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|user_id|INTEGER|False|None|False|
-|post_id|INTEGER|False|None|False|
-|content|VARCHAR(256)|False|None|False|
-|create_date|DATETIME|False|datetime.now|False|
-|update_date|DATETIME|True|None|False|
-|is_file_attached|BOOLEAN|False|False|False|
-|is_visible|BOOLEAN|False|True|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|user_id|INTEGER|False|None|False|True|None|
+|post_id|INTEGER|False|None|False|True|None|
+|content|VARCHAR(256)|False|None|False|False|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+|update_date|DATETIME|True|None|False|False|None|
+|is_file_attached|BOOLEAN|False|False|False|False|None|
+|is_visible|BOOLEAN|False|True|False|False|None|
+
+Comment Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|user|N : 1|
+|post|N : 1|
+|attached_files|1 : N|
 
 CommentFile
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|comment_id|INTEGER|False|None|True|
-|post_id|INTEGER|False|None|True|
-|file_uuid_name|VARCHAR|False|None|True|
-|file_original_name|VARCHAR|False|None|False|
-|file_path|VARCHAR|False|None|False|
-|create_date|DATETIME|False|datetime.now|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|comment_id|INTEGER|False|None|True|True|None|
+|post_id|INTEGER|False|None|True|True|None|
+|file_uuid_name|VARCHAR|False|None|True|False|None|
+|file_original_name|VARCHAR|False|None|False|False|None|
+|file_path|VARCHAR|False|None|False|False|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+
+CommentFile Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|comment|N : 1|
 
 JWTAccessTokenBlackList
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|user_id|INTEGER|False|None|True|
-|access_token_uuid|VARCHAR(36)|False|None|True|
-|access_token_unix_timestamp|BIGINT|False|None|True|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|user_id|INTEGER|False|None|True|False|None|
+|access_token_uuid|VARCHAR(36)|False|None|True|False|None|
+|access_token_unix_timestamp|BIGINT|False|None|True|False|None|
+
+JWTAccessTokenBlackList Relationships
+|NAME|RELATIONSHIP|
+|---|---|
 
 JWTList
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|user_id|INTEGER|False|None|True|
-|refresh_token_uuid|VARCHAR(36)|False|None|False|
-|refresh_token_unix_timestamp|BIGINT|False|None|False|
-|access_token_uuid|VARCHAR(36)|True|None|False|
-|access_token_unix_timestamp|BIGINT|True|None|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|user_id|INTEGER|False|None|True|False|None|
+|refresh_token_uuid|VARCHAR(36)|False|None|False|False|None|
+|refresh_token_unix_timestamp|BIGINT|False|None|False|False|None|
+|access_token_uuid|VARCHAR(36)|True|None|False|False|None|
+|access_token_unix_timestamp|BIGINT|True|None|False|False|None|
+
+JWTList Relationships
+|NAME|RELATIONSHIP|
+|---|---|
 
 Post
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|user_id|INTEGER|False|None|False|
-|board_id|INTEGER|False|None|False|
-|name|VARCHAR(64)|False|None|False|
-|content|VARCHAR(1024)|False|None|False|
-|create_date|DATETIME|False|datetime.now|False|
-|update_date|DATETIME|True|None|False|
-|number_of_view|INTEGER|False|0|False|
-|number_of_comment|INTEGER|False|0|False|
-|number_of_like|INTEGER|False|0|False|
-|is_file_attached|BOOLEAN|False|False|False|
-|is_visible|BOOLEAN|False|True|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|user_id|INTEGER|False|None|False|True|None|
+|board_id|INTEGER|False|None|False|True|None|
+|name|VARCHAR(64)|False|None|False|False|None|
+|content|VARCHAR(1024)|False|None|False|False|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+|update_date|DATETIME|True|None|False|False|None|
+|number_of_view|INTEGER|False|0|False|False|None|
+|number_of_comment|INTEGER|False|0|False|False|None|
+|number_of_like|INTEGER|False|0|False|False|None|
+|is_file_attached|BOOLEAN|False|False|False|False|None|
+|is_visible|BOOLEAN|False|True|False|False|None|
+
+Post Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|user|N : 1|
+|board|N : 1|
+|comments|1 : N|
+|attached_files|1 : N|
 
 PostFile
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|post_id|INTEGER|False|None|True|
-|board_id|INTEGER|False|None|True|
-|file_uuid_name|VARCHAR|False|None|True|
-|file_original_name|VARCHAR|False|None|False|
-|file_path|VARCHAR|False|None|False|
-|create_date|DATETIME|False|datetime.now|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|post_id|INTEGER|False|None|True|True|None|
+|board_id|INTEGER|False|None|True|True|None|
+|file_uuid_name|VARCHAR|False|None|True|False|None|
+|file_original_name|VARCHAR|False|None|False|False|None|
+|file_path|VARCHAR|False|None|False|False|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+
+PostFile Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|post|N : 1|
 
 PostViewIncrement
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|post_id|INTEGER|False|None|False|
-|timestamp|DATETIME|False|datetime.now|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|post_id|INTEGER|False|None|False|True|None|
+|timestamp|DATETIME|False|datetime.now|False|False|None|
+
+PostViewIncrement Relationships
+|NAME|RELATIONSHIP|
+|---|---|
 
 User
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|id|INTEGER|False|None|True|
-|name|VARCHAR(64)|False|None|False|
-|email|VARCHAR(256)|False|None|False|
-|password|VARCHAR|False|None|False|
-|password_salt|VARCHAR|False|None|False|
-|role|VARCHAR|False|None|False|
-|join_date|DATETIME|False|datetime.now|False|
-|update_date|DATETIME|True|None|False|
-|is_banned|BOOLEAN|False|False|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|id|INTEGER|False|None|True|False|None|
+|name|VARCHAR(64)|False|None|False|False|True|
+|email|VARCHAR(256)|False|None|False|False|True|
+|password|VARCHAR|False|None|False|False|None|
+|password_salt|VARCHAR|False|None|False|False|None|
+|role|VARCHAR|False|None|False|False|None|
+|join_date|DATETIME|False|datetime.now|False|False|None|
+|update_date|DATETIME|True|None|False|False|None|
+|is_banned|BOOLEAN|False|False|False|False|None|
+
+User Relationships
+|NAME|RELATIONSHIP|
+|---|---|
+|boards|N : M|
+|posts|1 : N|
+|comments|1 : N|
+|ai_logs|1 : N|
+|chat_sessions_create|1 : N|
+|chat_sessions_connect|N : M|
+|chats|1 : N|
 
 UserChatSessionTable
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|user_id|INTEGER|False|None|True|
-|chat_session_id|INTEGER|False|None|True|
-|create_date|DATETIME|False|datetime.now|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|user_id|INTEGER|False|None|True|True|None|
+|chat_session_id|INTEGER|False|None|True|True|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+
+UserChatSessionTable Relationships
+|NAME|RELATIONSHIP|
+|---|---|
 
 UserPermissionTable
-NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY
-|---|---|---|---|---|
-|user_id|INTEGER|False|None|True|
-|board_id|INTEGER|False|None|True|
-|create_date|DATETIME|False|datetime.now|False|
+NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
+|---|---|---|---|---|---|---|
+|user_id|INTEGER|False|None|True|True|None|
+|board_id|INTEGER|False|None|True|True|None|
+|create_date|DATETIME|False|datetime.now|False|False|None|
+
+UserPermissionTable Relationships
+|NAME|RELATIONSHIP|
+|---|---|
 
 
 
