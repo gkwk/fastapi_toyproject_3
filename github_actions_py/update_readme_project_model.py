@@ -14,7 +14,8 @@ sibling_directory = os.path.join(parent_directory, "app")
 if sibling_directory not in sys.path:
     sys.path.append(sibling_directory)
 
-
+from sqlalchemy import inspect
+from sqlalchemy.orm import Mapper
 from sqlalchemy.sql.schema import (
     Column,
     ScalarElementColumnDefault,
@@ -45,6 +46,8 @@ def get_column_formatted_detail_string(column: Column):
     else:
         model_formatted_detail_list.append(str(column.default))
     model_formatted_detail_list.append(str(column.primary_key))
+    model_formatted_detail_list.append(str(len(column.foreign_keys) > 0))
+    model_formatted_detail_list.append(str(column.unique))
 
     return "|" + "|".join(model_formatted_detail_list) + "|"
 
@@ -55,12 +58,44 @@ def create_models_table():
         model: Base
 
         string += name + "\n"
-        string += "NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY\n"
-        string += "|---|---|---|---|---|\n"
+        string += "NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|\n"
+        string += "|---|---|---|---|---|---|---|\n"
 
         for column in model.__table__.columns:
             column: Column
             string += get_column_formatted_detail_string(column) + "\n"
+
+        string += "\n"
+
+        string += name + " Relationships\n"
+        string += "|NAME|RELATIONSHIP|\n"
+        string += "|---|---|\n"
+
+        inspector: Mapper = inspect(model)
+        relationships = inspector.relationships
+        for relationship in relationships:
+            if relationship.secondary is not None:
+                string += "|" + relationship.key + "|N : M|\n"
+            elif relationship.uselist:
+                string += "|" + relationship.key + "|1 : N|\n"
+            else:
+                related_model = relationship.mapper.entity
+                related_model_inspector: Mapper = inspect(related_model)
+
+                checker = False
+
+                for related_model_relationship in related_model_inspector.relationships:
+                    if (
+                        related_model_relationship.mapper.entity == model
+                        and related_model_relationship.uselist
+                    ):
+                        checker = True
+                        break
+
+                if checker:
+                    string += "|" + relationship.key + "|N : 1|\n"
+                else:
+                    string += "|" + relationship.key + "|1 : 1|\n"
 
         string += "\n"
 
