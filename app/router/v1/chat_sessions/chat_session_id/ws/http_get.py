@@ -70,7 +70,7 @@ def chat_test_html(user_id, chat_session_id):
                 
                 // WebSocket 연결 생성 함수
                 const createWebSocketConnection = (chatSessionId, accessToken) => {{
-                    const wsUrl = `ws://localhost:8000/api/v1/chat-sessions/${{chatSessionId}}/ws?websocket_access_token=${{accessToken}}`;
+                    const wsUrl = `ws://${{location.host}}/api/v1/chat-sessions/${{chatSessionId}}/ws?websocket_access_token=${{accessToken}}`;
                     const ws = new WebSocket(wsUrl);
 
                     ws.onopen = () => {{
@@ -114,7 +114,7 @@ def chat_test_html(user_id, chat_session_id):
                     return ws;
                 }};
                 // API 요청 및 WebSocket 연결 예시
-                const apiUrl = 'http://127.0.0.1:8000/api/v1/auth/issue-websocket-access-token';
+                const apiUrl = `http://${{location.host}}/api/v1/auth/issue-websocket-access-token`;
                 const method = 'GET'; // 또는 'POST', 'PUT', 'DELETE' 등
                 const headers = {{ 'Authorization': 'Bearer '+localStorage.getItem("access_token") }};
                 const body = {{ key1: 'value1', key2: 'value2' }}; // POST, PUT 요청 시 사용

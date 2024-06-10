@@ -1,6 +1,7 @@
 import json
 from typing import Any, Dict
 
+from starlette.websockets import WebSocketState
 from fastapi import WebSocket, WebSocketDisconnect, Path, Query
 from jwt.exceptions import InvalidTokenError
 
@@ -63,7 +64,9 @@ class ConnectionManager:
     ):
         self.active_connections[chat_session_id].pop(websocket)
         self.active_user_id[user_id].pop(chat_session_id)
-        await websocket.close()
+        
+        if not websocket.state != WebSocketState.DISCONNECTED:
+            await websocket.close()
 
     async def verify_user(
         self,
@@ -83,11 +86,12 @@ class ConnectionManager:
             )
             self.active_connections[chat_session_id][websocket]["verified"] = True
         except Exception:
-            if self.active_connections[chat_session_id][websocket]["verified"] == False:
-                # 현재 처리 과정상 불필요하지만 차후를 대비해 삭제하지 않는다.
-                raise InvalidTokenError
-            else:
-                self.active_connections[chat_session_id][websocket]["verified"] = False
+            # if self.active_connections[chat_session_id][websocket]["verified"] == False:
+            #     # 현재 처리 과정상 불필요하지만 차후를 대비해 삭제하지 않는다.
+            #     raise InvalidTokenError
+            # else:
+            #     self.active_connections[chat_session_id][websocket]["verified"] = False
+            self.active_connections[chat_session_id][websocket]["verified"] = False
 
         return self.active_connections[chat_session_id][websocket]["verified"]
 
@@ -210,44 +214,50 @@ async def websocket_chat_session(
                 access_token = data["access_token"]
                 message = data["message"]
 
-                if (
-                    manager.active_connections[chat_session_id][websocket]["verified"]
-                    == True
-                ):
-                    if await manager.verify_user(
-                        websocket=websocket,
+                is_user_verified_before_verification = manager.active_connections[
+                    chat_session_id
+                ][websocket]["verified"]
+                is_user_verified_after_verification = await manager.verify_user(
+                    websocket=websocket,
+                    data_base=data_base,
+                    chat_session_id=chat_session_id,
+                    token=access_token,
+                )
+
+                if is_user_verified_after_verification:
+                    create_chat(
                         data_base=data_base,
+                        token=websocket_access_token_payload,
+                        content=message,
                         chat_session_id=chat_session_id,
-                        token=access_token,
-                    ):
-                        create_chat(
-                            data_base=data_base,
-                            token=websocket_access_token_payload,
-                            content=message,
-                            chat_session_id=chat_session_id,
-                        )
-                        await manager.send_personal_message(
-                            json_encoder.encode(o={"message": f"You wrote: {message}"}),
-                            websocket,
-                        )
-                        await manager.broadcast(
-                            json_encoder.encode(
-                                o={
-                                    "message": f'Client #{websocket_access_token_payload.get("user_id")} says: {message}'
-                                }
-                            ),
-                            chat_session_id,
-                        )
-                    else:
-                        await manager.send_personal_message(
-                            json_encoder.encode(
-                                o={
-                                    "message": f"Your submitted access token is invalid",
-                                    "refresh_access_token": True,
-                                }
-                            ),
-                            websocket,
-                        )
+                    )
+                    await manager.send_personal_message(
+                        json_encoder.encode(o={"message": f"You wrote: {message}"}),
+                        websocket,
+                    )
+                    await manager.broadcast(
+                        json_encoder.encode(
+                            o={
+                                "message": f'Client #{websocket_access_token_payload.get("user_id")} says: {message}'
+                            }
+                        ),
+                        chat_session_id,
+                    )
+
+                elif (
+                    not is_user_verified_after_verification
+                    and is_user_verified_before_verification
+                ):
+                    await manager.send_personal_message(
+                        json_encoder.encode(
+                            o={
+                                "message": f"Your submitted access token is invalid",
+                                "refresh_access_token": True,
+                            }
+                        ),
+                        websocket,
+                    )
+
                 else:
                     await manager.send_personal_message(
                         json_encoder.encode(
@@ -261,6 +271,7 @@ async def websocket_chat_session(
                     raise InvalidTokenError
         except (WebSocketDisconnect, InvalidTokenError):
             if websocket in manager.active_connections[chat_session_id]:
+                
                 await manager.disconnect(
                     websocket,
                     chat_session_id,
