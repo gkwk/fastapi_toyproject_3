@@ -29,9 +29,9 @@ def log_before_response(request: Request):
     log_url = get_url_safe(request=request)
 
     if request.headers.get("X-Real-IP"):
-        logger.info(f"HTTP | {request.method} | Receiving request | {request.headers.get("X-Real-IP")} | {log_url}")
+        logger.info(f"HTTP | {request.method} | Receiving request | {request.headers.get('X-Real-IP')} | {log_url} | {request.headers}")
     else:
-        logger.info(f"HTTP | {request.method} | Receiving request | {request.client.host} | {log_url}")
+        logger.info(f"HTTP | {request.method} | Receiving request | {request.client.host} | {log_url} | {request.headers}")
 
 
 def log_after_response(request: Request, response: Response):
@@ -39,12 +39,12 @@ def log_after_response(request: Request, response: Response):
 
     if request.headers.get("X-Real-IP"):
         logger.info(
-        f"HTTP | {request.method} | {response.status_code} | Completed request | {request.headers.get("X-Real-IP")} | {log_url}"
+        f"HTTP | {request.method} | {response.status_code} | Completed request | {request.headers.get('X-Real-IP')} | {log_url} | {request.headers}"
     )
 
     else:
         logger.info(
-        f"HTTP | {request.method} | {response.status_code} | Completed request | {request.client.host}:{request.client.port} | {log_url}"
+        f"HTTP | {request.method} | {response.status_code} | Completed request | {request.client.host}:{request.client.port} | {log_url} | {request.headers}"
     )
 
 

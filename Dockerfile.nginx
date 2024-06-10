@@ -1,0 +1,9 @@
+FROM nginx:latest
+
+RUN apt update && apt install -y logrotate
+
+COPY ./nginx/logrotate /etc/logrotate.d/nginx
+
+RUN chmod 0640 /etc/logrotate.d/nginx
+
+CMD ["nginx", "-g", "daemon off;"]

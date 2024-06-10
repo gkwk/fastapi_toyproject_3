@@ -12,7 +12,9 @@ services:
       - app-network
   app:
     # image: 사전 빌드한 이미지 혹은 허브 이미지
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
     environment:
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
     depends_on:
@@ -28,7 +30,9 @@ services:
       - app-network
   celery:
     # image: 사전 빌드한 이미지 혹은 허브 이미지
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
     environment:
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
     depends_on:
@@ -43,7 +47,9 @@ services:
 
   celery_beat:
     # image: 사전 빌드한 이미지 혹은 허브 이미지
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.fastapi
     environment:
       - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
     depends_on:
@@ -57,14 +63,17 @@ services:
     networks:
       - app-network
   nginx:
-    image: nginx:latest
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
     ports:
       - "80:80"
     depends_on:
       - app
     volumes:
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - ./volume/log/nginx/access.log:/var/log/nginx/access.log
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./volume/log/nginx/:/var/log/nginx/
     networks:
       - app-network
 networks:
