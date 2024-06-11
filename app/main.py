@@ -1,15 +1,11 @@
-import sys
-
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from starlette.middleware.cors import CORSMiddleware
-import uvicorn
 
 from router.v1 import v1_router
 from lifespan.lifespan import app_lifespan
 from config.config import origins
-from terminal_command.create_super_user import create_admin_with_terminal
 from http_middleware.log_requests import log_requests
 
 app = FastAPI(
@@ -34,13 +30,3 @@ app.middleware("http")(log_requests)
 
 
 app.include_router(v1_router.router)
-
-
-if __name__ == "__main__":
-    argv = sys.argv[1:]
-
-    if len(argv) == 0:
-        uvicorn.run("main:app", reload=True, log_level="debug", port=8080)
-    else:
-        if "createsuperuser" in argv:
-            create_admin_with_terminal(data_base=None)
