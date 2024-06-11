@@ -58,6 +58,6 @@ class RequestFormCommentDetailPatch:
 
         try:
             pydantic_model = RequestCommentDetailPatch(**pydantic_model_parameters)
-            yield pydantic_model
+            return pydantic_model
         except ValidationError as e:
             raise HTTPException(status_code=422, detail=jsonable_encoder(e.errors()))
