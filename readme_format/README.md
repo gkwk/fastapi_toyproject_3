@@ -55,6 +55,8 @@ celery -A celery_app worker -l info --pool=solo
     `(ex: app\schema\posts\request_post_detail_patch.py // app\router\v1\boards\id\posts\post_id\http_patch.py)`
 - 웹소켓 인증 문제
     > 웹소켓은 공식적으로 `커스텀 헤더`를 추가할 수 없기에 사용자 인증 과정 선택에 어려움을 겪었다. 현재 프로젝트에 적용한 방법은 사용자 access token으로 `웹소켓 전용 access token`을 발행하고 쿼리 스트링으로 웹소켓 전용 access token을 받아 사용자 access token이 웹소켓 연결 과정에서 노출되는 위험을 최소화한 뒤, 연결된 웹소켓을 통해 사용자 access token을 지속적으로 받아 사용자가 검증되도록 하였다.
+- Middleware 가독성 문제
+    > `main.py`에 Middleware 관련 코드가 모두 포함될 경우 코드의 가독성이 저하가 예상되었다. 이를 해결하기 위해 `http_middleware`폴더를 추가한 뒤, Middleware 코드를 해당 폴더로 옮겼다. 코드 이전 이후, `main.py`에서 Middleware를 추가하는 코드만 유지하여 가독성을 향상시켰다.
 
 # 프로젝트 구조
 ```text
