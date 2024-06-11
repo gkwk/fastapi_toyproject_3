@@ -1,5 +1,9 @@
 import sys
 
+from calendar import timegm
+from datetime import datetime, UTC
+from uuid import uuid4
+
 from fastapi import FastAPI, Request, Response
 from fastapi.staticfiles import StaticFiles
 
@@ -35,9 +39,15 @@ app.add_middleware(
 
 @app.middleware("http")
 async def log_requests(request: Request, call_next):
-    log_before_response(request)
+    time = datetime.now(UTC)
+    timestamp = timegm(time.utctimetuple())
+    uuid = uuid4()
+
+    timestamp_uuid = f"{timestamp}_{uuid}"
+
+    log_before_response(request, timestamp_uuid)
     response: Response = await call_next(request)
-    log_after_response(request, response)
+    log_after_response(request, response, timestamp_uuid)
 
     return response
 

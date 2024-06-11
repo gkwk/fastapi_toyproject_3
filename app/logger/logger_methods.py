@@ -1,4 +1,7 @@
 import logging
+from calendar import timegm
+from datetime import datetime, UTC
+from uuid import uuid4
 
 from fastapi import Request, Response
 from urllib.parse import quote, urlsplit, urlunsplit
@@ -25,28 +28,37 @@ def get_url_safe(request: Request):
     return url_safe
 
 
-def log_before_response(request: Request):
-    log_url = get_url_safe(request=request)
-
-    if request.headers.get("X-Real-IP"):
-        logger.info(f"HTTP | {request.method} | Receiving request | {request.headers.get('X-Real-IP')} | {log_url} | {request.headers}")
-    else:
-        logger.info(f"HTTP | {request.method} | Receiving request | {request.client.host} | {log_url} | {request.headers}")
-
-
-def log_after_response(request: Request, response: Response):
+def log_before_response(request: Request, timestamp_uuid: str):
     log_url = get_url_safe(request=request)
 
     if request.headers.get("X-Real-IP"):
         logger.info(
-        f"HTTP | {request.method} | {response.status_code} | Completed request | {request.headers.get('X-Real-IP')} | {log_url} | {request.headers}"
-    )
+            f"{timestamp_uuid} | HTTP | {request.method} | Receiving request | {request.headers.get('X-Real-IP')} | {log_url}"
+        )
+    else:
+        logger.info(
+            f"{timestamp_uuid} | HTTP | {request.method} | Receiving request | {request.client.host} | {log_url}"
+        )
+
+
+def log_after_response(request: Request, response: Response, timestamp_uuid: str):
+    log_url = get_url_safe(request=request)
+
+    if request.headers.get("X-Real-IP"):
+        logger.info(
+            f"{timestamp_uuid} | HTTP | {request.method} | {response.status_code} | Completed request | {request.headers.get('X-Real-IP')} | {log_url}"
+        )
 
     else:
         logger.info(
-        f"HTTP | {request.method} | {response.status_code} | Completed request | {request.client.host}:{request.client.port} | {log_url} | {request.headers}"
-    )
+            f"{timestamp_uuid} | HTTP | {request.method} | {response.status_code} | Completed request | {request.client.host}:{request.client.port} | {log_url}"
+        )
 
 
 def log_message(message: str):
-    logger.info(message)
+
+    time = datetime.now(UTC)
+    timestamp = timegm(time.utctimetuple())
+    uuid = uuid4()
+
+    logger.info(f"{timestamp}_{uuid} | " + message)
