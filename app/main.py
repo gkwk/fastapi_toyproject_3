@@ -1,10 +1,6 @@
 import sys
 
-from calendar import timegm
-from datetime import datetime, UTC
-from uuid import uuid4
-
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 
 from starlette.middleware.cors import CORSMiddleware
@@ -14,8 +10,7 @@ from router.v1 import v1_router
 from lifespan.lifespan import app_lifespan
 from config.config import origins
 from terminal_command.create_super_user import create_admin_with_terminal
-from logger.logger_methods import log_before_response, log_after_response
-
+from http_middleware.log_requests import log_requests
 
 app = FastAPI(
     lifespan=app_lifespan,
@@ -35,21 +30,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.middleware("http")
-async def log_requests(request: Request, call_next):
-    time = datetime.now(UTC)
-    timestamp = timegm(time.utctimetuple())
-    uuid = uuid4()
-
-    timestamp_uuid = f"{timestamp}_{uuid}"
-
-    log_before_response(request, timestamp_uuid)
-    response: Response = await call_next(request)
-    log_after_response(request, response, timestamp_uuid)
-
-    return response
+app.middleware("http")(log_requests)
 
 
 app.include_router(v1_router.router)
