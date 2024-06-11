@@ -3,6 +3,7 @@ from datetime import datetime
 from typing import Optional, List, TypedDict, Annotated
 
 from fastapi import Form, File, UploadFile, HTTPException, Request
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field, ValidationInfo, field_validator, ValidationError
 from pydantic_core import PydanticUndefinedType
 from dataclasses import dataclass
@@ -59,4 +60,4 @@ class RequestFormCommentDetailPatch:
             pydantic_model = RequestCommentDetailPatch(**pydantic_model_parameters)
             yield pydantic_model
         except ValidationError as e:
-            raise HTTPException(status_code=422, detail=e.json())
+            raise HTTPException(status_code=422, detail=jsonable_encoder(e.errors()))

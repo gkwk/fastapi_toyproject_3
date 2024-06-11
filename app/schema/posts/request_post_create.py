@@ -1,6 +1,7 @@
 from typing import List, Optional
 
 from fastapi import Form, File, UploadFile, HTTPException, Request
+from fastapi.encoders import jsonable_encoder
 from pydantic import BaseModel, Field, ValidationInfo, field_validator, ValidationError
 from dataclasses import dataclass
 
@@ -47,4 +48,4 @@ class RequestFormPostCreate:
             pydantic_model = RequestPostCreate(**pydantic_model_parameters)
             yield pydantic_model
         except ValidationError as e:
-            raise HTTPException(status_code=422, detail=e.json())
+            raise HTTPException(status_code=422, detail=jsonable_encoder(e.errors()))
