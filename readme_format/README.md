@@ -51,9 +51,7 @@ celery -A celery_app worker -l info --pool=solo
     > `celery` 사용을 위해 관련 함수에 데코레이터를 붙여도 IDE가 데코레이터가 붙은 함수를 `Task` 타입으로 인식하지 못했다. 이를 해결하기 위해 `typing`의 `cast`를 사용하였다.
     `(ex: app\celery_app\v1\ais\tasks.py)`
 - Form과 Pydantic의 유효성 검사 사용하기
-    > 파일을 받고 처리하기 위해서 FastAPI의 `Form`을 사용하였다. 하지만 이런 접근으로는 Pydantic의 유효성 검사를 사용할 수 없으므로 성능 손해를 감수하고 `Form` 스키마에 `Pydantic` 스키마의 인스턴스를 생성하는 과정을 추가하였다. 또한 의존성 주입 과정에서 유효성 검사를 통과하지 못할 경우 `HTTPException`을 발생시키도록 하여 사용자가 오류 원인을 알 수 있게 하였다.
-    `(ex: app\router\v1\boards\id\posts\http_post.py)`
-    > post의 patch 기능을 추가하던 중, 기존 `Form` 스키마에서 `Pydantic` 스키마로 변환하는 과정에서 요청하지 않은 필드가 포함되는 문제 등이 발생하였다. 이를 보완한 스키마를 post의 patch에 적용하였다.
+    > 파일을 받고 처리하기 위해서 FastAPI의 `Form`을 사용하였다. 하지만 이런 접근으로는 Pydantic의 유효성 검사를 사용할 수 없으므로 `Form` 스키마에 `Pydantic` 스키마의 인스턴스를 생성하고 반환하는 class method를 추가하였다. 또한 의존성 주입 과정에서 유효성 검사를 통과하지 못할 경우 `HTTPException`을 발생시키도록 하여 사용자가 오류 원인을 알 수 있게 하였다.
     `(ex: app\schema\posts\request_post_detail_patch.py // app\router\v1\boards\id\posts\post_id\http_patch.py)`
 - 웹소켓 인증 문제
     > 웹소켓은 공식적으로 `커스텀 헤더`를 추가할 수 없기에 사용자 인증 과정 선택에 어려움을 겪었다. 현재 프로젝트에 적용한 방법은 사용자 access token으로 `웹소켓 전용 access token`을 발행하고 쿼리 스트링으로 웹소켓 전용 access token을 받아 사용자 access token이 웹소켓 연결 과정에서 노출되는 위험을 최소화한 뒤, 연결된 웹소켓을 통해 사용자 access token을 지속적으로 받아 사용자가 검증되도록 하였다.
