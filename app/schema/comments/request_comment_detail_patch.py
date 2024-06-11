@@ -2,7 +2,7 @@ import uuid
 from datetime import datetime
 from typing import Optional, List, TypedDict, Annotated
 
-from fastapi import Form, File, UploadFile, HTTPException
+from fastapi import Form, File, UploadFile, HTTPException, Request
 from pydantic import BaseModel, Field, ValidationInfo, field_validator, ValidationError
 from pydantic_core import PydanticUndefinedType
 from dataclasses import dataclass
@@ -11,7 +11,7 @@ from dataclasses import dataclass
 class RequestCommentDetailPatch(BaseModel):
     content: Optional[str] = Field(None, max_length=256)
     is_visible: Optional[bool] = Field(None)
-    file_list_append: List[Optional[UploadFile]] = File(None)
+    file_list_append: List[Optional[UploadFile]] = Field(None)
     file_list_remove: List[Optional[str]] = Field(None)
 
     @field_validator("file_list_remove")
@@ -32,28 +32,27 @@ class RequestCommentDetailPatch(BaseModel):
 
 @dataclass
 class RequestFormCommentDetailPatch:
-    content: Optional[str] = Form(PydanticUndefinedType, max_length=256)
-    is_visible: Optional[bool] = Form(PydanticUndefinedType)
-    file_list_append: List[Optional[UploadFile]] = File(PydanticUndefinedType)
-    file_list_remove: List[Optional[str]] = Form(PydanticUndefinedType)
+    content: Optional[str] = Form(None, max_length=256)
+    is_visible: Optional[bool] = Form(None)
+    file_list_append: List[Optional[UploadFile]] = File(None)
+    file_list_remove: List[Optional[str]] = Form(None)
 
     @classmethod
     def to_pydantic(
         cls,
-        content: Optional[str] = Form(PydanticUndefinedType, max_length=256),
-        is_visible: Optional[bool] = Form(PydanticUndefinedType),
-        file_list_append: List[Optional[UploadFile]] = File(PydanticUndefinedType),
-        file_list_remove: List[Optional[str]] = Form(PydanticUndefinedType),
+        request: Request,
+        content: Optional[str] = Form(None, max_length=256),
+        is_visible: Optional[bool] = Form(None),
+        file_list_append: List[Optional[UploadFile]] = File(None),
+        file_list_remove: List[Optional[str]] = Form(None),
     ):
         # kwargs 사용이 어려우므로 locals() 를 사용해서 파라미터를 받아온다.
         local_parameters = locals()
+        form_keys = request._form.keys()
         pydantic_model_parameters = {}
 
         for key in cls.__annotations__:
-            if (key in local_parameters) and (
-                local_parameters.get(key, PydanticUndefinedType)
-                is not PydanticUndefinedType
-            ):
+            if (key in form_keys) and (key in local_parameters):
                 pydantic_model_parameters[key] = local_parameters[key]
 
         try:

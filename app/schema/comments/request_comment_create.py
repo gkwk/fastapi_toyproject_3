@@ -1,6 +1,6 @@
 from typing import List, Optional
 
-from fastapi import Form, File, UploadFile, HTTPException
+from fastapi import Form, File, UploadFile, HTTPException, Request
 from pydantic import BaseModel, Field, ValidationInfo, field_validator, ValidationError
 from dataclasses import dataclass
 
@@ -8,6 +8,7 @@ from dataclasses import dataclass
 class RequestCommentCreate(BaseModel):
     content: str = Field(min_length=1, max_length=1024)
     is_visible: bool = Field()
+    files: List[Optional[UploadFile]] = Field(None)
 
     @field_validator("content")
     def is_not_empty(cls, value: str):
@@ -26,12 +27,23 @@ class RequestFormCommentCreate:
     @classmethod
     def from_form(
         cls,
+        request: Request,
         content: str = Form(min_length=1, max_length=256),
         is_visible: bool = Form(),
         files: List[Optional[UploadFile]] = File(None),
     ):
+
+        # kwargs 사용이 어려우므로 locals() 를 사용해서 파라미터를 받아온다.
+        local_parameters = locals()
+        form_keys = request._form.keys()
+        pydantic_model_parameters = {}
+
+        for key in cls.__annotations__:
+            if (key in form_keys) and (key in local_parameters):
+                pydantic_model_parameters[key] = local_parameters[key]
+
         try:
-            RequestCommentCreate(content=content, is_visible=is_visible)
-            yield cls(content=content, is_visible=is_visible, files=files)
+            pydantic_model = RequestCommentCreate(**pydantic_model_parameters)
+            yield pydantic_model
         except ValidationError as e:
             raise HTTPException(status_code=422, detail=e.json())
