@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from starlette import status
 
 from router.v1 import v1_url, v1_tags
-from router.v1.users.id.router import router
+from router.v1.users.user_id.router import router
 from database.database import database_dependency
 from models import User
 from auth.jwt.access_token.get_user_access_token_payload import (

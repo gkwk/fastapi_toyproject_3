@@ -1,7 +1,7 @@
 from typing import Union
 
 from router.v1 import v1_url, v1_tags
-from router.v1.boards.id.router import router
+from router.v1.boards.board_id.router import router
 from database.database import database_dependency
 from models import Board
 from auth.jwt.access_token.get_user_access_token_payload import (
