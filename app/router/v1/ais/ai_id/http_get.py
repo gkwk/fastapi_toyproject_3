@@ -1,18 +1,11 @@
-from typing import Union
-
 from fastapi import Path, HTTPException
 
-from router.v1 import v1_url, v1_tags
-from router.v1.ais.ai_id.router import router
 from database.database import database_dependency
 from models import AI
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-from schema.ais.response_ai_detail import (
-    ResponseAIDetailForUser,
-    ResponseAIDetailForAdmin,
-)
+
 from exception_message.http_exception_params import http_exception_params
 
 
@@ -34,11 +27,6 @@ def get_ai_detail(
     }
 
 
-@router.get(
-    v1_url.ENDPOINT,
-    response_model=Union[ResponseAIDetailForUser, ResponseAIDetailForAdmin],
-    tags=[v1_tags.AI_TAG],
-)
 def http_get(
     data_base: database_dependency,
     token: current_user_access_token_payload,

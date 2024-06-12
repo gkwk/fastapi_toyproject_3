@@ -2,11 +2,8 @@ from typing import cast
 import uuid
 
 from fastapi import HTTPException, UploadFile, Depends, Path
-from starlette import status
 from sqlalchemy import select
 
-from router.v1 import v1_url, v1_tags
-from router.v1.boards.board_id.posts.post_id.comments.comment_id.router import router
 from database.database import database_dependency
 from models import Board, Post, Comment, CommentFile
 from auth.jwt.access_token.get_user_access_token_payload import (
@@ -118,13 +115,12 @@ def update_comment_detail(
     data_base.commit()
 
 
-@router.patch(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.COMMENT_TAG]
-)
 def http_patch(
     data_base: database_dependency,
     token: current_user_access_token_payload,
-    schema: RequestCommentDetailPatch = Depends(RequestFormCommentDetailPatch.to_pydantic),
+    schema: RequestCommentDetailPatch = Depends(
+        RequestFormCommentDetailPatch.to_pydantic
+    ),
     board_id: int = Path(ge=1),
     post_id: int = Path(ge=1),
     comment_id: int = Path(ge=1),

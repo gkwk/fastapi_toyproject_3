@@ -2,10 +2,7 @@ import json
 
 from fastapi import HTTPException, Path
 from celery import uuid
-from starlette import status
 
-from router.v1 import v1_url, v1_tags
-from router.v1.ais.ai_id.ailogs.router import router
 from database.database import database_dependency
 from models import User, JWTList, Board, AI, AIlog
 from auth.jwt.access_token.ban_access_token import ban_access_token
@@ -50,9 +47,6 @@ def create_ailog(
     return (async_task, ailog.id)
 
 
-@router.post(
-    v1_url.ENDPOINT, status_code=status.HTTP_202_ACCEPTED, tags=[v1_tags.AILOG_TAG]
-)
 def http_post(
     data_base: database_dependency,
     token: current_user_access_token_payload,
@@ -63,6 +57,8 @@ def http_post(
     AI 모델 사용 로그를 생성한다.
     """
 
-    async_task, ai_id = create_ailog(data_base=data_base, token=token, schema=schema, ai_id=ai_id)
+    async_task, ai_id = create_ailog(
+        data_base=data_base, token=token, schema=schema, ai_id=ai_id
+    )
 
     return {"task_id": async_task.id, "id": ai_id}

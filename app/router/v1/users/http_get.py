@@ -1,18 +1,14 @@
-from router.v1 import v1_url, v1_tags
-from router.v1.users.router import router
 from database.database import database_dependency
 from models import User
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-from schema.users.response_users import ResponseUsers
 
 
 def get_users(data_base: database_dependency):
     return {"users": data_base.query(User).filter_by().all()}
 
 
-@router.get(v1_url.ENDPOINT, response_model=ResponseUsers, tags=[v1_tags.USER_TAG])
 def http_get(
     data_base: database_dependency,
     token: current_user_access_token_payload,

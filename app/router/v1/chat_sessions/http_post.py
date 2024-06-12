@@ -1,10 +1,7 @@
 import secrets
 
 from fastapi import HTTPException
-from starlette import status
 
-from router.v1 import v1_url, v1_tags
-from router.v1.chat_sessions.router import router
 from database.database import database_dependency
 from models import ChatSession
 from auth.jwt.password_context import get_password_context
@@ -33,11 +30,6 @@ def create_chat_session(
     return chat_session.id
 
 
-@router.post(
-    v1_url.ENDPOINT,
-    status_code=status.HTTP_201_CREATED,
-    tags=[v1_tags.CHAT_SESSION_TAG],
-)
 def http_post(
     data_base: database_dependency,
     token: current_user_access_token_payload,

@@ -1,15 +1,10 @@
-from typing import Union
-
 from fastapi import Path
 
-from router.v1 import v1_url, v1_tags
-from router.v1.boards.board_id.posts.router import router
 from database.database import database_dependency
 from models import Post
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-from schema.posts.response_posts import ResponsePostsForUser, ResponsePostsForAdmin
 
 
 def get_posts(
@@ -26,11 +21,6 @@ def get_posts(
     }
 
 
-@router.get(
-    v1_url.ENDPOINT,
-    response_model=Union[ResponsePostsForUser, ResponsePostsForAdmin],
-    tags=[v1_tags.POST_TAG],
-)
 def http_get(
     data_base: database_dependency,
     token: current_user_access_token_payload,

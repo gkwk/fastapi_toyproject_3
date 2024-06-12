@@ -1,7 +1,3 @@
-from starlette import status
-
-from router.v1 import v1_url, v1_tags
-from router.v1.boards.router import router
 from database.database import database_dependency
 from models import User, JWTList, Board
 from auth.jwt.access_token.ban_access_token import ban_access_token
@@ -97,9 +93,6 @@ def create_board(
     return board.id
 
 
-@router.post(
-    v1_url.ENDPOINT, status_code=status.HTTP_201_CREATED, tags=[v1_tags.BOARD_TAG]
-)
 def http_post(
     data_base: database_dependency,
     token: current_user_access_token_payload,

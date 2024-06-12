@@ -1,18 +1,11 @@
-from typing import Union
-
 from fastapi import Path, HTTPException
 
-from router.v1 import v1_url, v1_tags
-from router.v1.boards.board_id.posts.post_id.router import router
 from database.database import database_dependency
 from models import Post, PostViewIncrement
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-from schema.posts.response_post_detail import (
-    ResponsePostDetailForUser,
-    ResponsePostDetailForAdmin,
-)
+
 from exception_message.http_exception_params import http_exception_params
 
 
@@ -43,11 +36,6 @@ def record_post_view(data_base: database_dependency, post_id: int):
     data_base.commit()
 
 
-@router.get(
-    v1_url.ENDPOINT,
-    response_model=Union[ResponsePostDetailForUser, ResponsePostDetailForAdmin],
-    tags=[v1_tags.POST_TAG],
-)
 def http_get(
     data_base: database_dependency,
     token: current_user_access_token_payload,

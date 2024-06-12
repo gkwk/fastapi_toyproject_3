@@ -1,18 +1,12 @@
-from typing import Union
 
 from fastapi import Path, HTTPException
 
-from router.v1 import v1_url, v1_tags
-from router.v1.ais.ai_id.ailogs.ailog_id.router import router
 from database.database import database_dependency
 from models import AI, AIlog
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-from schema.ailogs.response_ailog_detail import (
-    ResponseAIlogDetailForUser,
-    ResponseAIlogDetailForAdmin,
-)
+
 from exception_message.http_exception_params import http_exception_params
 
 
@@ -36,11 +30,7 @@ def get_ailog_detail(
     }
 
 
-@router.get(
-    v1_url.ENDPOINT,
-    response_model=Union[ResponseAIlogDetailForUser, ResponseAIlogDetailForAdmin],
-    tags=[v1_tags.AILOG_TAG],
-)
+
 def http_get(
     data_base: database_dependency,
     token: current_user_access_token_payload,

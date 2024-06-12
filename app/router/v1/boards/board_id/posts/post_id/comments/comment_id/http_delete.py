@@ -1,8 +1,5 @@
 from fastapi import HTTPException, Path
-from starlette import status
 
-from router.v1 import v1_url, v1_tags
-from router.v1.boards.board_id.posts.post_id.comments.comment_id.router import router
 from database.database import database_dependency
 from models import Comment
 from auth.jwt.access_token.get_user_access_token_payload import (
@@ -27,9 +24,6 @@ def delete_comment(
     data_base.commit()
 
 
-@router.delete(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.COMMENT_TAG]
-)
 def http_delete(
     data_base: database_dependency,
     token: current_user_access_token_payload,

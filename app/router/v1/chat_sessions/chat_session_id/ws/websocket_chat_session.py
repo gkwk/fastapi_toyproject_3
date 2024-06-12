@@ -5,8 +5,7 @@ from starlette.websockets import WebSocketState
 from fastapi import WebSocket, WebSocketDisconnect, Path, Query
 from jwt.exceptions import InvalidTokenError
 
-from router.v1 import v1_url
-from router.v1.chat_sessions.chat_session_id.ws.router import router
+
 from database.database import database_dependency
 from models import Chat, ChatSession
 from auth.jwt.access_token.get_user_access_token_payload import (
@@ -149,7 +148,6 @@ def get_chats(
     return {"total": total, "chats": chats}
 
 
-@router.websocket(v1_url.ENDPOINT)
 async def websocket_chat_session(
     websocket: WebSocket,
     data_base: database_dependency,

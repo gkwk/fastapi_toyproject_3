@@ -1,17 +1,9 @@
-from typing import Union
-
 from fastapi import Path, HTTPException
 
-from router.v1 import v1_url, v1_tags
-from router.v1.boards.board_id.posts.post_id.comments.comment_id.router import router
 from database.database import database_dependency
 from models import Comment
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
-)
-from schema.comments.response_post_detail import (
-    ResponseCommentDetailForUser,
-    ResponseCommentDetailForAdmin,
 )
 from exception_message.http_exception_params import http_exception_params
 
@@ -37,11 +29,6 @@ def get_comment_detail(
     }
 
 
-@router.get(
-    v1_url.ENDPOINT,
-    response_model=Union[ResponseCommentDetailForUser, ResponseCommentDetailForAdmin],
-    tags=[v1_tags.COMMENT_TAG],
-)
 def http_get(
     data_base: database_dependency,
     token: current_user_access_token_payload,

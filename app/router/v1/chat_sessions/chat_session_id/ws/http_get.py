@@ -1,8 +1,6 @@
 from fastapi import HTTPException
 from fastapi.responses import HTMLResponse
 
-from router.v1 import v1_url, v1_tags
-from router.v1.chat_sessions.chat_session_id.ws.router import router
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
@@ -147,7 +145,6 @@ def chat_test_html(user_id, chat_session_id):
     return html
 
 
-@router.get(v1_url.ENDPOINT, tags=[v1_tags.CHAT_SESSION_TAG])
 def http_get(
     data_base: database_dependency,
     chat_session_id: int,

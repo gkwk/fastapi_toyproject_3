@@ -1,10 +1,7 @@
 import secrets
 
 from fastapi import HTTPException
-from starlette import status
 
-from router.v1 import v1_url, v1_tags
-from router.v1.users.user_id.router import router
 from database.database import database_dependency
 from models import User
 from auth.jwt.access_token.get_user_access_token_payload import (
@@ -58,7 +55,6 @@ def update_user_detail(
     # 차후 access token 재발행 여부를 묻는 과정을 추가해도 될 것 같다.
 
 
-@router.patch(v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT,tags=[v1_tags.USER_TAG])
 def http_patch(
     data_base: database_dependency,
     token: current_user_access_token_payload,

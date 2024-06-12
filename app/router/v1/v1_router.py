@@ -1,7 +1,6 @@
 from fastapi import APIRouter
 
 from router.v1 import v1_url
-
 from router.v1.main import router as main_router
 from router.v1.auth import router as auth_router
 from router.v1.users import router as users_router
