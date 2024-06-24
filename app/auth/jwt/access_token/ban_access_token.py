@@ -5,34 +5,34 @@ from models import JWTAccessTokenBlackList, JWTList
 from database.database import database_dependency
 
 
-def get_jwt(data_base: database_dependency, user_id: int):
-    try:
-        jwt = data_base.query(JWTList).filter_by(user_id=user_id).limit(1).first()
-    except OperationalError as e:
-        raise HTTPException(status_code=400)
+# def get_jwt(data_base: database_dependency, user_id: int):
+#     try:
+#         jwt = data_base.query(JWTList).filter_by(user_id=user_id).limit(1).first()
+#     except OperationalError as e:
+#         raise HTTPException(status_code=400)
 
-    return jwt
+#     return jwt
 
 
-def get_blacklisted_access_token(
-    data_base: database_dependency, user_id: int, user_jwt_information: JWTList
-):
-    try:
-        blacklisted_access_token = (
-            data_base.query(JWTAccessTokenBlackList)
-            .filter_by(
-                user_id=user_id,
-                access_token_uuid=user_jwt_information.access_token_uuid,
-                access_token_unix_timestamp=user_jwt_information.access_token_unix_timestamp,
-            )
-            .limit(1)
-            .with_for_update(nowait=True)
-            .first()
-        )
-    except OperationalError as e:
-        raise HTTPException(status_code=400)
+# def get_blacklisted_access_token(
+#     data_base: database_dependency, user_id: int, user_jwt_information: JWTList
+# ):
+#     try:
+#         blacklisted_access_token = (
+#             data_base.query(JWTAccessTokenBlackList)
+#             .filter_by(
+#                 user_id=user_id,
+#                 access_token_uuid=user_jwt_information.access_token_uuid,
+#                 access_token_unix_timestamp=user_jwt_information.access_token_unix_timestamp,
+#             )
+#             .limit(1)
+#             .with_for_update(nowait=True)
+#             .first()
+#         )
+#     except OperationalError as e:
+#         raise HTTPException(status_code=400)
 
-    return blacklisted_access_token
+#     return blacklisted_access_token
 
 
 def ban_access_token(
