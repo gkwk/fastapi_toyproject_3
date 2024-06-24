@@ -1,12 +1,10 @@
+from fastapi import HTTPException
+
 from database.database import database_dependency
-from models import User
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-
-
-def get_users(data_base: database_dependency):
-    return {"users": data_base.query(User).filter_by().all()}
+from service.user.router_logic.get_users import get_users
 
 
 def http_get(
@@ -16,4 +14,9 @@ def http_get(
     """
     사용자 목록을 조회한다.
     """
-    return get_users(data_base=data_base)
+    try:
+        users = get_users(data_base=data_base)
+    except HTTPException as e:
+        raise e
+
+    return {"users": users}

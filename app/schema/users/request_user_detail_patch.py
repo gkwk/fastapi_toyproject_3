@@ -20,10 +20,17 @@ class RequestUserDetailPatch(BaseModel):
             raise ValueError("값이 공백일 수 없습니다.")
         return value
 
-    @field_validator("password2")
+    @field_validator("password1", "password2")
     def password_confirm(cls, value, info: ValidationInfo):
-        if "password1" in info.data and value != info.data.get("password1"):
+        if ("password1" in info.data) and ("password2" in info.data):
+            pass1 = info.data.get("password1")
+            pass2 = info.data.get("password2")
+
+            if pass1 != pass2:
+                raise ValueError("비밀번호가 일치하지 않습니다")
+        else:
             raise ValueError("비밀번호가 일치하지 않습니다")
+
         return value
 
     @field_validator("password1", "password2")
