@@ -59,3 +59,5 @@ def get_data_base_decorator(f):
 
 
 database_dependency = Annotated[Session, Depends(get_data_base)]
+
+DATABASE_DRIVER_NAME = engine.name
