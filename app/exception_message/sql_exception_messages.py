@@ -13,6 +13,7 @@ unknown_driver_integrity_exception_messages = {
 
 sql_integrity_exception_messages = {
     ("unique", " user", "email"): http_exception_params.not_unique_email,
+    ("unique", " ai", "name"): http_exception_params.not_unique_attribute_value,
     ("unknown", "unknown", "unknown"): {
         "status_code": status.HTTP_400_BAD_REQUEST,
         "detail": "Unknown Error",

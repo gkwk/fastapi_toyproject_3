@@ -10,7 +10,6 @@ def logic_create_user(
     name: str,
     password: str,
     email: str,
-    commit: bool = True,
 ):
     generated_password_salt = secrets.token_hex(4)
     user = User(
@@ -20,9 +19,5 @@ def logic_create_user(
         role="ROLE_USER",
         email=email,
     )
-    data_base.add(user)
-
-    if commit:
-        data_base.commit()
 
     return user

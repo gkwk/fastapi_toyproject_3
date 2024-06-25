@@ -1,8 +1,8 @@
 from database.database import database_dependency
-from models import User
+from models import AI
 
 
-def logic_get_user(
+def logic_get_ais(
     data_base: database_dependency,
     filter_dict: dict = {},
     order_dict: dict = {},
@@ -11,18 +11,11 @@ def logic_get_user(
 ):
     if with_for_update:
         return (
-            data_base.query(User)
+            data_base.query(AI)
             .filter_by(**filter_dict)
             .order_by(**order_dict)
-            .limit(1)
             .with_for_update(**with_for_update_dict)
-            .first()
+            .all()
         )
 
-    return (
-        data_base.query(User)
-        .filter_by(**filter_dict)
-        .order_by(**order_dict)
-        .limit(1)
-        .first()
-    )
+    return data_base.query(AI).filter_by(**filter_dict).order_by(**order_dict).all()

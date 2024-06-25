@@ -86,7 +86,7 @@ not_exist_resource = {
 }
 not_unique_attribute_value = {
     "status_code": status.HTTP_409_CONFLICT,
-    "detail": "변경 요청한 속성값은 이미 사용중입니다.",
+    "detail": "요청한 속성값은 이미 사용중입니다.",
 }
 not_exist_ai_model = {
     "status_code": status.HTTP_404_NOT_FOUND,
