@@ -2,7 +2,7 @@ from typing import Annotated, Optional
 import contextlib
 
 from fastapi import Depends
-from sqlalchemy import create_engine, MetaData
+from sqlalchemy import create_engine, MetaData, event
 from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, sessionmaker, Session
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
@@ -13,14 +13,26 @@ from database.sqlite_naming_convention import (
 )
 
 
+def register_foreign_keys(engine):
+    """register PRAGMA foreign_keys=on on connection"""
+
+    @event.listens_for(engine, "connect")
+    def connect(dbapi_con, con_record):
+        cursor = dbapi_con.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON")
+        cursor.close()
+
+
 class Base(DeclarativeBase):
     metadata = MetaData(naming_convention=sqlite_naming_convention)
 
 
 engine = create_engine(
-    get_settings().SQLALCHEMY_DATABASE_URL,
-    connect_args={"check_same_thread": False},
+    get_settings().SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
 )
+if get_settings().SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
+    register_foreign_keys(engine)
+
 
 session_local = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 

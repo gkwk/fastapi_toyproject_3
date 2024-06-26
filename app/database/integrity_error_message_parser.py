@@ -16,6 +16,7 @@ class SQLiteIntegrityErrorMessageParser(BaseIntegrityErrorMessageParser):
         self.error_message_key["UNIQUE constraint failed"] = "unique"
         self.error_message_key["NOT NULL constraint failed"] = "not_null"
         self.error_message_key["FOREIGN KEY constraint failed"] = "foreign_key"
+        # "FOREIGN KEY constraint failed" fk 에러는 unique와 다른 메세지 포맷이다.
 
     def parsing(self, integrity_error_message: str) -> Tuple[str, str, str]:
         error_message = "unknown"
