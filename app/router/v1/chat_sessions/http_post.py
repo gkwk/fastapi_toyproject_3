@@ -1,33 +1,13 @@
-import secrets
-
 from fastapi import HTTPException
 
 from database.database import database_dependency
-from models import ChatSession
-from auth.jwt.password_context import get_password_context
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
 from schema.chat_sessions.request_chat_session_create import RequestChatSessionCreate
-from exception_message.http_exception_params import http_exception_params
-
-
-def create_chat_session(
-    data_base: database_dependency,
-    token: current_user_access_token_payload,
-    schema: RequestChatSessionCreate,
-):
-    chat_session = ChatSession(
-        name=schema.name,
-        user_create_id=token.get("user_id"),
-        information=schema.information,
-        is_visible=schema.is_visible,
-        is_closed=schema.is_closed,
-    )
-    data_base.add(chat_session)
-    data_base.commit()
-
-    return chat_session.id
+from service.chat_session.router_logic.create_chat_session import (
+    create_chat_session,
+)
 
 
 def http_post(
@@ -38,8 +18,13 @@ def http_post(
     """
     채팅 세션을 생성한다.
     """
-    chatsession_id = create_chat_session(
-        data_base=data_base, token=token, schema=schema
-    )
 
-    return {"result": "success", "id": chatsession_id}
+    try:
+        chatsession = create_chat_session(
+            data_base=data_base, token=token, schema=schema
+        )
+
+    except HTTPException as e:
+        raise e
+
+    return {"result": "success", "id": chatsession.id}
