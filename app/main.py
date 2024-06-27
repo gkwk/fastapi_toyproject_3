@@ -9,6 +9,8 @@ from config.config import origins
 from http_middleware.log_requests import log_requests
 
 app = FastAPI(
+    title="gkwk_FastAPI_toy_project",
+    version="toy_project",
     lifespan=app_lifespan,
     servers=[
         # {"url": "/test", "description": "Test environment"},
