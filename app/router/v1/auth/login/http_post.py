@@ -14,4 +14,10 @@ def http_post(
     data_base: database_dependency,
     form_data: Annotated[OAuth2PasswordRequestForm, Depends()],
 ):
-    return login(response=response, data_base=data_base, form_data=form_data)
+    try:
+        tokens = login(response=response, data_base=data_base, form_data=form_data)
+
+    except HTTPException as e:
+        raise e
+
+    return tokens

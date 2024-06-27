@@ -76,7 +76,7 @@ def reissue_access_token(
             jwt=jwt,
             blacklisted_access_token=blacklisted_access_token,
         )
-        access_token = generate_access_token(data_base=data_base, user=user)
+        access_token = generate_access_token(user=user)
         _database_process(
             data_base=data_base, user=user, jwt=jwt, access_token=access_token
         )

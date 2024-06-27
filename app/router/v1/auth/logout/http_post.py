@@ -1,4 +1,4 @@
-from fastapi import Response
+from fastapi import Response, HTTPException
 
 from database.database import database_dependency
 from auth.jwt.access_token.get_user_access_token_payload import (
@@ -12,5 +12,10 @@ def http_post(
     data_base: database_dependency,
     access_token: current_user_access_token_payload,
 ):
-    logout(response, data_base, access_token)
+    try:
+        logout(response, data_base, access_token)
+
+    except HTTPException as e:
+        raise e
+
     return {"result": "success", "id": access_token.user_id}
