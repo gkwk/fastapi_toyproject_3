@@ -1,18 +1,10 @@
+from fastapi import HTTPException
+
 from database.database import database_dependency
-from models import Board
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-
-
-def get_boards(
-    data_base: database_dependency, token: current_user_access_token_payload
-):
-    # token의 role을 이용하여 fastapi에서 자동으로 role에 맞는 값을 반환하도록 만든다.
-    return {
-        "role": token.get("role"),
-        "boards": data_base.query(Board).filter_by().all(),
-    }
+from service.board.router_logic.get_boards import get_boards
 
 
 def http_get(
@@ -22,4 +14,9 @@ def http_get(
     """
     게시판 목록을 조회한다.
     """
-    return get_boards(data_base=data_base, token=token)
+    try:
+        boards = get_boards(data_base=data_base, user_role=token.role)
+    except HTTPException as e:
+        raise e
+
+    return {"role": token.role, "boards": boards}

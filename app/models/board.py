@@ -39,4 +39,3 @@ class Board(Base):
     information: Mapped[str] = mapped_column(String(512))
     is_visible: Mapped[Boolean] = mapped_column(Boolean(), default=False)
     is_available: Mapped[Boolean] = mapped_column(Boolean(), default=False)
-    permission_verified_user_id_range: Mapped[int] = mapped_column(default=0)

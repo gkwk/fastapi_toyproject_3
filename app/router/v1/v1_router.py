@@ -15,6 +15,6 @@ router = APIRouter(
 router.include_router(main_router.router)
 router.include_router(auth_router.router)
 router.include_router(users_router.router)
-# router.include_router(boards_router.router)
+router.include_router(boards_router.router)
 router.include_router(ais_router.router)
 router.include_router(chat_sessions_router.router)

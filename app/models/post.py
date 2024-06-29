@@ -21,6 +21,7 @@ if TYPE_CHECKING:
     from models.user import User
     from models.post_file import PostFile
     from models.comment import Comment
+    from models.post_view_increment import PostViewIncrement
 
 
 class Post(Base):
@@ -33,6 +34,9 @@ class Post(Base):
     board_id: Mapped[int] = mapped_column(ForeignKey("board.id"))
     board: Mapped["Board"] = relationship(back_populates="posts")
     comments: Mapped[List["Comment"]] = relationship(
+        back_populates="post", cascade="all, delete"
+    )
+    post_view_increments: Mapped[List["PostViewIncrement"]] = relationship(
         back_populates="post", cascade="all, delete"
     )
 
