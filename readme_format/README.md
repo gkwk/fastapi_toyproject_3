@@ -1,19 +1,69 @@
 # 프로젝트 목표
 - `fastapi_toyproject_2`를 기반으로 가독성이 좋고 확장성있는 코드를 만든다.
 
-# 사용 Tools
+# 기술 스택
 - FastAPI
+- Docker
+- GitHub Actions
 
 # 구현 목표
-- 차후 추가
+- 사용자 기능을 구현한다.
+- 관리자 기능을 구현한다.
+- 게시판 기능을 구현한다.
+- WebSocket을 활용한 대화 기능을 구현한다.
+- 비동기적인 AI 서빙을 구현한다.
+- 로그 기능을 구현한다.
+- 테스트 기능을 구현한다.
+- MongoDB와 Redis 사용 함수를 구현한다.
 
 # 구현 사항
-- 차후 추가
+- [ ] User
+    - [ ] 회원가입
+    - [ ] 로그인
+    - [ ] 사용자 정보 보기
+    - [ ] 사용자 정보 수정
+    - [ ] 게시판 접근 권한 보기
+    - [ ] 비밀번호 초기화 기능
+    - [ ] JWT refresh token 기능
+    - [ ] JWT access token 블랙리스트
+- [ ] Admin
+    - [ ] 터미널에서의 계정 생성
+    - [ ] 사용자 리스트 보기
+    - [ ] 사용자 게시판 접근 권한 수정
+    - [ ] 사용자 차단
+    - [ ] 게시판 추가
+- [ ] Board
+    - [ ] 추가 가능한 개별 게시판
+    - [ ] 게시글 CRUD
+    - [ ] 게시글 내 댓글 CRUD
+    - [ ] 댓글 갯수 표시
+    - [ ] 조회수 표시
+    - [ ] 추천수 표시
+    - [ ] 파일 첨부 기능
+- [ ] Chat
+    - [ ] WebSocket활용한 관리자와의 대화
+    - [ ] 대화 로그 DB 저장
+- [ ] AI
+    - [ ] 비동기 작동
+    - [ ] 비동기 결과 반환 및 저장
+- [ ] Log
+- [ ] Test
+- [ ] MongoDB
+- [ ] Redis
+
+# 구현 필요 사항 임시 기록
+- Board 접근 여부 변경시 작동하는 User의 접근 권한 변경 코드를 작성한다.
+    - is_visible이 True -> False시
+        - Admin 및 요청된 User들에게 접근 권한 부여
+    - is_visible이 False -> True시
+        - 기존에 부여된 접근 권한을 DB에서 삭제
+- Post, Comment, AI 삭제시 저장된 파일들을 삭제하는 코드를 작성한다.
+- Post, Comment에 파일 첨부된 생성 요청시 Post와 Comment의 id 부여를 위한 commit 과정을 변경한다.
+    - 파일 저장이 완전히 완료되지 않았지만 Post와 Comment가 보이는 문제를 해결해야 한다.
 
 # 데이터베이스
 - SQLAlchemy를 사용한다.
 - SQLite와 MySQL을 선택할 수 있게 한다.
-- MongoDB와 Redis를 사용한다.
 
 # 데이터베이스 테이블 구조
 <!-- DB_TABLE_START -->
@@ -57,6 +107,8 @@ celery -A celery_app worker -l info --pool=solo
     > 웹소켓은 공식적으로 `커스텀 헤더`를 추가할 수 없기에 사용자 인증 과정 선택에 어려움을 겪었다. 현재 프로젝트에 적용한 방법은 사용자 access token으로 `웹소켓 전용 access token`을 발행하고 쿼리 스트링으로 웹소켓 전용 access token을 받아 사용자 access token이 웹소켓 연결 과정에서 노출되는 위험을 최소화한 뒤, 연결된 웹소켓을 통해 사용자 access token을 지속적으로 받아 사용자가 검증되도록 하였다.
 - Middleware 가독성 문제
     > `main.py`에 Middleware 관련 코드가 모두 포함될 경우 코드의 가독성이 저하가 예상되었다. 이를 해결하기 위해 `http_middleware`폴더를 추가한 뒤, Middleware 코드를 해당 폴더로 옮겼다. 코드 이전 이후, `main.py`에서 Middleware를 추가하는 코드만 유지하여 가독성을 향상시켰다.
+- Board 접근 권한 문제
+    - 현재 게시판 접근시 게시판의 공개여부`(is_visible)`에 따라 scope에 포함된 접근 권한을 검사하고 있다. 접근할 게시판의 `is_visible` 값을 검사하기 위해 DB를 조회하는 과정이 발생하고, 성능에 문제를 발생시킬 위험이 있다고 판단하였다. 문제 해결을 위해 메모리에 게시판들의 `is_visible` 값들을 캐싱하는 방법을 도입하였고, 라우터에서 캐싱된 게시판들의 `is_visible` 값들과 Access token에 저장된 scope를 비교하여 게시판 접근 권한을 검사하도록 하였다.
 
 # 프로젝트 구조
 ```text

@@ -5,7 +5,8 @@ from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
 from service.comment.router_logic.get_comment_detail import get_comment_detail
-
+from auth.jwt.scope_checker import scope_checker
+from database.cache import board_cache_get
 
 def http_get(
     data_base: database_dependency,
@@ -17,6 +18,9 @@ def http_get(
     """
     게시글의 댓글을 조회한다.
     """
+    
+    if not board_cache_get(board_id=board_id):
+        scope_checker(target_scopes=[board_id], token=token)
 
     try:
         comment = get_comment_detail(

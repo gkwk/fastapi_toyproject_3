@@ -4,6 +4,7 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 
 from database.database import database_dependency
 from database.integrity_error_message_parser import intergrity_error_message_parser
+from database.cache import board_cache_set
 from exception_message import http_exception_params, sql_exception_messages
 from exception_message.sql_exception_messages import integrity_exception_messages
 from service.base_update_processor import BaseUpdateProcessor
@@ -225,3 +226,5 @@ def update_board_detail(
             integrity_error_message_orig=e.orig
         )
         raise HTTPException(**integrity_exception_messages(error_code))
+    
+    board_cache_set(board_id=board_id, is_visible=board.is_visible)

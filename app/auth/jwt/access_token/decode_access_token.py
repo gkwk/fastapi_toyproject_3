@@ -14,5 +14,7 @@ def decode_access_token(encoded_access_token: str) -> dict:
         payload = jwt.decode(encoded_access_token, SECRET_KEY, algorithms=[ALGORITHM])
     except InvalidTokenError:
         raise HTTPException(**http_exception_params.not_verified_token)
+    
+    payload["scope"] = set(payload.get("scope", []))
 
     return payload

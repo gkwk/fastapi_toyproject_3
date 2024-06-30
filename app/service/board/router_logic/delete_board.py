@@ -3,6 +3,7 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 
 from database.database import database_dependency
 from database.integrity_error_message_parser import intergrity_error_message_parser
+from database.cache import board_cache_delete
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
@@ -16,7 +17,6 @@ def delete_board(
     token: current_user_access_token_payload,
     board_id: int,
 ):
-
     try:
         filter_dict = {"id": board_id}
 
@@ -44,3 +44,5 @@ def delete_board(
             integrity_error_message_orig=e.orig
         )
         raise HTTPException(**integrity_exception_messages(error_code))
+    
+    board_cache_delete(board_id=board_id)

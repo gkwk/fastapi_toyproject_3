@@ -15,3 +15,7 @@ class AccessTokenPayload:
     @property
     def role(self) -> int:
         return self.payload.get("role")
+
+    @property
+    def scope(self) -> set:
+        return self.payload.get("scope")

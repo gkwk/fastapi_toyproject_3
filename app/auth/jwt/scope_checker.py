@@ -1,11 +1,15 @@
 from fastapi import HTTPException
 
-from exception_message.http_exception_params import http_exception_params
-from auth.jwt.access_token.get_user_access_token_payload import current_user_access_token_payload
+from exception_message import http_exception_params
+from auth.jwt.access_token.get_user_access_token_payload import (
+    current_user_access_token_payload,
+)
 
-def scope_checker(accees_token_payload: current_user_access_token_payload, target_scopes: list):
-    accees_token_scopes_set = set(accees_token_payload.get("scopes", []))
+
+def scope_checker(
+    target_scopes: list, token: current_user_access_token_payload
+):
     target_scopes_set = set(target_scopes)
 
-    if not target_scopes_set.issubset(accees_token_scopes_set):
-        raise HTTPException(**http_exception_params["not_verified_token"])
+    if not target_scopes_set.issubset(token.scope):
+        raise HTTPException(**http_exception_params.not_verified_token)

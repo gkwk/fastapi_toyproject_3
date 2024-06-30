@@ -1,9 +1,10 @@
 from fastapi import HTTPException
-from sqlalchemy import select, insert
+from sqlalchemy import select, insert, or_
 from sqlalchemy.exc import IntegrityError
 
 from database.database import database_dependency
 from database.integrity_error_message_parser import intergrity_error_message_parser
+from database.cache import board_cache_set
 from exception_message.sql_exception_messages import integrity_exception_messages
 from models import User, JWTList, Board, UserPermissionTable, JWTAccessTokenBlackList
 from auth.jwt.access_token.ban_access_token import ban_access_token
@@ -18,21 +19,24 @@ def user_board_permission_init(
     if not is_visible:
         new_permission_user_ids = set()
 
-        if not user_id_list:
-            get_stmt = select(User.id)
-
-            user_ids = set(data_base.execute(statement=get_stmt).scalars().all())
-
-            new_permission_user_ids = set(user_id_list) - user_ids
-
-            insert_stmt = insert(UserPermissionTable).values(
-                [
-                    {"board_id": board.id, "user_id": user_id}
-                    for user_id in new_permission_user_ids
-                ]
+        if user_id_list:
+            get_stmt = select(User.id).where(
+                or_(User.id.in_(user_id_list), (User.role == "ROLE_ADMIN"))
             )
 
-            data_base.execute(insert_stmt)
+            new_permission_user_ids = set(
+                data_base.execute(statement=get_stmt).scalars().all()
+            )
+
+            if new_permission_user_ids:
+                insert_stmt = insert(UserPermissionTable).values(
+                    [
+                        {"board_id": board.id, "user_id": user_id}
+                        for user_id in new_permission_user_ids
+                    ]
+                )
+
+                data_base.execute(insert_stmt)
 
         else:
             get_stmt = select(User.id).where(User.role == "ROLE_ADMIN")
@@ -41,14 +45,15 @@ def user_board_permission_init(
                 data_base.execute(statement=get_stmt).scalars().all()
             )
 
-            insert_stmt = insert(UserPermissionTable).values(
-                [
-                    {"board_id": board.id, "user_id": user_id}
-                    for user_id in new_permission_user_ids
-                ]
-            )
+            if new_permission_user_ids:
+                insert_stmt = insert(UserPermissionTable).values(
+                    [
+                        {"board_id": board.id, "user_id": user_id}
+                        for user_id in new_permission_user_ids
+                    ]
+                )
 
-            data_base.execute(insert_stmt)
+                data_base.execute(insert_stmt)
 
         for user_id in new_permission_user_ids:
             # 차후 timeout 등을 사용하는 법을 찾아본다.
@@ -127,5 +132,7 @@ def create_board(
             integrity_error_message_orig=e.orig
         )
         raise HTTPException(**integrity_exception_messages(error_code))
+
+    board_cache_set(board_id=board.id, is_visible=is_visible)
 
     return board

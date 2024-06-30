@@ -16,7 +16,6 @@ def http_post(
     """
     게시판을 생성한다.
     """
-
     try:
         board = create_board(
             data_base=data_base,

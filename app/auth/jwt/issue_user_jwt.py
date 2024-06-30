@@ -105,7 +105,7 @@ def issue_user_jwt(
             blacklisted_access_token=blacklisted_access_token,
         )
         refresh_token = generate_refresh_token(user=user)
-        access_token = generate_access_token(user=user)
+        access_token = generate_access_token(data_base=data_base, user=user)
         _database_process(
             data_base=data_base,
             user=user,

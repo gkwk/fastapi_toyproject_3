@@ -12,6 +12,8 @@ from database.integrity_error_message_parser import intergrity_error_message_par
 from exception_message.sql_exception_messages import integrity_exception_messages
 from sqlalchemy.exc import IntegrityError
 
+from auth.jwt.scope_checker import scope_checker
+from database.cache import board_cache_get
 
 def record_post_view(data_base: database_dependency, post_id: int):
     post_view_increment: PostViewIncrement = PostViewIncrement(
@@ -39,6 +41,10 @@ def http_get(
     """
     게시판의 게시글 정보를 조회한다.
     """
+
+    
+    if not board_cache_get(board_id=board_id):
+        scope_checker(target_scopes=[board_id], token=token)
 
     try:
         post = get_post_detail(
