@@ -41,7 +41,7 @@
     - [ ] 추천수 표시
     - [ ] 파일 첨부 기능
 - [ ] Chat
-    - [ ] WebSocket활용한 관리자와의 대화
+    - [ ] WebSocket 기반 Chat
     - [ ] 대화 로그 DB 저장
 - [ ] AI
     - [ ] 비동기 작동
@@ -60,6 +60,7 @@
 - Post, Comment, AI 삭제시 저장된 파일들을 삭제하는 코드를 작성한다.
 - Post, Comment에 파일 첨부된 생성 요청시 Post와 Comment의 id 부여를 위한 commit 과정을 변경한다.
     - 파일 저장이 완전히 완료되지 않았지만 Post와 Comment가 보이는 문제를 해결해야 한다.
+- Redis로 JWTAccessTokenBlackList, PostViewIncrement를 옮긴다.
 
 # 데이터베이스
 - SQLAlchemy를 사용한다.
@@ -108,7 +109,7 @@ celery -A celery_app worker -l info --pool=solo
 - Middleware 가독성 문제
     > `main.py`에 Middleware 관련 코드가 모두 포함될 경우 코드의 가독성이 저하가 예상되었다. 이를 해결하기 위해 `http_middleware`폴더를 추가한 뒤, Middleware 코드를 해당 폴더로 옮겼다. 코드 이전 이후, `main.py`에서 Middleware를 추가하는 코드만 유지하여 가독성을 향상시켰다.
 - Board 접근 권한 문제
-    - 현재 게시판 접근시 게시판의 공개여부`(is_visible)`에 따라 scope에 포함된 접근 권한을 검사하고 있다. 접근할 게시판의 `is_visible` 값을 검사하기 위해 DB를 조회하는 과정이 발생하고, 성능에 문제를 발생시킬 위험이 있다고 판단하였다. 문제 해결을 위해 메모리에 게시판들의 `is_visible` 값들을 캐싱하는 방법을 도입하였고, 라우터에서 캐싱된 게시판들의 `is_visible` 값들과 Access token에 저장된 scope를 비교하여 게시판 접근 권한을 검사하도록 하였다.
+    > 현재 게시판 접근시 게시판의 공개여부`(is_visible)`에 따라 scope에 포함된 접근 권한을 검사하고 있다. 접근할 게시판의 `is_visible` 값을 검사하기 위해 DB를 조회하는 과정이 발생하고, 성능에 문제를 발생시킬 위험이 있다고 판단하였다. 문제 해결을 위해 메모리에 게시판들의 `is_visible` 값들을 캐싱하는 방법을 도입하였고, 라우터에서 캐싱된 게시판들의 `is_visible` 값들과 Access token에 저장된 scope를 비교하여 게시판 접근 권한을 검사하도록 하였다.
 
 # 프로젝트 구조
 ```text
