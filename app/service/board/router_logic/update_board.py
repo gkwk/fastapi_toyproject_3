@@ -10,7 +10,7 @@ from exception_message.sql_exception_messages import integrity_exception_message
 from service.base_update_processor import BaseUpdateProcessor
 from service.base_update_manager import BaseUpdateManager
 from service.board.logic_get_board import logic_get_board
-from models import Board, UserPermissionTable, JWTList, JWTAccessTokenBlackList
+from models import Board, UserPermissionTable, JWTList
 from schema.boards.request_board_detail_patch import RequestBoardDetailPatch
 from auth.jwt.access_token.ban_access_token import ban_access_token
 
@@ -84,31 +84,8 @@ class _UserListPermissionAppendProcessor(BaseUpdateProcessor):
                     .first()
                 )
 
-                if (
-                    (jwt is not None)
-                    and (jwt.access_token_uuid is not None)
-                    and (jwt.access_token_unix_timestamp is not None)
-                ):
-                    blacklisted_access_token = (
-                        data_base.query(JWTAccessTokenBlackList)
-                        .filter_by(
-                            user_id=user_id,
-                            access_token_uuid=jwt.access_token_uuid,
-                            access_token_unix_timestamp=jwt.access_token_unix_timestamp,
-                        )
-                        .limit(1)
-                        .with_for_update(nowait=True, skip_locked=True)
-                        .first()
-                    )
-                else:
-                    blacklisted_access_token = None
-
                 if jwt:
-                    ban_access_token(
-                        data_base=data_base,
-                        jwt=jwt,
-                        blacklisted_access_token=blacklisted_access_token,
-                    )
+                    ban_access_token(data_base=data_base, jwt=jwt)
 
 
 class _UserListPermissionRemoveProcessor(BaseUpdateProcessor):
@@ -144,31 +121,8 @@ class _UserListPermissionRemoveProcessor(BaseUpdateProcessor):
                     .first()
                 )
 
-                if (
-                    (jwt is not None)
-                    and (jwt.access_token_uuid is not None)
-                    and (jwt.access_token_unix_timestamp is not None)
-                ):
-                    blacklisted_access_token = (
-                        data_base.query(JWTAccessTokenBlackList)
-                        .filter_by(
-                            user_id=user_id,
-                            access_token_uuid=jwt.access_token_uuid,
-                            access_token_unix_timestamp=jwt.access_token_unix_timestamp,
-                        )
-                        .limit(1)
-                        .with_for_update(nowait=True, skip_locked=True)
-                        .first()
-                    )
-                else:
-                    blacklisted_access_token = None
-
                 if jwt:
-                    ban_access_token(
-                        data_base=data_base,
-                        jwt=jwt,
-                        blacklisted_access_token=blacklisted_access_token,
-                    )
+                    ban_access_token(data_base=data_base, jwt=jwt)
 
 
 class _BoardUpdateManager(BaseUpdateManager):
@@ -226,5 +180,5 @@ def update_board_detail(
             integrity_error_message_orig=e.orig
         )
         raise HTTPException(**integrity_exception_messages(error_code))
-    
+
     board_cache_set(board_id=board_id, is_visible=board.is_visible)

@@ -25,5 +25,5 @@ class UserPermissionTable(Base):
     # __table_args__ = {"sqlite_autoincrement": True}
 
     user_id: Mapped[int] = mapped_column(ForeignKey("user.id"), primary_key=True)
-    board_id: Mapped[int] = mapped_column(ForeignKey("board.id"), primary_key=True)
+    board_id: Mapped[int] = mapped_column(ForeignKey("board.id", ondelete="CASCADE"), primary_key=True)
     create_date: Mapped[DateTime] = mapped_column(DateTime(), default=datetime.now)

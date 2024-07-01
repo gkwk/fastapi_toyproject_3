@@ -12,42 +12,7 @@ from auth.jwt.refresh_token.delete_refresh_token import delete_refresh_token
 from exception_message import http_exception_params, sql_exception_messages
 from exception_message.sql_exception_messages import integrity_exception_messages
 from service.user.logic_get_user_with_id import logic_get_user_with_id
-from models import JWTList, JWTAccessTokenBlackList
-
-
-# def _get_jwt(data_base: database_dependency, user_id: int):
-#     try:
-#         jwt = (
-#             data_base.query(JWTList)
-#             .filter_by(user_id=user_id)
-#             .limit(1)
-#             .with_for_update(nowait=True)
-#             .first()
-#         )
-#     except OperationalError as e:
-#         raise HTTPException(status_code=400)
-
-#     return jwt
-
-# def _get_blacklisted_access_token(
-#     data_base: database_dependency, user_id: int, user_jwt_information: JWTList
-# ):
-#     try:
-#         blacklisted_access_token = (
-#             data_base.query(JWTAccessTokenBlackList)
-#             .filter_by(
-#                 user_id=user_id,
-#                 access_token_uuid=user_jwt_information.access_token_uuid,
-#                 access_token_unix_timestamp=user_jwt_information.access_token_unix_timestamp,
-#             )
-#             .limit(1)
-#             .with_for_update(nowait=True)
-#             .first()
-#         )
-#     except OperationalError as e:
-#         raise HTTPException(status_code=400)
-
-#     return blacklisted_access_token
+from models import JWTList
 
 
 def delete_user(
@@ -79,33 +44,13 @@ def delete_user(
             .with_for_update(nowait=True)
             .first()
         )
-        if (jwt.access_token_uuid is not None) and (
-            jwt.access_token_unix_timestamp is not None
-        ):
-            blacklisted_access_token = (
-                data_base.query(JWTAccessTokenBlackList)
-                .filter_by(
-                    user_id=user.id,
-                    access_token_uuid=jwt.access_token_uuid,
-                    access_token_unix_timestamp=jwt.access_token_unix_timestamp,
-                )
-                .limit(1)
-                .with_for_update(nowait=True)
-                .first()
-            )
-        else:
-            blacklisted_access_token = None
 
     except OperationalError as e:
         raise HTTPException(status_code=400)
 
     data_base.delete(user)
     # jwt list를 통해 refresh token과 access token을 삭제한다.
-    ban_access_token(
-        data_base=data_base,
-        jwt=jwt,
-        blacklisted_access_token=blacklisted_access_token,
-    )
+    ban_access_token(data_base=data_base, jwt=jwt)
     delete_refresh_token(data_base=data_base, jwt=jwt)
 
     try:

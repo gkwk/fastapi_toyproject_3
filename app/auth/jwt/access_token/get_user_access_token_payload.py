@@ -5,36 +5,12 @@ from sqlalchemy.exc import OperationalError
 from jwt.exceptions import InvalidTokenError
 
 from database.database import database_dependency
+from database.cache import blacklisted_access_token_cache_exist
 from auth.jwt.access_token.decode_access_token import decode_access_token
 from auth.jwt.oauth2_scheme import jwt_dependency
 from data_wrapper.access_token_payload import AccessTokenPayload
 from config.config import get_settings
 from exception_message import http_exception_params
-from models import JWTAccessTokenBlackList
-
-
-def _get_blacklisted_access_token(
-    data_base: database_dependency,
-    user_id: int,
-    access_token_uuid: str,
-    access_token_unix_timestamp: int,
-):
-    try:
-        # for update 쿼리 추가를 고려한다.
-        blacklisted_access_token = (
-            data_base.query(JWTAccessTokenBlackList)
-            .filter_by(
-                user_id=user_id,
-                access_token_uuid=access_token_uuid,
-                access_token_unix_timestamp=access_token_unix_timestamp,
-            )
-            .limit(1)
-            .first()
-        )
-    except OperationalError as e:
-        raise HTTPException(status_code=400)
-
-    return blacklisted_access_token
 
 
 def _validate_before_decoding():
@@ -63,15 +39,10 @@ def _validate_after_decoding(
         ):
             raise InvalidTokenError()
 
-        blacklisted_access_token = _get_blacklisted_access_token(
-            data_base=data_base,
-            user_id=user_id,
-            access_token_uuid=token_uuid,
-            access_token_unix_timestamp=token_unix_timestamp,
-        )
-
         # access token 블랙리스트에서 동일한 uuid와 타임스탬프, user id값이 있는지 확인한다.
-        if blacklisted_access_token is not None:
+        if blacklisted_access_token_cache_exist(
+            user_id=user_id, uuid=token_uuid, timestamp=token_unix_timestamp
+        ):
             raise InvalidTokenError()
 
     except InvalidTokenError:

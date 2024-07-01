@@ -11,6 +11,7 @@ class Settings(BaseSettings):
     OAUTH_TOKEN_URL : str
     PASSWORD_ALGORITHM: str
     SQLALCHEMY_DATABASE_URL: str
+    REDIS_HOST_NAME: str
 
     model_config = SettingsConfigDict(env_file=".env")
 

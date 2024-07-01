@@ -6,7 +6,7 @@ from database.database import database_dependency
 from database.integrity_error_message_parser import intergrity_error_message_parser
 from database.cache import board_cache_set
 from exception_message.sql_exception_messages import integrity_exception_messages
-from models import User, JWTList, Board, UserPermissionTable, JWTAccessTokenBlackList
+from models import User, JWTList, Board, UserPermissionTable
 from auth.jwt.access_token.ban_access_token import ban_access_token
 
 
@@ -65,30 +65,10 @@ def user_board_permission_init(
                 .first()
             )
 
-            if (
-                (jwt is not None)
-                and (jwt.access_token_uuid is not None)
-                and (jwt.access_token_unix_timestamp is not None)
-            ):
-                blacklisted_access_token = (
-                    data_base.query(JWTAccessTokenBlackList)
-                    .filter_by(
-                        user_id=user_id,
-                        access_token_uuid=jwt.access_token_uuid,
-                        access_token_unix_timestamp=jwt.access_token_unix_timestamp,
-                    )
-                    .limit(1)
-                    .with_for_update(nowait=True, skip_locked=True)
-                    .first()
-                )
-            else:
-                blacklisted_access_token = None
-
             if jwt:
                 ban_access_token(
                     data_base=data_base,
                     jwt=jwt,
-                    blacklisted_access_token=blacklisted_access_token,
                 )
 
 

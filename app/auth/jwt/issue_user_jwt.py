@@ -2,7 +2,7 @@ from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.exc import OperationalError
 
-from models import User, JWTList, JWTAccessTokenBlackList
+from models import User, JWTList
 from database.database import database_dependency
 from exception_message import http_exception_params
 from auth.jwt.password_context import get_password_context
@@ -80,30 +80,6 @@ def issue_user_jwt(
             .first()
         )
 
-        if (
-            (jwt is not None)
-            and (jwt.access_token_uuid is not None)
-            and (jwt.access_token_unix_timestamp is not None)
-        ):
-            blacklisted_access_token = (
-                data_base.query(JWTAccessTokenBlackList)
-                .filter_by(
-                    user_id=user.id,
-                    access_token_uuid=jwt.access_token_uuid,
-                    access_token_unix_timestamp=jwt.access_token_unix_timestamp,
-                )
-                .limit(1)
-                .with_for_update(nowait=True)
-                .first()
-            )
-        else:
-            blacklisted_access_token = None
-
-        ban_access_token(
-            data_base=data_base,
-            jwt=jwt,
-            blacklisted_access_token=blacklisted_access_token,
-        )
         refresh_token = generate_refresh_token(user=user)
         access_token = generate_access_token(data_base=data_base, user=user)
         _database_process(
@@ -115,6 +91,11 @@ def issue_user_jwt(
         )
 
         data_base.commit()
+
+        ban_access_token(
+            data_base=data_base,
+            jwt=jwt,
+        )
 
     except OperationalError as e:
         raise HTTPException(status_code=400)

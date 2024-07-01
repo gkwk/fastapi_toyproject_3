@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 from sqlalchemy.exc import OperationalError
 
-from models import User, JWTList, JWTAccessTokenBlackList
+from models import User, JWTList
 from database.database import database_dependency
 from exception_message import http_exception_params
 from auth.jwt.refresh_token.get_user_refresh_token_payload import (
@@ -54,34 +54,18 @@ def reissue_access_token(
             .with_for_update(nowait=True)
             .first()
         )
-        if (jwt.access_token_uuid is not None) and (
-            jwt.access_token_unix_timestamp is not None
-        ):
-            blacklisted_access_token = (
-                data_base.query(JWTAccessTokenBlackList)
-                .filter_by(
-                    user_id=user.id,
-                    access_token_uuid=jwt.access_token_uuid,
-                    access_token_unix_timestamp=jwt.access_token_unix_timestamp,
-                )
-                .limit(1)
-                .with_for_update(nowait=True)
-                .first()
-            )
-        else:
-            blacklisted_access_token = None
 
-        ban_access_token(
-            data_base=data_base,
-            jwt=jwt,
-            blacklisted_access_token=blacklisted_access_token,
-        )
         access_token = generate_access_token(user=user)
         _database_process(
             data_base=data_base, user=user, jwt=jwt, access_token=access_token
         )
 
         data_base.commit()
+
+        ban_access_token(
+            data_base=data_base,
+            jwt=jwt,
+        )
     except OperationalError as e:
         raise HTTPException(status_code=400)
 
