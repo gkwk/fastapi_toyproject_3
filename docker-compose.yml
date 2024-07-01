@@ -76,6 +76,14 @@ services:
       - ./volume/log/nginx/:/var/log/nginx/
     networks:
       - app-network
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./volume/redis:/data
+    networks:
+      - app-network
 networks:
   app-network:
     driver: bridge

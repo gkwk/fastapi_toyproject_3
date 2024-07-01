@@ -8,3 +8,4 @@ pytest-celery
 pandas
 scikit-learn
 alembic
+redis

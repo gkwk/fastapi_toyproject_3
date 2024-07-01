@@ -12,10 +12,10 @@ if !([ -e $ENV_FILE ]); then
 fi
 
 if [ -e $DB_FILE ]; then
-	python run.py
+	python run_dev_local.py
 else
     alembic init -t "$ALEMBIC_TEMPLATE_FOLDER_ABSOLUTE_PATH" alembic_migrations
     alembic revision --autogenerate
     alembic upgrade head
-    python main.py
+    python run_dev_local.py
 fi
