@@ -60,7 +60,7 @@ version_path_separator = os  # Use os.pathsep. Default configuration used for ne
 # are written from script.py.mako
 # output_encoding = utf-8
 
-# sqlalchemy.url = sqlite:///./volume/database/test.sqlite
+# sqlalchemy.url = mysql+pymysql://rdb_username:rdb_password@RDBMS_HOST_NAME/RDBMS_DB_NAME
 
 
 [post_write_hooks]

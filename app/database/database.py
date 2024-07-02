@@ -1,5 +1,6 @@
 from typing import Annotated, Optional
 import contextlib
+import os
 
 from fastapi import Depends
 from sqlalchemy import create_engine, MetaData, event
@@ -13,6 +14,10 @@ from database.sqlite_naming_convention import (
 )
 
 
+class Base(DeclarativeBase):
+    metadata = MetaData(naming_convention=sqlite_naming_convention)
+
+
 def register_foreign_keys(engine):
     """register PRAGMA foreign_keys=on on connection"""
 
@@ -23,14 +28,21 @@ def register_foreign_keys(engine):
         cursor.close()
 
 
-class Base(DeclarativeBase):
-    metadata = MetaData(naming_convention=sqlite_naming_convention)
-
-
-engine = create_engine(
-    get_settings().SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
+rdb_username = os.getenv(
+    get_settings().RDBMS_USERNAME_ENV, get_settings().RDBMS_USERNAME_ENV
 )
-if get_settings().SQLALCHEMY_DATABASE_URL.startswith("sqlite"):
+rdb_password = os.getenv(
+    get_settings().RDBMS_PASSWORD_ENV, get_settings().RDBMS_PASSWORD_ENV
+)
+
+RDB_PATH_URL = ""
+if get_settings().RDBMS_DRIVER == "mysql":
+    RDB_PATH_URL = f"mysql+pymysql://{rdb_username}:{rdb_password}@{get_settings().RDBMS_HOST_NAME}/{get_settings().RDBMS_DB_NAME}"
+else:
+    RDB_PATH_URL = f"sqlite:///./volume/database/{get_settings().RDBMS_DB_NAME}.sqlite"
+
+engine = create_engine(RDB_PATH_URL, connect_args={"check_same_thread": False})
+if RDB_PATH_URL.startswith("sqlite"):
     register_foreign_keys(engine)
 
 

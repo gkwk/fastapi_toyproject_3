@@ -1,3 +1,5 @@
+import os
+
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -13,7 +15,16 @@ from models import *
 # custom init
 env_dict = dotenv_values(".env")
 
-RDB_PATH_URL = f"sqlite:///./volume/database/{env_dict.get('RDBMS_DB_NAME')}.sqlite"
+rdb_username = os.getenv(
+    env_dict.get("RDBMS_USERNAME_ENV"), env_dict.get("RDBMS_USERNAME_ENV")
+)
+rdb_password = os.getenv(
+    env_dict.get("RDBMS_PASSWORD_ENV"), env_dict.get("RDBMS_PASSWORD_ENV")
+)
+
+RDB_PATH_URL = f"mysql+pymysql://{rdb_username}:{rdb_password}@{env_dict.get('RDBMS_HOST_NAME')}/{env_dict.get('RDBMS_DB_NAME')}"
+
+
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -77,7 +88,7 @@ def run_migrations_online() -> None:
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata,render_as_batch=True
+            connection=connection, target_metadata=target_metadata, render_as_batch=True
         )
 
         with context.begin_transaction():
