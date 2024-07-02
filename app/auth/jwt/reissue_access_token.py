@@ -55,6 +55,11 @@ def reissue_access_token(
             .first()
         )
 
+        ban_access_token(
+            data_base=data_base,
+            jwt=jwt,
+        )
+
         access_token = generate_access_token(user=user)
         _database_process(
             data_base=data_base, user=user, jwt=jwt, access_token=access_token
@@ -62,10 +67,6 @@ def reissue_access_token(
 
         data_base.commit()
 
-        ban_access_token(
-            data_base=data_base,
-            jwt=jwt,
-        )
     except OperationalError as e:
         raise HTTPException(status_code=400)
 

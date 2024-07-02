@@ -82,6 +82,12 @@ def issue_user_jwt(
 
         refresh_token = generate_refresh_token(user=user)
         access_token = generate_access_token(data_base=data_base, user=user)
+
+        ban_access_token(
+            data_base=data_base,
+            jwt=jwt,
+        )
+
         _database_process(
             data_base=data_base,
             user=user,
@@ -91,11 +97,6 @@ def issue_user_jwt(
         )
 
         data_base.commit()
-
-        ban_access_token(
-            data_base=data_base,
-            jwt=jwt,
-        )
 
     except OperationalError as e:
         raise HTTPException(status_code=400)
