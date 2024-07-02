@@ -41,7 +41,7 @@ def train_ai_task(data_base: Session, ai_id, is_visible):
         model = LinearRegression()
         model.fit(x_train, y_train)
         y_pred = model.predict(x_val)
-        rmse = mean_squared_error(y_val, y_pred, squared=False)
+        rmse = mean_squared_error(y_val, y_pred) ** 0.5
         print(rmse)
 
         save_model(f"volume/ai_model_store/{ai.name}_{ai.id}.pkl", model)

@@ -47,7 +47,7 @@ def infer_ai_task(data_base: Session, ailog_id: int, ai_id: int):
             f"volume/ai_model_store/{ai.name}_{ai.id}.pkl"
         )
         y_pred = model.predict(x)
-        rmse = mean_squared_error(y, y_pred, squared=False)
+        rmse = mean_squared_error(y, y_pred) ** 0.5
 
         ai_log = data_base.query(AIlog).filter_by(id=ailog_id).first()
 
