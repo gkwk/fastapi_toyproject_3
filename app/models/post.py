@@ -21,7 +21,7 @@ if TYPE_CHECKING:
     from models.user import User
     from models.post_file import PostFile
     from models.comment import Comment
-    from models.post_view_increment import PostViewIncrement
+    # from models.post_view_increment import PostViewIncrement
 
 
 class Post(Base):
@@ -36,9 +36,9 @@ class Post(Base):
     comments: Mapped[List["Comment"]] = relationship(
         back_populates="post", cascade="all, delete"
     )
-    post_view_increments: Mapped[List["PostViewIncrement"]] = relationship(
-        back_populates="post", cascade="all, delete"
-    )
+    # post_view_increments: Mapped[List["PostViewIncrement"]] = relationship(
+    #     back_populates="post", cascade="all, delete"
+    # )
 
     name: Mapped[str] = mapped_column(String(64))
     content: Mapped[str] = mapped_column(String(1024))
@@ -48,7 +48,7 @@ class Post(Base):
     )
     number_of_view: Mapped[int] = mapped_column(Integer(), default=0)
     number_of_comment: Mapped[int] = mapped_column(Integer(), default=0)
-    number_of_like: Mapped[int] = mapped_column(Integer(), default=0)
+    # number_of_like: Mapped[int] = mapped_column(Integer(), default=0)
     is_file_attached: Mapped[Boolean] = mapped_column(Boolean(), default=False)
     attached_files: Mapped[List["PostFile"]] = relationship(
         back_populates="post", cascade="all, delete"

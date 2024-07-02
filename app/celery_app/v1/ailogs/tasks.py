@@ -12,7 +12,6 @@ from datetime import datetime
 
 from celery import Task
 
-from celery_app.celery import celery_app
 from sqlalchemy.orm import Session
 
 from models import AI, AIlog
@@ -36,7 +35,6 @@ def save_model(path: str, model_object):
         pickle.dump(model_object, model_file)
 
 
-@celery_app.task(name="infer_ai_task")
 @get_data_base_decorator
 def infer_ai_task(data_base: Session, ailog_id: int, ai_id: int):
     try:

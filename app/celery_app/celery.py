@@ -4,7 +4,10 @@ import time, datetime
 from celery import Celery
 from celery.schedules import crontab
 
-from models import *
+from celery_app.v1.posts.tasks import update_post_view_counts
+from celery_app.v1.ais.tasks import train_ai_task
+from celery_app.v1.ailogs.tasks import infer_ai_task
+
 
 celery_app_result_backend = os.environ.get(
     "CELERY_RESULT_BACKEND", "db+sqlite:///./volume/database/test.sqlite"
@@ -19,9 +22,10 @@ celery_app = Celery(
     broker=celery_app_broker_url,
 )
 
-from celery_app.v1 import *  # 순환 참조 오류 해결을 위한 import 위치 조정
+celery_app.task(name="update_post_view_counts")(update_post_view_counts)
+celery_app.task(name="train_ai_task")(train_ai_task)
+celery_app.task(name="infer_ai_task")(infer_ai_task)
 
-celery_app.autodiscover_tasks([])
 
 celery_app.conf.beat_schedule = {
     "update_post_view_counts": {

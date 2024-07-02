@@ -10,7 +10,6 @@ from datetime import datetime
 from celery import Task
 from sqlalchemy.orm import Session
 
-from celery_app.celery import celery_app
 from models import AI
 from database.database import get_data_base_decorator
 
@@ -28,7 +27,6 @@ def save_model(path: str, model_object):
         pickle.dump(model_object, model_file)
 
 
-@celery_app.task(name="train_ai_task")
 @get_data_base_decorator
 def train_ai_task(data_base: Session, ai_id, is_visible):
     try:

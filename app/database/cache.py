@@ -1,10 +1,14 @@
 from abc import ABC, abstractmethod
 from typing import Any, Optional
-from redis import Redis
+from contextlib import contextmanager
+from typing import Generator, Any
+
 
 from fastapi import HTTPException
 from sqlalchemy import select
 from sqlalchemy.orm import Session
+from redis import Redis
+from redis.lock import Lock
 
 from database.database import get_data_base_decorator
 from models import Board
@@ -39,11 +43,24 @@ class RedisCache(CacheInterface):
     def set(self, key: str, value: Any, kw: dict = {}) -> None:
         self._cache.set(key, value, **kw)
 
-    def delete(self, key: str) -> None:
+    def delete(self, key: str | list) -> None:
         self._cache.delete(key)
 
     def exist(self, key: str) -> bool:
         return key in self._cache
+
+    def unlink(self, key: str | list) -> None:
+        self._cache.unlink(key)
+
+    def scan(self, match: str, count) -> Generator[bytes, None, None]:
+        cursor = 0
+        while True:
+            cursor, keys = self._cache.scan(cursor=cursor, match=match, count=count)
+            for key in keys:
+                yield key
+
+            if cursor == 0:
+                break
 
 
 @get_data_base_decorator
@@ -101,3 +118,42 @@ def blacklisted_access_token_cache_exist(user_id: int, uuid: str, timestamp: int
     return in_memory_cache.exist(
         f"blacklisted_access_token:{user_id}:{uuid}:{timestamp}"
     )
+
+
+def post_view_count_cache_set(user_id: int, post_id, uuid: str, timestamp: int):
+    in_memory_cache.set(f"post_view_count:{user_id}:{post_id}:{uuid}:{timestamp}", "")
+
+
+def post_view_count_cache_unlink(user_id: int, post_id, uuid: str, timestamp: int):
+    in_memory_cache.unlink(f"post_view_count:{user_id}:{post_id}:{uuid}:{timestamp}")
+
+
+def post_view_count_cache_get(user_id: int, post_id, uuid: str, timestamp: int):
+    value: bytes = in_memory_cache.get(
+        f"post_view_count:{user_id}:{post_id}:{uuid}:{timestamp}"
+    )
+    value = value.decode("utf-8")
+    return value
+
+
+def post_view_count_cache_exist(user_id: int, post_id, uuid: str, timestamp: int):
+    return in_memory_cache.exist(
+        f"post_view_count:{user_id}:{post_id}:{uuid}:{timestamp}"
+    )
+
+
+def post_view_count_cache_scan(count=10):
+    for key in in_memory_cache.scan(match="post_view_count:*", count=count):
+        yield key
+
+
+@contextmanager
+def redis_lock(lock_name, timeout=60):
+    lock: Lock = in_memory_cache._cache.lock(f"redis_lock:{lock_name}", timeout=timeout)
+    try:
+        yield lock.acquire(blocking=True)
+    finally:
+        try:
+            lock.release()
+        except:
+            pass

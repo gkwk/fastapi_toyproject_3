@@ -1,7 +1,9 @@
+from uuid import uuid4
+from time import time
+
 from fastapi import Path, HTTPException
 
 from database.database import database_dependency
-from models import PostViewIncrement
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
@@ -13,23 +15,22 @@ from exception_message.sql_exception_messages import integrity_exception_message
 from sqlalchemy.exc import IntegrityError
 
 from auth.jwt.scope_checker import scope_checker
-from database.cache import board_cache_get
+from database.cache import board_cache_get, post_view_count_cache_set
 
-def record_post_view(data_base: database_dependency, post_id: int):
-    post_view_increment: PostViewIncrement = PostViewIncrement(
-        post_id=post_id,
-    )
-    data_base.add(post_view_increment)
 
+def record_post_view(
+    data_base: database_dependency,
+    user_id: int,
+    post_id: int,
+):
+    uuid = str(uuid4())
+    timestamp = int(time())
     try:
-        data_base.commit()
-    except IntegrityError as e:
-        data_base.rollback()
-
-        error_code = intergrity_error_message_parser.parsing(
-            integrity_error_message_orig=e.orig
+        post_view_count_cache_set(
+            user_id=user_id, post_id=post_id, uuid=uuid, timestamp=timestamp
         )
-        raise HTTPException(**integrity_exception_messages(error_code))
+    except Exception as e:
+        raise HTTPException(status_code=500)
 
 
 def http_get(
@@ -42,7 +43,6 @@ def http_get(
     게시판의 게시글 정보를 조회한다.
     """
 
-    
     if not board_cache_get(board_id=board_id):
         scope_checker(target_scopes=[board_id], token=token)
 
@@ -53,7 +53,7 @@ def http_get(
             post_id=post_id,
             user_role=token.role,
         )
-        record_post_view(data_base=data_base, post_id=post_id)
+        record_post_view(data_base=data_base, user_id=token.user_id, post_id=post_id)
 
     except HTTPException as e:
         raise e
