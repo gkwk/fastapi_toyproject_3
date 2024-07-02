@@ -60,7 +60,7 @@
 - Post, Comment, AI 삭제시 저장된 파일들을 삭제하는 코드를 작성한다.
 - Post, Comment에 파일 첨부된 생성 요청시 Post와 Comment의 id 부여를 위한 commit 과정을 변경한다.
     - 파일 저장이 완전히 완료되지 않았지만 Post와 Comment가 보이는 문제를 해결해야 한다.
-- Redis로 JWTAccessTokenBlackList, PostViewIncrement를 옮긴다.
+- Swagger 문서에서 엔드포인트들의 함수 명칭을 변경한다.
 
 # 데이터베이스
 - SQLAlchemy를 사용한다.
@@ -75,19 +75,11 @@
 y = 4x_0 + 5x_1 + 2x_2 + 7x_3 + 0.1x_4 + 15x_5 + 0.05x_6+ x_7
 ```
 
-# 실행방법(자동)
+# 실행방법
 - .env 파일 작성
 - 터미널에서 아래의 명령어 입력
 ```bash
 sudo bash project_init.sh
-```
-
-# 실행방법(수동)
-- .env 파일 작성
-- 각각의 터미널에서 아래의 명령어들을 입력
-```bash
-app_init_local.sh
-celery -A celery_app worker -l info --pool=solo
 ```
 
 # 겪은 문제점들
