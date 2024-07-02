@@ -384,6 +384,10 @@ app
 │   └── websocket_access_token_payload.py
 ├── database
 │   ├── __init__.py
+│   ├── alembic_template_mysql
+│   │   ├── alembic.ini.mako
+│   │   ├── env.py
+│   │   └── script.py.mako
 │   ├── alembic_template_sqlite
 │   │   ├── alembic.ini.mako
 │   │   ├── env.py
@@ -713,6 +717,20 @@ app
 ├── terminal_command
 │   ├── __init__.py
 │   └── create_super_user.py
+├── test
+│   ├── __init__.py
+│   ├── conftest.py
+│   ├── main_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   └── __init__.py
+│   │   └── scripts.py
+│   ├── pytest_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   └── __init__.py
+│   │   └── scripts.py
+│   └── test_run.py
 └── volume
     ├── ai_model_store
     │   └── .gitkeep
