@@ -180,9 +180,9 @@ NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
 |---|---|---|---|---|---|---|
 |comment_id|INTEGER|False|None|True|True|None|
 |post_id|INTEGER|False|None|True|True|None|
-|file_uuid_name|VARCHAR|False|None|True|False|None|
-|file_original_name|VARCHAR|False|None|False|False|None|
-|file_path|VARCHAR|False|None|False|False|None|
+|file_uuid_name|VARCHAR(383)|False|None|True|False|None|
+|file_original_name|VARCHAR(1024)|False|None|False|False|None|
+|file_path|VARCHAR(1024)|False|None|False|False|None|
 |create_date|DATETIME|False|datetime.now|False|False|None|
 
 CommentFile Relationships
@@ -231,9 +231,9 @@ NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
 |---|---|---|---|---|---|---|
 |post_id|INTEGER|False|None|True|True|None|
 |board_id|INTEGER|False|None|True|True|None|
-|file_uuid_name|VARCHAR|False|None|True|False|None|
-|file_original_name|VARCHAR|False|None|False|False|None|
-|file_path|VARCHAR|False|None|False|False|None|
+|file_uuid_name|VARCHAR(383)|False|None|True|False|None|
+|file_original_name|VARCHAR(1024)|False|None|False|False|None|
+|file_path|VARCHAR(1024)|False|None|False|False|None|
 |create_date|DATETIME|False|datetime.now|False|False|None|
 
 PostFile Relationships
@@ -247,9 +247,9 @@ NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
 |id|INTEGER|False|None|True|False|None|
 |name|VARCHAR(64)|False|None|False|False|True|
 |email|VARCHAR(256)|False|None|False|False|True|
-|password|VARCHAR|False|None|False|False|None|
-|password_salt|VARCHAR|False|None|False|False|None|
-|role|VARCHAR|False|None|False|False|None|
+|password|VARCHAR(1024)|False|None|False|False|None|
+|password_salt|VARCHAR(1024)|False|None|False|False|None|
+|role|VARCHAR(1024)|False|None|False|False|None|
 |join_date|DATETIME|False|datetime.now|False|False|None|
 |update_date|DATETIME|True|None|False|False|None|
 |is_banned|BOOLEAN|False|False|False|False|None|
@@ -395,6 +395,7 @@ app
 │   ├── cache.py
 │   ├── database.py
 │   ├── integrity_error_message_parser.py
+│   ├── mysql_database_checker.py
 │   └── sqlite_naming_convention.py
 ├── exception_message
 │   ├── __init__.py
