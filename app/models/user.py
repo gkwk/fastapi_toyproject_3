@@ -53,9 +53,9 @@ class User(Base):
 
     name: Mapped[str] = mapped_column(String(64), unique=True)
     email: Mapped[str] = mapped_column(String(256), unique=True)
-    password: Mapped[str] = mapped_column(String())
-    password_salt: Mapped[str] = mapped_column(String())
-    role: Mapped[str] = mapped_column(String())
+    password: Mapped[str] = mapped_column(String(1024))
+    password_salt: Mapped[str] = mapped_column(String(1024))
+    role: Mapped[str] = mapped_column(String(1024))
     join_date: Mapped[DateTime] = mapped_column(DateTime(), default=datetime.now)
     update_date: Mapped[Optional[DateTime]] = mapped_column(
         DateTime(), onupdate=datetime.now

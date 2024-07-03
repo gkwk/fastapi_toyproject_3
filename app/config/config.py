@@ -12,8 +12,9 @@ class Settings(BaseSettings):
     PASSWORD_ALGORITHM: str
     RDBMS_DRIVER: str
     RDBMS_HOST_NAME: str
-    RDBMS_USERNAME_ENV: str
-    RDBMS_PASSWORD_ENV: str
+    RDBMS_USERNAME: str
+    RDBMS_ROOT_PASSWORD: str
+    RDBMS_PASSWORD: str
     RDBMS_DB_NAME: str
     REDIS_HOST_NAME: str
 

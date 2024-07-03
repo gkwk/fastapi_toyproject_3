@@ -28,20 +28,18 @@ def register_foreign_keys(engine):
         cursor.close()
 
 
-rdb_username = os.getenv(
-    get_settings().RDBMS_USERNAME_ENV, get_settings().RDBMS_USERNAME_ENV
-)
-rdb_password = os.getenv(
-    get_settings().RDBMS_PASSWORD_ENV, get_settings().RDBMS_PASSWORD_ENV
-)
-
 RDB_PATH_URL = ""
 if get_settings().RDBMS_DRIVER == "mysql":
-    RDB_PATH_URL = f"mysql+pymysql://{rdb_username}:{rdb_password}@{get_settings().RDBMS_HOST_NAME}/{get_settings().RDBMS_DB_NAME}"
+    RDB_PATH_URL = f"mysql+pymysql://{get_settings().RDBMS_USERNAME}:{get_settings().RDBMS_PASSWORD}@{get_settings().RDBMS_HOST_NAME}/{get_settings().RDBMS_DB_NAME}"
 else:
     RDB_PATH_URL = f"sqlite:///./volume/database/{get_settings().RDBMS_DB_NAME}.sqlite"
 
-engine = create_engine(RDB_PATH_URL, connect_args={"check_same_thread": False})
+connect_args = {}
+
+if RDB_PATH_URL.startswith("sqlite"):
+    connect_args["check_same_thread"] = False
+
+engine = create_engine(RDB_PATH_URL, connect_args=connect_args)
 if RDB_PATH_URL.startswith("sqlite"):
     register_foreign_keys(engine)
 
