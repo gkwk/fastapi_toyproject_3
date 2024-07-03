@@ -31,7 +31,7 @@ jobs:
         README_ORIGIN_PATH=./readme_format/README.md
         README_TARGET_PATH=./README.md
         cp $README_ORIGIN_PATH $README_TARGET_PATH
-        ENV_ORIGIN_PATH=./app/.env-example
+        ENV_ORIGIN_PATH=./github_actions_py/.env-example
         ENV_TARGET_PATH=./github_actions_py/.env
         cp $ENV_ORIGIN_PATH $ENV_TARGET_PATH
         cd github_actions_py
