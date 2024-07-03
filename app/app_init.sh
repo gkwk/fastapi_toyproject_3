@@ -18,17 +18,19 @@ fi
 ALEMBIC_TEMPLATE_FOLDER_ABSOLUTE_PATH=$(realpath "$ALEMBIC_TEMPLATE_FOLDER")
 
 if [ "$RDBMS_DRIVER" = "mysql" ]; then
-    DB_USER=${!RDBMS_USERNAME_ENV:-$RDBMS_USERNAME_ENV}
-    DB_PASS=${!RDBMS_PASSWORD_ENV:-$RDBMS_PASSWORD_ENV}
+    RESULT=$(python database/mysql_database_checker.py)
 
-    RESULT=$(mysql -h "$RDBMS_HOST_NAME" -u "$DB_USER" -p"$DB_PASS" -e "SHOW DATABASES LIKE '$RDBMS_DB_NAME';" | grep "$RDBMS_DB_NAME")
+    echo $RESULT
 
     if [ "$RESULT" == "$RDBMS_DB_NAME" ]; then
         :
     else
         alembic init -t "$ALEMBIC_TEMPLATE_FOLDER_ABSOLUTE_PATH" alembic_migrations
-        alembic revision --autogenerate
-        alembic upgrade head
+
+        mv alembic.ini ./alembic_migrations/
+
+        alembic -c ./alembic_migrations/alembic.ini revision --autogenerate
+        alembic -c ./alembic_migrations/alembic.ini upgrade head
     fi
 # sqlite
 else
@@ -36,8 +38,11 @@ else
         :
     else
         alembic init -t "$ALEMBIC_TEMPLATE_FOLDER_ABSOLUTE_PATH" alembic_migrations
-        alembic revision --autogenerate
-        alembic upgrade head
+
+        mv alembic.ini ./alembic_migrations/
+
+        alembic -c ./alembic_migrations/alembic.ini revision --autogenerate
+        alembic -c ./alembic_migrations/alembic.ini upgrade head
     fi
 fi
 
