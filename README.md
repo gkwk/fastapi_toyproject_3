@@ -18,38 +18,36 @@
 
 # 구현 사항
 - [ ] User
-    - [ ] 회원가입
-    - [ ] 로그인
-    - [ ] 사용자 정보 보기
-    - [ ] 사용자 정보 수정
-    - [ ] 게시판 접근 권한 보기
+    - [v] 회원가입
+    - [v] 로그인
+    - [v] 사용자 정보 보기
+    - [v] 사용자 정보 수정
+    - [v] 게시판 접근 권한
     - [ ] 비밀번호 초기화 기능
-    - [ ] JWT refresh token 기능
-    - [ ] JWT access token 블랙리스트
+    - [v] JWT refresh token 기능
+    - [v] JWT access token 블랙리스트
 - [ ] Admin
-    - [ ] 터미널에서의 계정 생성
-    - [ ] 사용자 리스트 보기
-    - [ ] 사용자 게시판 접근 권한 수정
+    - [v] 터미널에서의 계정 생성
+    - [v] 사용자 리스트 보기
+    - [v] 사용자 게시판 접근 권한 수정
     - [ ] 사용자 차단
-    - [ ] 게시판 추가
+    - [v] 게시판 추가
 - [ ] Board
-    - [ ] 추가 가능한 개별 게시판
-    - [ ] 게시글 CRUD
-    - [ ] 게시글 내 댓글 CRUD
-    - [ ] 댓글 갯수 표시
-    - [ ] 조회수 표시
-    - [ ] 추천수 표시
-    - [ ] 파일 첨부 기능
+    - [v] 추가 가능한 개별 게시판
+    - [v] 게시글 CRUD
+    - [v] 게시글 내 댓글 CRUD
+    - [v] 조회수 표시
+    - [v] 파일 첨부 기능
 - [ ] Chat
-    - [ ] WebSocket 기반 Chat
-    - [ ] 대화 로그 DB 저장
+    - [v] WebSocket 기반 Chat
+    - [v] 대화 로그 DB 저장
 - [ ] AI
-    - [ ] 비동기 작동
-    - [ ] 비동기 결과 반환 및 저장
-- [ ] Log
+    - [v] 비동기 작동
+    - [v] 비동기 결과 반환 및 저장
+- [v] Log
 - [ ] Test
-- [ ] MongoDB
-- [ ] Redis
+- [v] MongoDB
+- [v] Redis
 
 # 구현 필요 사항 임시 기록
 - Board 접근 여부 변경시 작동하는 User의 접근 권한 변경 코드를 작성한다.
@@ -73,6 +71,7 @@ NAME|TYPE|NULLABLE|DEFAULT|PRIMARY_KEY|FOREIGN_KEY|UNIQUE|
 |id|INTEGER|False|None|True|False|None|
 |name|VARCHAR(64)|False|None|False|False|True|
 |description|VARCHAR(256)|False|None|False|False|None|
+|ai_type|VARCHAR(5)|False|None|False|False|None|
 |create_date|DATETIME|False|datetime.now|False|False|None|
 |update_date|DATETIME|True|None|False|False|None|
 |finish_date|DATETIME|True|None|False|False|None|
@@ -325,7 +324,6 @@ sudo bash project_init.sh
 # 프로젝트 구조
 ```text
 app
-├── .env-example
 ├── app_init.sh
 ├── app_init_local.sh
 ├── auth
@@ -392,11 +390,15 @@ app
 │   │   ├── alembic.ini.mako
 │   │   ├── env.py
 │   │   └── script.py.mako
-│   ├── cache.py
 │   ├── database.py
 │   ├── integrity_error_message_parser.py
+│   ├── mongodb_method.py
 │   ├── mysql_database_checker.py
+│   ├── redis_method.py
 │   └── sqlite_naming_convention.py
+├── enums
+│   ├── __init__.py
+│   └── ai_type.py
 ├── exception_message
 │   ├── __init__.py
 │   ├── http_exception_params.py
