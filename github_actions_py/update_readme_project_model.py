@@ -24,7 +24,7 @@ from sqlalchemy.sql.schema import (
 )
 
 from dotenv import load_dotenv
-load_dotenv(Path(__file__).resolve().parent.parent / ".env")
+load_dotenv(Path(__file__).resolve().parent / ".env-example")
 
 from database.database import Base
 import models as DBModels
