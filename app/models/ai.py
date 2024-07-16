@@ -11,10 +11,12 @@ from sqlalchemy import (
     Table,
     Column,
     BigInteger,
+    Enum
 )
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from database.database import Base
+from enums import AIType
 
 if TYPE_CHECKING:
     from models.ailog import AIlog
@@ -31,6 +33,7 @@ class AI(Base):
 
     name: Mapped[str] = mapped_column(String(64), unique=True)
     description: Mapped[str] = mapped_column(String(256))
+    ai_type: Mapped[AIType] = mapped_column(Enum(AIType), nullable=False)
     create_date: Mapped[DateTime] = mapped_column(DateTime(), default=datetime.now)
     update_date: Mapped[Optional[DateTime]] = mapped_column(
         DateTime(), onupdate=datetime.now

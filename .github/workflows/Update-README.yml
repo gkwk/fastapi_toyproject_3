@@ -21,19 +21,14 @@ jobs:
       run: |
         pip install --upgrade pip
         pip install anytree
-        pip install starlette
-        pip install SQLAlchemy
-        pip install pydantic_settings
-        pip install fastapi
+        pip install -r requirements.txt
+
         
     - name: Update README.md
       run: |
         README_ORIGIN_PATH=./readme_format/README.md
         README_TARGET_PATH=./README.md
         cp $README_ORIGIN_PATH $README_TARGET_PATH
-        ENV_ORIGIN_PATH=./github_actions_py/.env-example
-        ENV_TARGET_PATH=./github_actions_py/.env
-        cp $ENV_ORIGIN_PATH $ENV_TARGET_PATH
         cd github_actions_py
         python update_readme_project_directory_tree.py
         python update_readme_project_model.py

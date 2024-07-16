@@ -4,6 +4,8 @@ from typing import Optional, List
 from pydantic import BaseModel, field_validator, EmailStr, Field
 from pydantic_core.core_schema import ValidationInfo
 
+from enums import AIType
+
 
 
 class RequestAIDetailPatch(BaseModel):
@@ -11,3 +13,4 @@ class RequestAIDetailPatch(BaseModel):
     description: Optional[str] = Field(None, max_length=256)
     is_visible: Optional[bool] = Field(None)
     is_available: Optional[bool] = Field(None)
+    

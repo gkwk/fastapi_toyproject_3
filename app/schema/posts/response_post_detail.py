@@ -13,7 +13,7 @@ class PostInformationForUser(BaseModel):
     update_date: Optional[datetime] = Field(None)
     number_of_view: int = Field()
     number_of_comment: int = Field()
-    number_of_like: int = Field()
+    # number_of_like: int = Field()
     is_file_attached: bool = Field()
 
 
@@ -25,7 +25,7 @@ class PostInformationForAdmin(BaseModel):
     update_date: Optional[datetime] = Field(None)
     number_of_view: int = Field()
     number_of_comment: int = Field()
-    number_of_like: int = Field()
+    # number_of_like: int = Field()
     is_file_attached: bool = Field()
     is_visible: bool = Field()
 

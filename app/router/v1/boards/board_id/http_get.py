@@ -1,7 +1,7 @@
 from fastapi import HTTPException
 
 from database.database import database_dependency
-from database.cache import board_cache_get
+from database.redis_method import board_cache_get
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )

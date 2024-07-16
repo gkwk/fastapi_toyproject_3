@@ -1,6 +1,7 @@
+import os
+
 from sqlalchemy import create_engine, text
 from sqlalchemy.exc import OperationalError
-from dotenv import dotenv_values
 
 
 def mysql_database_checker(host, user, password, db_name):
@@ -29,12 +30,10 @@ def mysql_database_checker(host, user, password, db_name):
         return "error"
 
 
-env_dict = dotenv_values(".env")
-
-host = env_dict.get("RDBMS_HOST_NAME")
-user = env_dict.get("RDBMS_USERNAME")
-password = env_dict.get("RDBMS_PASSWORD")
-db_name = env_dict.get("RDBMS_DB_NAME")
+host = os.getenv("RDBMS_HOST_NAME")
+user = os.getenv("RDBMS_USERNAME")
+password = os.getenv("RDBMS_PASSWORD")
+db_name = os.getenv("RDBMS_DB_NAME")
 
 result = mysql_database_checker(host, user, password, db_name)
 

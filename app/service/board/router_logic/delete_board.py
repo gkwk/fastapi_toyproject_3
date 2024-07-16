@@ -3,7 +3,7 @@ from sqlalchemy.exc import IntegrityError, OperationalError
 
 from database.database import database_dependency
 from database.integrity_error_message_parser import intergrity_error_message_parser
-from database.cache import board_cache_delete
+from database.redis_method import board_cache_delete
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )

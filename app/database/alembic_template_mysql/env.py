@@ -13,10 +13,7 @@ from database.database import Base
 from models import *
 
 # custom init
-env_dict = dotenv_values(".env")
-
-
-RDB_PATH_URL = f"mysql+pymysql://{env_dict.get('RDBMS_USERNAME')}:{env_dict.get('RDBMS_PASSWORD')}@{env_dict.get('RDBMS_HOST_NAME')}/{env_dict.get('RDBMS_DB_NAME')}"
+RDB_PATH_URL = f"mysql+pymysql://{os.getenv('RDBMS_USERNAME')}:{os.getenv('RDBMS_PASSWORD')}@{os.getenv('RDBMS_HOST_NAME')}/{os.getenv('RDBMS_DB_NAME')}"
 
 
 # this is the Alembic Config object, which provides

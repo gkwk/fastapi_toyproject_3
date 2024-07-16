@@ -1,5 +1,6 @@
 import os
 import sys
+from pathlib import Path
 import re
 
 # 현재 경로
@@ -21,6 +22,9 @@ from sqlalchemy.sql.schema import (
     ScalarElementColumnDefault,
     CallableColumnDefault,
 )
+
+from dotenv import load_dotenv
+load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
 from database.database import Base
 import models as DBModels

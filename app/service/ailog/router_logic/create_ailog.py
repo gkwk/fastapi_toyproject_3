@@ -3,6 +3,8 @@ import json
 from fastapi import HTTPException
 from sqlalchemy.exc import IntegrityError
 from celery import uuid
+from celery.result import AsyncResult
+
 
 from database.database import database_dependency
 from database.integrity_error_message_parser import intergrity_error_message_parser
@@ -12,7 +14,7 @@ from schema.ailogs.request_ailog_create import RequestAIlogCreate
 from auth.jwt.access_token.get_user_access_token_payload import (
     current_user_access_token_payload,
 )
-from celery_app.v1.ailogs.tasks import celery_task_ai_infer
+from celery_app.celery import celery_app
 from service.ailog.logic_create_ailog import logic_create_ailog
 from service.ai.logic_get_ai_with_id import logic_get_ai_with_id
 
@@ -54,8 +56,14 @@ def create_ailog(
         )
         raise HTTPException(**integrity_exception_messages(error_code))
 
-    async_task = celery_task_ai_infer.apply_async(
-        kwargs={"data_base": None, "ai_id": ai.id, "ailog_id": ailog.id},
+    async_task: AsyncResult = celery_app.send_task(
+        name="infer_ai_task",
+        kwargs={
+            "ai_id": ai.id,
+            "ai_name": ai.name,
+            "ai_type": ai.ai_type,
+            "ailog_id": ailog.id,
+        },
         task_id=celery_task_id,
     )
     return (async_task, ailog)

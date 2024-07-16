@@ -1,13 +1,5 @@
 #!/bin/bash
 
-ENV_FILE="./.env"
-
-if [ -f $ENV_FILE ]; then
-    source $ENV_FILE
-else
-    echo "env file not found"
-    exit 1
-fi
 
 SQLITE_DB_FILE="./volume/database/${RDBMS_DB_NAME}.sqlite"
 if [ "$RDBMS_DRIVER" = "mysql" ]; then

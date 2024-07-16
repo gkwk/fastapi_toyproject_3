@@ -4,7 +4,7 @@ from sqlalchemy.exc import IntegrityError
 
 from database.database import database_dependency
 from database.integrity_error_message_parser import intergrity_error_message_parser
-from database.cache import board_cache_set
+from database.redis_method import board_cache_set
 from exception_message.sql_exception_messages import integrity_exception_messages
 from models import User, JWTList, Board, UserPermissionTable
 from auth.jwt.access_token.ban_access_token import ban_access_token

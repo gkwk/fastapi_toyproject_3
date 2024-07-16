@@ -3,7 +3,7 @@ from sqlalchemy.exc import OperationalError
 
 from models import JWTList
 from database.database import database_dependency
-from database.cache import (
+from database.redis_method import (
     blacklisted_access_token_cache_set,
     blacklisted_access_token_cache_exist,
 )

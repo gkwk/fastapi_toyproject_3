@@ -1,3 +1,5 @@
+import os
+
 from logging.config import fileConfig
 
 from sqlalchemy import engine_from_config
@@ -10,10 +12,8 @@ from dotenv import dotenv_values
 from database.database import Base
 from models import *
 
-# custom init
-env_dict = dotenv_values(".env")
 
-RDB_PATH_URL = f"sqlite:///./volume/database/{env_dict.get('RDBMS_DB_NAME')}.sqlite"
+RDB_PATH_URL = f"sqlite:///./volume/database/{os.getenv('RDBMS_DB_NAME')}.sqlite"
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

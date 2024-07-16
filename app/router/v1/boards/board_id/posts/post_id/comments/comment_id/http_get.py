@@ -6,7 +6,7 @@ from auth.jwt.access_token.get_user_access_token_payload import (
 )
 from service.comment.router_logic.get_comment_detail import get_comment_detail
 from auth.jwt.scope_checker import scope_checker
-from database.cache import board_cache_get
+from database.redis_method import board_cache_get
 
 def http_get(
     data_base: database_dependency,

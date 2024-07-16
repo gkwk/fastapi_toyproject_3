@@ -5,7 +5,7 @@ from sqlalchemy.exc import OperationalError
 from jwt.exceptions import InvalidTokenError
 
 from database.database import database_dependency
-from database.cache import blacklisted_access_token_cache_exist
+from database.redis_method import blacklisted_access_token_cache_exist
 from auth.jwt.access_token.decode_access_token import decode_access_token
 from auth.jwt.oauth2_scheme import jwt_dependency
 from data_wrapper.access_token_payload import AccessTokenPayload

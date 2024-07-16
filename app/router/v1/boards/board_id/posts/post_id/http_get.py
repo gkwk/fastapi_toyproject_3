@@ -15,7 +15,7 @@ from exception_message.sql_exception_messages import integrity_exception_message
 from sqlalchemy.exc import IntegrityError
 
 from auth.jwt.scope_checker import scope_checker
-from database.cache import board_cache_get, post_view_count_cache_set
+from database.redis_method import board_cache_get, post_view_count_cache_set
 
 
 def record_post_view(

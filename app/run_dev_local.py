@@ -1,5 +1,7 @@
 import sys
+from pathlib import Path
 
+from dotenv import load_dotenv
 import uvicorn
 import redis
 from redis.exceptions import ConnectionError
@@ -29,6 +31,7 @@ if __name__ == "__main__":
 
     if len(argv) == 0:
         initialize_redis()
+        load_dotenv(Path(__file__).resolve().parent.parent / ".env")
 
         uvicorn.run("main:app", reload=True, log_level="debug", port=8080)
     else:

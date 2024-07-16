@@ -11,11 +11,11 @@ services:
       mysql:
         condition: service_healthy
     ports:
-      - "5672:5672"
+      - "${RABBITMQ_PORT}:5672"
       - "15672:15672"
     environment:
-      - RABBITMQ_DEFAULT_USER=guest
-      - RABBITMQ_DEFAULT_PASS=guest
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USERNAME}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
     networks:
       - app-network
 
@@ -30,13 +30,36 @@ services:
       timeout: 30s
       retries: 30
     environment:
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - APP_DOMAIN=${APP_DOMAIN}
+      - APP_JWT_SECRET_KEY=${APP_JWT_SECRET_KEY}
+      - APP_JWT_ACCESS_TOKEN_EXPIRE_MINUTES=${APP_JWT_ACCESS_TOKEN_EXPIRE_MINUTES}
+      - APP_JWT_REFRESH_TOKEN_EXPIRE_MINUTES=${APP_JWT_REFRESH_TOKEN_EXPIRE_MINUTES}
+      - OAUTH_TOKEN_URL=${OAUTH_TOKEN_URL}
+      - PASSWORD_ALGORITHM=${PASSWORD_ALGORITHM}
+      - RDBMS_DRIVER=${RDBMS_DRIVER}
+      - RDBMS_HOST_NAME=${RDBMS_HOST_NAME}
+      - RDBMS_USERNAME=${RDBMS_USERNAME}
+      - RDBMS_ROOT_PASSWORD=${RDBMS_ROOT_PASSWORD}
+      - RDBMS_PASSWORD=${RDBMS_PASSWORD}
+      - RDBMS_DB_NAME=${RDBMS_DB_NAME}
+      - CELERY_RESULT_BACKEND_FILE_NAME=${CELERY_RESULT_BACKEND_FILE_NAME}
+      - REDIS_HOST_NAME=${REDIS_HOST_NAME}
+      - REDIS_PORT=${REDIS_PORT}
+      - RABBITMQ_HOST_NAME=${RABBITMQ_HOST_NAME}
+      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - FASTAPI_QUEUE_NAME=${FASTAPI_QUEUE_NAME}
+      - MONGODB_HOST_NAME=${MONGODB_HOST_NAME}
+      - MONGODB_PORT=${MONGODB_PORT}
     depends_on:
       rabbitmq:
         condition: service_healthy
       redis:
         condition: service_healthy
       mysql:
+        condition: service_healthy
+      mongodb:
         condition: service_healthy
     command: >
       /bin/bash -c "/code/app/app_init.sh"
@@ -53,9 +76,19 @@ services:
     # image: 사전 빌드한 이미지 혹은 허브 이미지
     build:
       context: .
-      dockerfile: Dockerfile.fastapi
+      dockerfile: Dockerfile.celery
     environment:
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - APP_JWT_ACCESS_TOKEN_EXPIRE_MINUTES=${APP_JWT_ACCESS_TOKEN_EXPIRE_MINUTES}
+      - CELERY_RESULT_BACKEND_FILE_NAME=${CELERY_RESULT_BACKEND_FILE_NAME}
+      - REDIS_HOST_NAME=${REDIS_HOST_NAME}
+      - REDIS_PORT=${REDIS_PORT}
+      - RABBITMQ_HOST_NAME=${RABBITMQ_HOST_NAME}
+      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - FASTAPI_QUEUE_NAME=${FASTAPI_QUEUE_NAME}
+      - MONGODB_HOST_NAME=${MONGODB_HOST_NAME}
+      - MONGODB_PORT=${MONGODB_PORT}
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -65,11 +98,11 @@ services:
         condition: service_healthy
       app:
         condition: service_healthy
-    command: /bin/bash -c "celery -A celery_app worker -l info --pool=solo"
+    command: /bin/bash -c "python celery_worker.py"
     volumes:
-      - ./volume/database/:/code/app/volume/database/
-      - ./volume/ai_model_store/:/code/app/volume/ai_model_store/
-      - ./volume/staticfile/:/code/app/volume/staticfile/
+      - ./volume/database/:/code/celery_docker/volume/database/
+      - ./volume/ai_model_store/:/code/celery_docker/volume/ai_model_store/
+      - ./volume/staticfile/:/code/celery_docker/volume/staticfile/
     networks:
       - app-network
 
@@ -77,9 +110,19 @@ services:
     # image: 사전 빌드한 이미지 혹은 허브 이미지
     build:
       context: .
-      dockerfile: Dockerfile.fastapi
+      dockerfile: Dockerfile.celery
     environment:
-      - CELERY_BROKER_URL=amqp://guest:guest@rabbitmq:5672/
+      - APP_JWT_ACCESS_TOKEN_EXPIRE_MINUTES=${APP_JWT_ACCESS_TOKEN_EXPIRE_MINUTES}
+      - CELERY_RESULT_BACKEND_FILE_NAME=${CELERY_RESULT_BACKEND_FILE_NAME}
+      - REDIS_HOST_NAME=${REDIS_HOST_NAME}
+      - REDIS_PORT=${REDIS_PORT}
+      - RABBITMQ_HOST_NAME=${RABBITMQ_HOST_NAME}
+      - RABBITMQ_USERNAME=${RABBITMQ_USERNAME}
+      - RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD}
+      - RABBITMQ_PORT=${RABBITMQ_PORT}
+      - FASTAPI_QUEUE_NAME=${FASTAPI_QUEUE_NAME}
+      - MONGODB_HOST_NAME=${MONGODB_HOST_NAME}
+      - MONGODB_PORT=${MONGODB_PORT}
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -91,11 +134,11 @@ services:
         condition: service_healthy
       celery:
         condition: service_started
-    command: /bin/bash -c "celery -A celery_app beat --loglevel=info"
+    command: /bin/bash -c "python celery_beat.py"
     volumes:
-      - ./volume/database/:/code/app/volume/database/
-      - ./volume/ai_model_store/:/code/app/volume/ai_model_store/
-      - ./volume/staticfile/:/code/app/volume/staticfile/
+      - ./volume/database/:/code/celery_docker/volume/database/
+      - ./volume/ai_model_store/:/code/celery_docker/volume/ai_model_store/
+      - ./volume/staticfile/:/code/celery_docker/volume/staticfile/
     networks:
       - app-network
 
@@ -144,9 +187,23 @@ services:
       mysql:
         condition: service_healthy
     ports:
-      - "6379:6379"
+      - "${REDIS_PORT}:6379"
     volumes:
       - ./volume/redis:/data
+    networks:
+      - app-network
+
+  mongodb:
+    image: mongo:latest
+    healthcheck:
+      test: echo 'db.runCommand("ping").ok'
+      interval: 10s
+      timeout: 30s
+      retries: 30
+    ports:
+      - "${MONGODB_PORT}:27017"
+    volumes:
+      - ./volume/mongodb:/data/db
     networks:
       - app-network
 

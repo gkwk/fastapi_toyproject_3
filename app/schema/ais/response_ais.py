@@ -3,17 +3,21 @@ from typing import List, Optional
 
 from pydantic import BaseModel, Field, field_validator
 
+from enums import AIType
+
 
 class AIInformationForUser(BaseModel):
     id: int = Field(ge=1)
     name: str = Field(min_length=1, max_length=64)
     description: str = Field(max_length=256)
+    ai_type: AIType = Field()
 
 
 class AIInformationForAdmin(BaseModel):
     id: int = Field(ge=1)
     name: str = Field(min_length=1, max_length=64)
     description: str = Field(max_length=256)
+    ai_type: AIType = Field()
     create_date: datetime = Field()
     update_date: Optional[datetime] = Field(None)
     finish_date: Optional[datetime] = Field(None)

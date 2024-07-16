@@ -11,6 +11,7 @@ def logic_create_ai(data_base: database_dependency, schema: RequestAICreate):
         name=schema.name,
         description=schema.description,
         is_visible=False,
+        ai_type=schema.ai_type,
         celery_task_id=celery_task_id,
     )
 
