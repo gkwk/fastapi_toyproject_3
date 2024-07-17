@@ -168,7 +168,11 @@ app/volume/ai_model_store/
 app/volume/database/
 app/volume/log/
 app/volume/staticfile/
-
 app/celery_app/beat/celerybeat-schedule.*
+
+celery_docker/volume/ai_model_store/
+celery_docker/volume/database/
+celery_docker/volume/staticfile/
+celery_docker/beat/celerybeat-schedule.*
 
 test_execpt_*/
