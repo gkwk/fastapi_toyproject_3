@@ -18,6 +18,7 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponseChatsForUser, ResponseChatsForAdmin],
     tags=[v1_tags.CHAT_TAG],
+    name="get_chat_list",
 )(http_get)
 
 router.include_router(chat_id_router.router)

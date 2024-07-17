@@ -9,5 +9,7 @@ from router.v1.chat_sessions.chat_session_id.ws.websocket_chat_session import (
 
 router = APIRouter(prefix=v1_url.CHAT_SESSIONS_ID_WEBSOCKET_PREFIX)
 
-router.get(v1_url.ENDPOINT, tags=[v1_tags.CHAT_SESSION_TAG])(http_get)
+router.get(
+    v1_url.ENDPOINT, tags=[v1_tags.CHAT_SESSION_TAG], name="websocket_test_page"
+)(http_get)
 router.websocket(v1_url.ENDPOINT)(websocket_chat_session)

@@ -6,4 +6,6 @@ from router.v1.auth.reissue_access_token.http_get import http_get
 
 router = APIRouter(prefix=v1_url.AUTH_REISSUE_ACCESS_TOKEN_ROUTER_PREFIX)
 
-router.get(v1_url.ENDPOINT, tags=[v1_tags.AUTH_TAG])(http_get)
+router.get(v1_url.ENDPOINT, tags=[v1_tags.AUTH_TAG], name="reissue_access_token")(
+    http_get
+)

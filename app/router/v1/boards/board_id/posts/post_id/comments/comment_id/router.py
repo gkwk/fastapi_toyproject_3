@@ -25,10 +25,17 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponseCommentDetailForUser, ResponseCommentDetailForAdmin],
     tags=[v1_tags.COMMENT_TAG],
+    name="get_comment_detail",
 )(http_get)
 router.patch(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.COMMENT_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=[v1_tags.COMMENT_TAG],
+    name="update_comment_detail",
 )(http_patch)
 router.delete(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.COMMENT_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=[v1_tags.COMMENT_TAG],
+    name="delete_comment",
 )(http_delete)

@@ -16,9 +16,13 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponseAIsForUser, ResponseAIsForAdmin],
     tags=[v1_tags.AI_TAG],
+    name="get_ai_list",
 )(http_get)
 router.post(
-    v1_url.ENDPOINT, status_code=status.HTTP_202_ACCEPTED, tags=[v1_tags.AI_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_202_ACCEPTED,
+    tags=[v1_tags.AI_TAG],
+    name="create_ai",
 )(http_post)
 
 router.include_router(ai_id_router.router)

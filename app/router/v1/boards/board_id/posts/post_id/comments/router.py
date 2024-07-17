@@ -21,10 +21,14 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponseCommentsForUser, ResponseCommentsForAdmin],
     tags=[v1_tags.COMMENT_TAG],
+    name="get_comment_list",
 )(http_get)
 
 router.post(
-    v1_url.ENDPOINT, status_code=status.HTTP_201_CREATED, tags=[v1_tags.COMMENT_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_201_CREATED,
+    tags=[v1_tags.COMMENT_TAG],
+    name="create_comment",
 )(http_post)
 
 router.include_router(comment_id_router.router)

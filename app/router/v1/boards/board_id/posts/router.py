@@ -16,9 +16,13 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponsePostsForUser, ResponsePostsForAdmin],
     tags=[v1_tags.POST_TAG],
+    name="get_post_list",
 )(http_get)
 router.post(
-    v1_url.ENDPOINT, status_code=status.HTTP_201_CREATED, tags=[v1_tags.POST_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_201_CREATED,
+    tags=[v1_tags.POST_TAG],
+    name="create_post",
 )(http_post)
 
 

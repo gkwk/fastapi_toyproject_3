@@ -16,9 +16,13 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponseAIlogsForUser, ResponseAIlogsForAdmin],
     tags=[v1_tags.AILOG_TAG],
+    name="get_ailog_list",
 )(http_get)
 router.post(
-    v1_url.ENDPOINT, status_code=status.HTTP_202_ACCEPTED, tags=[v1_tags.AILOG_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_202_ACCEPTED,
+    tags=[v1_tags.AILOG_TAG],
+    name="create_ailog",
 )(http_post)
 
 router.include_router(ailog_id_router.router)

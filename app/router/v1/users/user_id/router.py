@@ -11,12 +11,21 @@ from schema.users.response_user_detail import ResponseUserDetail
 router = APIRouter(prefix=v1_url.USERS_ID_ROUTER_PREFIX)
 
 
-router.get(v1_url.ENDPOINT, response_model=ResponseUserDetail, tags=[v1_tags.USER_TAG])(
-    http_get
-)
+router.get(
+    v1_url.ENDPOINT,
+    response_model=ResponseUserDetail,
+    tags=[v1_tags.USER_TAG],
+    name="get_user_detail",
+)(http_get)
 router.patch(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.USER_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=[v1_tags.USER_TAG],
+    name="update_user_detail",
 )(http_patch)
 router.delete(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.USER_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=[v1_tags.USER_TAG],
+    name="delete_user",
 )(http_delete)

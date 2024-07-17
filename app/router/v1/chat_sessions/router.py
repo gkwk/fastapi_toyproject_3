@@ -18,11 +18,13 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponseChatSessionsForUser, ResponseChatSessionsForAdmin],
     tags=[v1_tags.CHAT_SESSION_TAG],
+    name="get_chat_session_list",
 )(http_get)
 router.post(
     v1_url.ENDPOINT,
     status_code=status.HTTP_201_CREATED,
     tags=[v1_tags.CHAT_SESSION_TAG],
+    name="create_chat_session",
 )(http_post)
 
 router.include_router(chat_session_id_router.router)

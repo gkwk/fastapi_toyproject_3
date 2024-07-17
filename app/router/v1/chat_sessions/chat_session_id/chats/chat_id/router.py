@@ -19,7 +19,11 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponseChatDetailForUser, ResponseChatDetailForAdmin],
     tags=[v1_tags.CHAT_TAG],
+    name="get_chat_detail",
 )(http_get)
 router.delete(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.CHAT_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=[v1_tags.CHAT_TAG],
+    name="delete_chat",
 )(http_delete)

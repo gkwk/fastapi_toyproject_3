@@ -20,12 +20,19 @@ router.get(
     v1_url.ENDPOINT,
     response_model=Union[ResponsePostDetailForUser, ResponsePostDetailForAdmin],
     tags=[v1_tags.POST_TAG],
+    name="get_post_detail",
 )(http_get)
 router.patch(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.POST_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=[v1_tags.POST_TAG],
+    name="update_post_detail",
 )(http_patch)
 router.delete(
-    v1_url.ENDPOINT, status_code=status.HTTP_204_NO_CONTENT, tags=[v1_tags.POST_TAG]
+    v1_url.ENDPOINT,
+    status_code=status.HTTP_204_NO_CONTENT,
+    tags=[v1_tags.POST_TAG],
+    name="delete_post",
 )(http_delete)
 
 router.include_router(comments_router.router)

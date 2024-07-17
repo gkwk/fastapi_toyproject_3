@@ -25,16 +25,19 @@ router.get(
         ResponseChatSessionDetailForUser, ResponseChatSessionDetailForAdmin
     ],
     tags=[v1_tags.CHAT_SESSION_TAG],
+    name="get_chat_session_detail",
 )(http_get)
 router.patch(
     v1_url.ENDPOINT,
     status_code=status.HTTP_204_NO_CONTENT,
     tags=[v1_tags.CHAT_SESSION_TAG],
+    name="update_chat_session_detail",
 )(http_patch)
 router.delete(
     v1_url.ENDPOINT,
     status_code=status.HTTP_204_NO_CONTENT,
     tags=[v1_tags.CHAT_SESSION_TAG],
+    name="delete_chat_session",
 )(http_delete)
 
 router.include_router(chats_router.router)
