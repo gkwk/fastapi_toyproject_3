@@ -2,7 +2,7 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from celery_app import celery_app
+from celery_app_worker import celery_app
 
 
 if __name__ == '__main__':

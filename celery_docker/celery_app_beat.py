@@ -4,9 +4,6 @@ import time, datetime
 from celery import Celery
 from celery.schedules import crontab
 
-from v1.posts.tasks import update_post_view_counts
-from v1.ais.tasks import train_ai_task
-from v1.ailogs.tasks import infer_ai_task
 from config import get_settings
 
 
@@ -18,10 +15,6 @@ celery_app = Celery(
     backend=celery_app_result_backend,
     broker=celery_app_broker_url,
 )
-
-celery_app.task(name="update_post_view_counts")(update_post_view_counts)
-celery_app.task(name="train_ai_task")(train_ai_task)
-celery_app.task(name="infer_ai_task")(infer_ai_task)
 
 
 celery_app.conf.beat_schedule = {

@@ -1,4 +1,4 @@
-from celery_app import celery_app
+from celery_app_beat import celery_app
 
 
 if __name__ == '__main__':
