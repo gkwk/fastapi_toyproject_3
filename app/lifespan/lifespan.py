@@ -1,5 +1,6 @@
 import contextlib
 import os
+from datetime import datetime
 
 from fastapi import FastAPI
 from fastapi.concurrency import run_in_threadpool
@@ -85,7 +86,7 @@ def post_view_db(data_base: Session, message_json: dict):
 @get_data_base_decorator
 def train_ai_db(data_base: Session, message_json: dict):
     ai_id = message_json.get("ai_id")
-    finish_date = message_json.get("finish_date")
+    finish_date = datetime.fromisoformat(message_json.get("finish_date"))
     is_available = message_json.get("is_available")
     is_visible = message_json.get("is_visible")
 
@@ -105,10 +106,10 @@ def train_ai_db(data_base: Session, message_json: dict):
 
     except OperationalError as e:
         data_base.rollback()
-        # raise e
+        # print(e)
     except IntegrityError as e:
         data_base.rollback()
-        # raise e
+        # print(e)
 
 
 @get_data_base_decorator
@@ -116,9 +117,8 @@ def infer_ai_db(data_base: Session, message_json: dict):
     ai_id = message_json.get("ai_id")
     ailog_id = message_json.get("ailog_id")
     result_mongodb_id = message_json.get("result_mongodb_id")
-    finish_date = message_json.get("finish_date")
+    finish_date = datetime.fromisoformat(message_json.get("finish_date"))
     is_finished = message_json.get("is_finished")
-
     try:
         filter_dict = {
             "id": ailog_id,

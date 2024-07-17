@@ -18,8 +18,6 @@ from celery_app.celery import celery_app
 from service.ailog.logic_create_ailog import logic_create_ailog
 from service.ai.logic_get_ai_with_id import logic_get_ai_with_id
 
-json_encoder = json.JSONEncoder()
-
 
 def create_ailog(
     data_base: database_dependency,
@@ -39,7 +37,7 @@ def create_ailog(
         user_id=token.user_id,
         ai_id=ai_id,
         description=schema.description,
-        result=json_encoder.encode({"result": None}),
+        result="",
         celery_task_id=celery_task_id,
     )
 

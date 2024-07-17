@@ -1,5 +1,9 @@
 #!/bin/bash
 
+set -a
+source "$(dirname "$0")/../.env"
+set +a
+
 
 SQLITE_DB_FILE="./volume/database/${RDBMS_DB_NAME}.sqlite"
 if [ "$RDBMS_DRIVER" = "mysql" ]; then

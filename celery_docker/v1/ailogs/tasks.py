@@ -80,5 +80,6 @@ def infer_ai_task(ai_id: int, ai_name: str, ai_type: AIType, ailog_id: int):
 
         return "Success"
 
-    except:
+    except Exception as e:
+        print(e)
         return "Fail"

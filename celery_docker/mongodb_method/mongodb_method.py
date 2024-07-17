@@ -16,7 +16,6 @@ if (get_settings().MONGODB_USERNAME == None) or (
 else:
     MONGODB_URL = f"mongodb://{get_settings().MONGODB_USERNAME}:{get_settings().MONGODB_PASSWORD}@{get_settings().MONGODB_HOST_NAME}:{get_settings().MONGODB_PORT}"
 
-
 class MongoDBHandler:
     def __init__(self):
         self._client = MongoClient(MONGODB_URL)
