@@ -36,6 +36,11 @@ class Settings(BaseSettings):
     MONGODB_USERNAME: str | None = None
     MONGODB_PASSWORD: str | None = None
 
+    SMTP_ACCOUNT: str = ""
+    SMTP_PASSWORD: str = ""
+    SMTP_DOMAIN: str = ""
+    SMTP_PORT: str = ""
+
     model_config = SettingsConfigDict(env_file=None, extra="ignore")
 
 

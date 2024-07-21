@@ -39,7 +39,7 @@ def get_user_websocket_access_token_payload(
     data_base: database_dependency, token: websocket_access_token_dependency
 ) -> WebsocketAccessTokenPayload:
     _validate_before_websocket_access_token()
-    payload = decode_websocket_access_token(encoded_access_token=token)
+    payload = decode_websocket_access_token(encoded_websocket_access_token=token)
     _validate_after_websocket_access_token(data_base=data_base, payload=payload)
 
     return WebsocketAccessTokenPayload(payload)

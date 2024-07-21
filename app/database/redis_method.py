@@ -140,6 +140,23 @@ def post_view_count_cache_scan(count=10):
         yield key
 
 
+def password_reset_token_cache_set(user_id: int, uuid: str, timestamp: int):
+    redis_handler.set(
+        f"password_reset_token:{user_id}:{uuid}:{timestamp}",
+        "",
+        kw={"ex": 86400},
+        # 60*60*24
+    )
+
+
+def password_reset_token_cache_unlink(user_id: int, uuid: str, timestamp: int):
+    redis_handler.unlink(f"password_reset_token:{user_id}:{uuid}:{timestamp}")
+
+
+def password_reset_token_cache_exist(user_id: int, uuid: str, timestamp: int):
+    return redis_handler.exist(f"password_reset_token:{user_id}:{uuid}:{timestamp}")
+
+
 @contextmanager
 def redis_lock(lock_name, timeout=60):
     lock: Lock = redis_handler._client.lock(f"redis_lock:{lock_name}", timeout=timeout)
