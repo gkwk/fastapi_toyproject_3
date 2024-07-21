@@ -23,7 +23,7 @@
     - [x] 사용자 정보 보기
     - [x] 사용자 정보 수정
     - [x] 게시판 접근 권한
-    - [ ] 비밀번호 초기화 기능
+    - [x] 비밀번호 초기화 기능 (SMTP)
     - [x] JWT refresh token 기능
     - [x] JWT access token 블랙리스트
 - [ ] Admin
@@ -339,6 +339,12 @@ app
 │       ├── issue_user_jwt.py
 │       ├── oauth2_scheme.py
 │       ├── password_context.py
+│       ├── password_reset_token
+│       │   ├── __init__.py
+│       │   ├── decode_password_reset_token.py
+│       │   ├── generate_password_reset_token.py
+│       │   ├── get_password_reset_token_from_path.py
+│       │   └── get_user_password_reset_token_payload.py
 │       ├── refresh_token
 │       │   ├── __init__.py
 │       │   ├── decode_refresh_token.py
@@ -377,6 +383,7 @@ app
 ├── data_wrapper
 │   ├── __init__.py
 │   ├── access_token_payload.py
+│   ├── password_reset_token_payload.py
 │   ├── refresh_token_payload.py
 │   └── websocket_access_token_payload.py
 ├── database
@@ -470,6 +477,14 @@ app
 │       │   ├── logout
 │       │   │   ├── __init__.py
 │       │   │   ├── http_post.py
+│       │   │   └── router.py
+│       │   ├── password_reset
+│       │   │   ├── __init__.py
+│       │   │   ├── http_post.py
+│       │   │   ├── password_reset_token
+│       │   │   │   ├── __init__.py
+│       │   │   │   ├── http_patch.py
+│       │   │   │   └── router.py
 │       │   │   └── router.py
 │       │   ├── reissue_access_token
 │       │   │   ├── __init__.py
@@ -568,6 +583,8 @@ app
 │   │   ├── request_ai_detail_patch.py
 │   │   ├── response_ai_detail.py
 │   │   └── response_ais.py
+│   ├── auth
+│   │   └── __init__.py
 │   ├── boards
 │   │   ├── __init__.py
 │   │   ├── request_board_create.py
@@ -593,6 +610,10 @@ app
 │   │   └── response_post_detail.py
 │   ├── login
 │   │   └── __init__.py
+│   ├── password_reset
+│   │   ├── __init__.py
+│   │   ├── request_password_reset_request.py
+│   │   └── request_user_password_reset.py
 │   ├── posts
 │   │   ├── __init__.py
 │   │   ├── request_post_create.py
@@ -639,10 +660,13 @@ app
 │   │       └── update_ailog.py
 │   ├── auth
 │   │   ├── __init__.py
+│   │   ├── logic_smtp_send_email.py
 │   │   └── router_logic
 │   │       ├── __init__.py
 │   │       ├── login.py
-│   │       └── logout.py
+│   │       ├── logout.py
+│   │       ├── password_reset.py
+│   │       └── password_reset_request.py
 │   ├── base_update_manager.py
 │   ├── base_update_processor.py
 │   ├── board
