@@ -52,6 +52,10 @@ services:
       - FASTAPI_QUEUE_NAME=${FASTAPI_QUEUE_NAME}
       - MONGODB_HOST_NAME=${MONGODB_HOST_NAME}
       - MONGODB_PORT=${MONGODB_PORT}
+      - SMTP_ACCOUNT=${SMTP_ACCOUNT}
+      - SMTP_PASSWORD=${SMTP_PASSWORD}
+      - SMTP_DOMAIN=${SMTP_DOMAIN}
+      - SMTP_PORT=${SMTP_PORT}
     depends_on:
       rabbitmq:
         condition: service_healthy
