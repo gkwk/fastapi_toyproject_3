@@ -23,7 +23,7 @@
     - [x] 사용자 정보 보기
     - [x] 사용자 정보 수정
     - [x] 게시판 접근 권한
-    - [ ] 비밀번호 초기화 기능
+    - [x] 비밀번호 초기화 기능 (SMTP)
     - [x] JWT refresh token 기능
     - [x] JWT access token 블랙리스트
 - [ ] Admin
