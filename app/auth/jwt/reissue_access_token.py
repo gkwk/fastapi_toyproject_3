@@ -60,7 +60,7 @@ def reissue_access_token(
             jwt=jwt,
         )
 
-        access_token = generate_access_token(user=user)
+        access_token = generate_access_token(data_base=data_base, user=user)
         _database_process(
             data_base=data_base, user=user, jwt=jwt, access_token=access_token
         )

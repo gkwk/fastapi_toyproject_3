@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from main import app
 from test.url_class import UserURLClass
 from test.login_user import LoginUser
-from test.parameter_datat_loader import parameter_data_loader
+from test.parameter_data_loader import parameter_data_loader
 from database.database import get_data_base_decorator_v2
 from service.user.logic_get_user_with_id import logic_get_user_with_id
 from service.user.logic_get_user_with_username import logic_get_user_with_username

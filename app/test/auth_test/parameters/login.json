@@ -1,0 +1,21 @@
+{
+    "argnames": "login_name, login_password",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!"
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "fail0",
+            "12345678aA!",
+            "유저 없음"
+        ],
+        [
+            "user0",
+            "1234567aA!",
+            "패스워드 틀림"
+        ]
+    ]
+}
