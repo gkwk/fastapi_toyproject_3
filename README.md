@@ -17,7 +17,7 @@
 - MongoDB와 Redis 사용 함수를 구현한다.
 
 # 구현 사항
-- [ ] User
+- User
     - [x] 회원가입
     - [x] 로그인
     - [x] 사용자 정보 보기
@@ -26,22 +26,22 @@
     - [x] 비밀번호 초기화 기능 (SMTP)
     - [x] JWT refresh token 기능
     - [x] JWT access token 블랙리스트
-- [ ] Admin
+- Admin
     - [x] 터미널에서의 계정 생성
     - [x] 사용자 리스트 보기
     - [x] 사용자 게시판 접근 권한 수정
     - [ ] 사용자 차단
     - [x] 게시판 추가
-- [ ] Board
+- Board
     - [x] 추가 가능한 개별 게시판
     - [x] 게시글 CRUD
     - [x] 게시글 내 댓글 CRUD
     - [x] 조회수 표시
     - [x] 파일 첨부 기능
-- [ ] Chat
+- Chat
     - [x] WebSocket 기반 Chat
     - [x] 대화 로그 DB 저장
-- [ ] AI
+- AI
     - [x] 비동기 작동
     - [x] 비동기 결과 반환 및 저장
 - [x] Log
@@ -299,6 +299,11 @@ y = 4x_0 + 5x_1 + 2x_2 + 7x_3 + 0.1x_4 + 15x_5 + 0.05x_6+ x_7
 sudo bash project_init.sh
 ```
 
+# PyTest 실행방법
+```bash
+pytest test/test_run.py
+```
+
 # 겪은 문제점들
 - router의 순환 참조 오류
     > 기존 프로젝트는 router에 관련 함수들이 모두 포함되어 코드의 가독성이 저하되었다. 기능 별 파일의 단순 분리를 진행하였으나 순환 참조 오류가 발생하였다. 문제 해결을 위해 router 변수 정의 후, 모듈 불러오기를 시도했지만, import문의 분리로 인한 가독성 저하와 메모리 누수 등의 위험성을 고려하여, routing 데코레이터와 routing 함수를 분리하여 router.py에서 routing 데코레이터를 사용하는 방법을 적용하였다.
@@ -335,6 +340,7 @@ app
 │       │   ├── decode_access_token.py
 │       │   ├── generate_access_token.py
 │       │   ├── get_access_token_from_header.py
+│       │   ├── get_admin_access_token_payload.py
 │       │   └── get_user_access_token_payload.py
 │       ├── issue_user_jwt.py
 │       ├── oauth2_scheme.py
@@ -468,7 +474,7 @@ app
 │       │   ├── __init__.py
 │       │   ├── issue_websocket_access_token
 │       │   │   ├── __init__.py
-│       │   │   ├── http_get.py
+│       │   │   ├── http_post.py
 │       │   │   └── router.py
 │       │   ├── login
 │       │   │   ├── __init__.py
@@ -488,7 +494,7 @@ app
 │       │   │   └── router.py
 │       │   ├── reissue_access_token
 │       │   │   ├── __init__.py
-│       │   │   ├── http_get.py
+│       │   │   ├── http_post.py
 │       │   │   └── router.py
 │       │   └── router.py
 │       ├── boards
@@ -746,17 +752,30 @@ app
 ├── test
 │   ├── __init__.py
 │   ├── conftest.py
+│   ├── login_user.py
 │   ├── main_test
 │   │   ├── __init__.py
 │   │   ├── parameters
 │   │   │   └── __init__.py
 │   │   └── scripts.py
+│   ├── parameter_datat_loader.py
 │   ├── pytest_test
 │   │   ├── __init__.py
 │   │   ├── parameters
 │   │   │   └── __init__.py
 │   │   └── scripts.py
-│   └── test_run.py
+│   ├── test_run.py
+│   ├── url_class.py
+│   └── user_test
+│       ├── __init__.py
+│       ├── parameters
+│       │   ├── __init__.py
+│       │   ├── create_user.json
+│       │   ├── delete_user.json
+│       │   ├── get_user_detail.json
+│       │   ├── get_user_list.json
+│       │   └── update_user_detail.json
+│       └── scripts.py
 └── volume
     ├── ai_model_store
     │   └── .gitkeep
