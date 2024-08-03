@@ -1,0 +1,28 @@
+{
+    "argnames": "login_name, login_password,user_id",
+    "argvalues_pass": [
+        [
+            "user2",
+            "12345678aA!",
+            3
+        ],
+        [
+            "user3",
+            "12345678aA!",
+            4
+        ],
+        [
+            "user4",
+            "12345678aA!",
+            5
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345679aA!",
+            0,
+            "유효성 검사,user id 불일치"
+        ]
+    ]
+}

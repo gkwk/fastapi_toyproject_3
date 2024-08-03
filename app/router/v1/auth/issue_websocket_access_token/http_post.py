@@ -9,7 +9,7 @@ from auth.jwt.websocket_access_token.generate_websocket_access_token import (
 )
 
 
-def http_get(data_base: database_dependency, token: current_user_access_token_payload):
+def http_post(data_base: database_dependency, token: current_user_access_token_payload):
     try:
         wensocket_access_token = generate_websocket_access_token(
             user_id=token.user_id, user_role=token.role

@@ -1,5 +1,6 @@
 from typing import Annotated, Optional
 import contextlib
+import functools
 import os
 
 from fastapi import Depends
@@ -76,6 +77,15 @@ def get_data_base_decorator(f):
             if "data_base" in kwargs:
                 kwargs["data_base"] = data_base
             f(data_base, *args, **kwargs)
+
+    return wrapper
+
+
+def get_data_base_decorator_v2(f):
+    @functools.wraps(f)
+    def wrapper(*args, **kwargs):
+        with get_data_base_for_decorator() as data_base:
+            f(*args, data_base=data_base, **kwargs)
 
     return wrapper
 

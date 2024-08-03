@@ -17,7 +17,7 @@
 - MongoDB와 Redis 사용 함수를 구현한다.
 
 # 구현 사항
-- [ ] User
+- User
     - [x] 회원가입
     - [x] 로그인
     - [x] 사용자 정보 보기
@@ -26,22 +26,22 @@
     - [x] 비밀번호 초기화 기능 (SMTP)
     - [x] JWT refresh token 기능
     - [x] JWT access token 블랙리스트
-- [ ] Admin
+- Admin
     - [x] 터미널에서의 계정 생성
     - [x] 사용자 리스트 보기
     - [x] 사용자 게시판 접근 권한 수정
     - [ ] 사용자 차단
     - [x] 게시판 추가
-- [ ] Board
+- Board
     - [x] 추가 가능한 개별 게시판
     - [x] 게시글 CRUD
     - [x] 게시글 내 댓글 CRUD
     - [x] 조회수 표시
     - [x] 파일 첨부 기능
-- [ ] Chat
+- Chat
     - [x] WebSocket 기반 Chat
     - [x] 대화 로그 DB 저장
-- [ ] AI
+- AI
     - [x] 비동기 작동
     - [x] 비동기 결과 반환 및 저장
 - [x] Log
@@ -77,6 +77,11 @@ y = 4x_0 + 5x_1 + 2x_2 + 7x_3 + 0.1x_4 + 15x_5 + 0.05x_6+ x_7
 - 터미널에서 아래의 명령어 입력
 ```bash
 sudo bash project_init.sh
+```
+
+# PyTest 실행방법
+```bash
+pytest test/test_run.py
 ```
 
 # 겪은 문제점들

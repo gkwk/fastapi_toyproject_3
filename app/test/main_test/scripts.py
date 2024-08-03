@@ -1,17 +1,22 @@
+import inspect
+
 from fastapi.testclient import TestClient
 from sqlalchemy import delete, text
+from sqlalchemy.orm import Session
 
 from main import app
-from router.v1 import v1_url
-from database.database import session_local, engine, MetaData
+from database.database import engine, MetaData, Base, get_data_base_decorator_v2
+import models
+from test.url_class import MainURLClass
+
 
 _client = TestClient(app)
 
 
 class _MainTestMethods:
     @staticmethod
-    def data_base_init():
-        data_base = session_local()
+    @get_data_base_decorator_v2
+    def data_base_init(data_base: Session = None):
         meta_data = MetaData()
         meta_data.reflect(bind=engine)
 
@@ -24,14 +29,15 @@ class _MainTestMethods:
                 text(f'UPDATE sqlite_sequence SET seq = 0 WHERE name = "{value[0]}"')
             )
 
+        for name, model in inspect.getmembers(models, inspect.isclass):
+            model: Base
+            data_base.execute(delete(model))
+
         data_base.commit()
-        data_base.close()
 
     @staticmethod
     def read_main():
-        response = _client.get(
-            v1_url.API_V1_ROUTER_PREFIX + v1_url.MAIN_ROUTER_PREFIX + v1_url.ENDPOINT
-        )
+        response = _client.get(MainURLClass.index())
         assert response.status_code == 200
         assert response.json() == {"message": "Hello, FastAPI!"}
 

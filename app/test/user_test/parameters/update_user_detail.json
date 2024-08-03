@@ -1,0 +1,121 @@
+{
+    "argnames": "login_name, login_password, user_id, patch_json",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "user0_update@test.com"
+            }
+        ],
+        [
+            "user1",
+            "12345678aA!",
+            2,
+            {
+                "email": "user1_update@test.com",
+                "password1" : "123456789aA!",
+                "password2" : "123456789aA!"
+            }
+        ],
+        [
+            "user2",
+            "12345678aA!",
+            3,
+            {
+                "email": "user2_update@test.com"
+            }
+        ],
+        [
+            "user3",
+            "12345678aA!",
+            4,
+            {
+                "email": "user3_update@test.com"
+            }
+        ],
+        [
+            "user4",
+            "12345678aA!",
+            5,
+            {
+                "email": "user4_update@test.com"
+            }
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "  "
+            },
+            "유효성 검사, 이메일"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "1@.com"
+            },
+            "유효성 검사, 이메일"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "1@com"
+            },
+            "유효성 검사, 이메일"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "@a.com"
+            },
+            "유효성 검사, 이메일"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "1@"
+            },
+            "유효성 검사, 이메일"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "1@."
+            },
+            "유효성 검사, 이메일"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "1@  "
+            },
+            "유효성 검사, 이메일"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "email": "user1_update@test.com"
+            },
+            "유효성 검사, 이메일 중복"
+        ]
+    ]
+}

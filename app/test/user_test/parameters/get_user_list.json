@@ -1,0 +1,65 @@
+{
+    "argnames": "login_name, login_password, test_columns",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            [
+                "name",
+                "email"
+            ]
+        ],
+        [
+            "user1",
+            "12345678aA!",
+            [
+                "name",
+                "email"
+            ]
+        ],
+        [
+            "user2",
+            "12345678aA!",
+            [
+                "name",
+                "email"
+            ]
+        ],
+        [
+            "user3",
+            "12345678aA!",
+            [
+                "name",
+                "email"
+            ]
+        ],
+        [
+            "user4",
+            "12345678aA!",
+            [
+                "name",
+                "email"
+            ]
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345678aA!",
+            [
+                "name"
+            ],
+            "의도하지 않은 칼럼 삭제"
+        ],
+        [
+            "user1",
+            "12345678aA!",
+            [
+                "name",
+                "email",
+                "fail1"
+            ],
+            "의도하지 않은 칼럼 추가"
+        ]
+    ]
+}
