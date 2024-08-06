@@ -760,6 +760,29 @@ app
 │   │   │   ├── logout.json
 │   │   │   └── reissue_access_token.json
 │   │   └── scripts.py
+│   ├── board_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   ├── __init__.py
+│   │   │   ├── create_board.json
+│   │   │   ├── delete_board.json
+│   │   │   ├── get_board_detail.json
+│   │   │   ├── get_board_list.json
+│   │   │   └── update_board_detail.json
+│   │   └── scripts.py
+│   ├── comment_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   ├── __init__.py
+│   │   │   ├── create_comment.json
+│   │   │   ├── delete_comment.json
+│   │   │   ├── file_test1.txt
+│   │   │   ├── file_test2.txt
+│   │   │   ├── file_test3.txt
+│   │   │   ├── get_comment_detail.json
+│   │   │   ├── get_comment_list.json
+│   │   │   └── update_comment_detail.json
+│   │   └── scripts.py
 │   ├── conftest.py
 │   ├── login_user.py
 │   ├── main_test
@@ -768,6 +791,19 @@ app
 │   │   │   └── __init__.py
 │   │   └── scripts.py
 │   ├── parameter_data_loader.py
+│   ├── post_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   ├── __init__.py
+│   │   │   ├── create_post.json
+│   │   │   ├── delete_post.json
+│   │   │   ├── file_test1.txt
+│   │   │   ├── file_test2.txt
+│   │   │   ├── file_test3.txt
+│   │   │   ├── get_post_detail.json
+│   │   │   ├── get_post_list.json
+│   │   │   └── update_post_detail.json
+│   │   └── scripts.py
 │   ├── pytest_test
 │   │   ├── __init__.py
 │   │   ├── parameters
