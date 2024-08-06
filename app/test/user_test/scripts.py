@@ -20,7 +20,7 @@ class _UserTestMethods:
     @staticmethod
     def create_user(name, password1, password2, email):
         client_response = _client.post(
-            UserURLClass.user(),
+            UserURLClass.users(),
             json={
                 "name": name,
                 "password1": password1,
@@ -58,7 +58,7 @@ class _UserTestMethods:
     @staticmethod
     def get_user_list(login_user: LoginUser):
         client_response = _client.get(
-            UserURLClass.user(),
+            UserURLClass.users(),
             headers={"Authorization": f"Bearer {login_user.get_access_token()}"},
         )
         return client_response
@@ -80,7 +80,7 @@ class _UserTestMethods:
     @staticmethod
     def get_user_detail(login_user: LoginUser, user_id: int):
         response_test = _client.get(
-            UserURLClass.user_user_id(user_id),
+            UserURLClass.users_user_id(user_id),
             headers={"Authorization": f"Bearer {login_user.get_access_token()}"},
         )
         return response_test
@@ -103,7 +103,7 @@ class _UserTestMethods:
         patch_json: dict = {},
     ):
         response_test = _client.patch(
-            UserURLClass.user_user_id(user_id),
+            UserURLClass.users_user_id(user_id),
             json=patch_json,
             headers={"Authorization": f"Bearer {login_user.get_access_token()}"},
         )
@@ -143,7 +143,7 @@ class _UserTestMethods:
         user_id: int,
     ):
         response_test = _client.delete(
-            UserURLClass.user_user_id(user_id),
+            UserURLClass.users_user_id(user_id),
             headers={"Authorization": f"Bearer {login_user.get_access_token()}"},
         )
 

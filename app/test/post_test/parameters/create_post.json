@@ -1,0 +1,48 @@
+{
+    "argnames": "login_name, login_password, board_id,name, content, is_visible, file_paths",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            "post1",
+            "post1_content",
+            true,
+            []
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            "post2",
+            "post2_content",
+            true,
+            []
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            "post3",
+            "post3_content",
+            true,
+            [
+                "file_test1.txt"
+            ]
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            "post2",
+            "post2_content",
+            true,
+            [
+                "file_test1.txt",
+                "file_test2.txt",
+                "file_test1.txt"
+            ]
+        ]
+    ],
+    "argvalues_fail": []
+}

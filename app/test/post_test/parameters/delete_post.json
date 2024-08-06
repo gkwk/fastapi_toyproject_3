@@ -1,0 +1,27 @@
+{
+    "argnames": "login_name, login_password,board_id,post_id",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            4
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345679aA!",
+            0,
+            1,
+            "유효성 검사,board 존재 안함"
+        ],
+        [
+            "user0",
+            "12345679aA!",
+            1,
+            4,
+            "유효성 검사,post 존재 안함"
+        ]
+    ]
+}

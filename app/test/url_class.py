@@ -99,7 +99,7 @@ class AuthURLClass:
 
 class UserURLClass:
     @staticmethod
-    def user():
+    def users():
         return url_join(
             [
                 v1_url.API_V1_ROUTER_PREFIX,
@@ -109,13 +109,127 @@ class UserURLClass:
         )
 
     @staticmethod
-    def user_user_id(user_id: int):
+    def users_user_id(user_id: int):
         return url_join(
             [
                 v1_url.API_V1_ROUTER_PREFIX,
                 v1_url.USERS_ROUTER_PREFIX,
                 # v1_url.USERS_ID_ROUTER_PREFIX,
                 f"/{user_id}",
+                v1_url.ENDPOINT,
+            ],
+        )
+
+
+class BoardURLClass:
+    @staticmethod
+    def boards():
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.BOARDS_ROUTER_PREFIX,
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def boards_board_id(board_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.BOARDS_ROUTER_PREFIX,
+                # v1_url.BOARDS_ID_ROUTER_PREFIX,
+                f"/{board_id}",
+                v1_url.ENDPOINT,
+            ],
+        )
+
+
+class PostURLClass:
+    @staticmethod
+    def posts(board_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.BOARDS_ROUTER_PREFIX,
+                # v1_url.BOARDS_ID_ROUTER_PREFIX,
+                f"/{board_id}",
+                v1_url.POSTS_ROUTER_PREFIX,
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def posts_post_id(board_id: int, post_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.BOARDS_ROUTER_PREFIX,
+                # v1_url.BOARDS_ID_ROUTER_PREFIX,
+                f"/{board_id}",
+                v1_url.POSTS_ROUTER_PREFIX,
+                # v1_url.POSTS_ID_ROUTER_PREFIX,
+                f"/{post_id}",
+                v1_url.ENDPOINT,
+            ],
+        )
+
+
+class CommentURLClass:
+    @staticmethod
+    def comments(board_id: int, post_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.BOARDS_ROUTER_PREFIX,
+                # v1_url.BOARDS_ID_ROUTER_PREFIX,
+                f"/{board_id}",
+                v1_url.POSTS_ROUTER_PREFIX,
+                # v1_url.POSTS_ID_ROUTER_PREFIX,
+                f"/{post_id}",
+                v1_url.COMMENTS_ROUTER_PREFIX,
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def comments_comment_id(board_id: int, post_id: int, comment_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.BOARDS_ROUTER_PREFIX,
+                # v1_url.BOARDS_ID_ROUTER_PREFIX,
+                f"/{board_id}",
+                v1_url.POSTS_ROUTER_PREFIX,
+                # v1_url.POSTS_ID_ROUTER_PREFIX,
+                f"/{post_id}",
+                v1_url.COMMENTS_ROUTER_PREFIX,
+                # v1_url.COMMENTS_ID_ROUTER_PREFIX,
+                f"/{comment_id}",
+                v1_url.ENDPOINT,
+            ],
+        )
+
+
+class AIURLClass:
+    @staticmethod
+    def ais():
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.AIS_ROUTER_PREFIX,
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def ais_ai_id(ai_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.AIS_ROUTER_PREFIX,
+                # v1_url.AIS_ID_ROUTER_PREFIX,
+                f"/{ai_id}",
                 v1_url.ENDPOINT,
             ],
         )

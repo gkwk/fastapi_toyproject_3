@@ -1,0 +1,38 @@
+{
+    "argnames": "login_name, login_password, board_id, post_id, patch_form",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            1,
+            {
+                "name": "post1_update"
+            }
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            2,
+            {
+                "content": "post2_content_update"
+            }
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            3,
+            {
+                "name": "post3_content_update",
+                "content": "post3_content_update",
+                "is_visible": false,
+                "file_list_append": [
+                    "file_test3.txt"
+                ]
+            }
+        ]
+    ],
+    "argvalues_fail": []
+}
