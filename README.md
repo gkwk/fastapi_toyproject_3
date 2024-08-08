@@ -58,6 +58,8 @@
 - Post, Comment, AI 삭제시 저장된 파일들을 삭제하는 코드를 작성한다.
 - Post, Comment에 파일 첨부된 생성 요청시 Post와 Comment의 id 부여를 위한 commit 과정을 변경한다.
     - 파일 저장이 완전히 완료되지 않았지만 Post와 Comment가 보이는 문제를 해결해야 한다.
+- AI 파일 저장 방식의 변경 고려
+    - 현재 AI 파일의 이름이 update로 인한 name 변경을 반영하지 못하는 문제가 있다. 이를 해결하기 위해, id와 uuid로 파일의 이름을 구성하는 방법 등의 도입을 고려해야 한다.
 
 # 데이터베이스
 - SQLAlchemy를 사용한다.
@@ -751,6 +753,27 @@ app
 │   └── create_super_user.py
 ├── test
 │   ├── __init__.py
+│   ├── ai_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   ├── __init__.py
+│   │   │   ├── create_ai.json
+│   │   │   ├── create_ai2.json
+│   │   │   ├── delete_ai.json
+│   │   │   ├── get_ai_detail.json
+│   │   │   ├── get_ai_list.json
+│   │   │   └── update_ai_detail.json
+│   │   └── scripts.py
+│   ├── ailog_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   ├── __init__.py
+│   │   │   ├── create_ailog.json
+│   │   │   ├── delete_ailog.json
+│   │   │   ├── get_ailog_detail.json
+│   │   │   ├── get_ailog_list.json
+│   │   │   └── update_ailog_detail.json
+│   │   └── scripts.py
 │   ├── auth_test
 │   │   ├── __init__.py
 │   │   ├── parameters
@@ -770,6 +793,46 @@ app
 │   │   │   ├── get_board_list.json
 │   │   │   └── update_board_detail.json
 │   │   └── scripts.py
+│   ├── celery_test
+│   │   ├── __init__.py
+│   │   ├── beat
+│   │   │   └── .gitkeep
+│   │   ├── celery_app_beat.py
+│   │   ├── celery_app_worker.py
+│   │   ├── celery_app_worker_for_test.py
+│   │   ├── config.py
+│   │   ├── enums
+│   │   │   ├── __init__.py
+│   │   │   └── ai_type.py
+│   │   ├── mongodb_method
+│   │   │   ├── __init__.py
+│   │   │   └── mongodb_method.py
+│   │   ├── rabbitmq_method
+│   │   │   ├── __init__.py
+│   │   │   └── rabbitmq_method.py
+│   │   ├── redis_method
+│   │   │   ├── __init__.py
+│   │   │   └── redis_method.py
+│   │   ├── tasks.py
+│   │   ├── v1
+│   │   │   ├── __init__.py
+│   │   │   ├── ailogs
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── tasks.py
+│   │   │   ├── ais
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── tasks.py
+│   │   │   └── posts
+│   │   │       ├── __init__.py
+│   │   │       └── tasks.py
+│   │   └── volume
+│   │       ├── ai_model_store
+│   │       │   └── .gitkeep
+│   │       ├── database
+│   │       │   └── .gitkeep
+│   │       └── staticfile
+│   │           ├── .gitkeep
+│   │           └── AI_test.CSV
 │   ├── comment_test
 │   │   ├── __init__.py
 │   │   ├── parameters
@@ -790,6 +853,7 @@ app
 │   │   ├── parameters
 │   │   │   └── __init__.py
 │   │   └── scripts.py
+│   ├── message_process.py
 │   ├── parameter_data_loader.py
 │   ├── post_test
 │   │   ├── __init__.py
