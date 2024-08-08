@@ -833,6 +833,25 @@ app
 │   │       └── staticfile
 │   │           ├── .gitkeep
 │   │           └── AI_test.CSV
+│   ├── chat_session_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   ├── __init__.py
+│   │   │   ├── create_chat_session.json
+│   │   │   ├── delete_chat_session.json
+│   │   │   ├── get_chat_session_detail.json
+│   │   │   ├── get_chat_session_list.json
+│   │   │   ├── update_chat_session_detail.json
+│   │   │   └── websocket_chat_session.json
+│   │   └── scripts.py
+│   ├── chat_test
+│   │   ├── __init__.py
+│   │   ├── parameters
+│   │   │   ├── __init__.py
+│   │   │   ├── delete_chat.json
+│   │   │   ├── get_chat_detail.json
+│   │   │   └── get_chat_list.json
+│   │   └── scripts.py
 │   ├── comment_test
 │   │   ├── __init__.py
 │   │   ├── parameters
