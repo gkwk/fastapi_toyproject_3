@@ -58,6 +58,8 @@
 - Post, Comment, AI 삭제시 저장된 파일들을 삭제하는 코드를 작성한다.
 - Post, Comment에 파일 첨부된 생성 요청시 Post와 Comment의 id 부여를 위한 commit 과정을 변경한다.
     - 파일 저장이 완전히 완료되지 않았지만 Post와 Comment가 보이는 문제를 해결해야 한다.
+- AI 파일 저장 방식의 변경 고려
+    - 현재 AI 파일의 이름이 update로 인한 name 변경을 반영하지 못하는 문제가 있다. 이를 해결하기 위해, id와 uuid로 파일의 이름을 구성하는 방법 등의 도입을 고려해야 한다.
 
 # 데이터베이스
 - SQLAlchemy를 사용한다.
