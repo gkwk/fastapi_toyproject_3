@@ -175,4 +175,8 @@ celery_docker/volume/database/
 celery_docker/volume/staticfile/
 celery_docker/beat/celerybeat-schedule.*
 
+
+
+app/test/celery_test/beat/celerybeat-schedule.*
+
 test_execpt_*/
