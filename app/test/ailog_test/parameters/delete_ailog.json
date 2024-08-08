@@ -1,0 +1,20 @@
+{
+    "argnames": "login_name, login_password,ai_id,ailog_id",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            1
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345679aA!",
+            1,
+            0,
+            "유효성 검사, ailog 존재 안함"
+        ]
+    ]
+}

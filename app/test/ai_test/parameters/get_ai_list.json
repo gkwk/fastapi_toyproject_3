@@ -1,0 +1,39 @@
+{
+    "argnames": "login_name, login_password, test_columns",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            [
+                "id",
+                "name",
+                "description",
+                "ai_type"
+            ]
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345678aA!",
+            [
+                "id",
+                "name",
+                "description"
+            ],
+            "의도하지 않은 칼럼 삭제"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            [
+                "id",
+                "name",
+                "description",
+                "ai_type",
+                "fail1"
+            ],
+            "의도하지 않은 칼럼 추가"
+        ]
+    ]
+}

@@ -1,0 +1,54 @@
+{
+    "argnames": "login_name, login_password, ai_id,test_columns",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            [
+                "id",
+                "ai_id",
+                "description",
+                "result",
+                "create_date",
+                "update_date",
+                "finish_date",
+                "is_finished"
+            ]
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            [
+                "id",
+                "ai_id",
+                "description",
+                "result",
+                "create_date",
+                "update_date",
+                "finish_date"
+            ],
+            "의도하지 않은 칼럼 삭제"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            [
+                "id",
+                "ai_id",
+                "description",
+                "result",
+                "create_date",
+                "update_date",
+                "finish_date",
+                "is_finished",
+                "fail1"
+            ],
+            "의도하지 않은 칼럼 추가"
+        ]
+    ]
+}

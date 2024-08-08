@@ -1,0 +1,20 @@
+{
+    "argnames": "login_name, login_password,  ai_id,description",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            "ai1_description"
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345678aA!",
+            0,
+            "ai1_description",
+            "AI 모델 존재 안함"
+        ]
+    ]
+}

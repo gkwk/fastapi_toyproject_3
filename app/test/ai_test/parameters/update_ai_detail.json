@@ -1,0 +1,23 @@
+{
+    "argnames": "login_name, login_password, ai_id, patch_json",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "description": "ai1_description_update"
+            }
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            2,
+            {
+                "is_visible": false,
+                "is_available": false
+            }
+        ]
+    ],
+    "argvalues_fail": []
+}

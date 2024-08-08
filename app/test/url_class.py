@@ -233,3 +233,33 @@ class AIURLClass:
                 v1_url.ENDPOINT,
             ],
         )
+
+
+class AILogURLClass:
+    @staticmethod
+    def ailogs(ai_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.AIS_ROUTER_PREFIX,
+                # v1_url.AIS_ID_ROUTER_PREFIX,
+                f"/{ai_id}",
+                v1_url.AILOGS_ROUTER_PREFIX,
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def ailogs_ailog_id(ai_id: int, ailog_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.AIS_ROUTER_PREFIX,
+                # v1_url.AIS_ID_ROUTER_PREFIX,
+                f"/{ai_id}",
+                v1_url.AILOGS_ROUTER_PREFIX,
+                # v1_url.AILOGS_ID_ROUTER_PREFIX,
+                f"/{ailog_id}",
+                v1_url.ENDPOINT,
+            ],
+        )

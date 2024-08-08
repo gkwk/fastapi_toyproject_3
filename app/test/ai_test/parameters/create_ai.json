@@ -1,0 +1,41 @@
+{
+    "argnames": "login_name, login_password, name, description, is_visible, ai_type",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            "ai1",
+            "ai1_description",
+            true,
+            "text"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            "ai2",
+            "ai2_description",
+            true,
+            "image"
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345678aA!",
+            "ai2",
+            "ai2_description",
+            true,
+            "image",
+            "AI 명칭 중복"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            "fail1",
+            "fail1_description",
+            true,
+            "fail",
+            "AI type 에러"
+        ]
+    ]
+}

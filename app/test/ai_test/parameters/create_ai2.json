@@ -1,0 +1,24 @@
+{
+    "argnames": "login_name, login_password, name, description, is_visible, ai_type, ai_id",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            "ai1",
+            "ai1_description",
+            true,
+            "text",
+            1
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            "ai2",
+            "ai2_description",
+            true,
+            "image",
+            2
+        ]
+    ],
+    "argvalues_fail": []
+}
