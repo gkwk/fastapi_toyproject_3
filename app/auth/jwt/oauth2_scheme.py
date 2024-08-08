@@ -19,7 +19,7 @@ oauth2_scheme_v1_test = CustomOAuth2PasswordBearer(
 )
 
 def get_oauth2_scheme_v1():
-    # return oauth2_scheme_v1
-    return oauth2_scheme_v1_test
+    return oauth2_scheme_v1
+    # return oauth2_scheme_v1_test
 
 jwt_dependency = Annotated[str, Depends(get_oauth2_scheme_v1())]

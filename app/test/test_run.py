@@ -6,4 +6,6 @@ from test.post_test.scripts import TestPost
 from test.comment_test.scripts import TestComment
 from test.ai_test.scripts import TestAI
 from test.ailog_test.scripts import TestAILog
+from test.chat_session_test.scripts import TestChatSession
+from test.chat_test.scripts import TestChat
 

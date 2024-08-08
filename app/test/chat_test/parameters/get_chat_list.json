@@ -1,0 +1,45 @@
+{
+    "argnames": "login_name, login_password, chat_session_id, test_columns",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            [
+                "id",
+                "content",
+                "chat_session_id",
+                "create_date",
+                "update_date"
+            ]
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            [
+                "id",
+                "content",
+                "chat_session_id",
+                "create_date"
+            ],
+            "의도하지 않은 칼럼 삭제"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            [
+                "id",
+                "content",
+                "chat_session_id",
+                "create_date",
+                "update_date",
+                "fail1"
+            ],
+            "의도하지 않은 칼럼 추가"
+        ]
+    ]
+}

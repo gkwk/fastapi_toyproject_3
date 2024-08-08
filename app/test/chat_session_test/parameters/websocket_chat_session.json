@@ -1,0 +1,24 @@
+{
+    "argnames": "login_name, login_password,chat_session_id,chat_message",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            "chat1"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            "chat2"
+        ],
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            "chat3"
+        ]
+    ],
+    "argvalues_fail": []
+}

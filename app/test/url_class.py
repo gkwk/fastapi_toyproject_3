@@ -263,3 +263,86 @@ class AILogURLClass:
                 v1_url.ENDPOINT,
             ],
         )
+
+
+class ChatSessionURLClass:
+    @staticmethod
+    def chat_sessions():
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.CHAT_SESSIONS_ROUTER_PREFIX,
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def chat_sessions_chat_session_id(chat_session_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.CHAT_SESSIONS_ROUTER_PREFIX,
+                # v1_url.CHAT_SESSIONS_ID_ROUTER_PREFIX,
+                f"/{chat_session_id}",
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def chat_sessions_chat_session_id_ws(chat_session_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.CHAT_SESSIONS_ROUTER_PREFIX,
+                # v1_url.CHAT_SESSIONS_ID_ROUTER_PREFIX,
+                f"/{chat_session_id}",
+                v1_url.CHAT_SESSIONS_ID_WEBSOCKET_PREFIX,
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def chat_sessions_chat_session_id_ws_with_websocket_access_token(
+        chat_session_id: int, websocket_access_token: str
+    ):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.CHAT_SESSIONS_ROUTER_PREFIX,
+                # v1_url.CHAT_SESSIONS_ID_ROUTER_PREFIX,
+                f"/{chat_session_id}",
+                v1_url.CHAT_SESSIONS_ID_WEBSOCKET_PREFIX,
+                v1_url.ENDPOINT,
+                f"?websocket_access_token={websocket_access_token}",
+            ],
+        )
+
+
+class ChatURLClass:
+    @staticmethod
+    def chats(chat_session_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.CHAT_SESSIONS_ROUTER_PREFIX,
+                # v1_url.CHAT_SESSIONS_ID_ROUTER_PREFIX,
+                f"/{chat_session_id}",
+                v1_url.CHATS_ROUTER_ROUTER_PREFIX,
+                v1_url.ENDPOINT,
+            ],
+        )
+
+    @staticmethod
+    def chats_chat_id(chat_session_id: int, chat_id: int):
+        return url_join(
+            [
+                v1_url.API_V1_ROUTER_PREFIX,
+                v1_url.CHAT_SESSIONS_ROUTER_PREFIX,
+                # v1_url.CHAT_SESSIONS_ID_ROUTER_PREFIX,
+                f"/{chat_session_id}",
+                v1_url.CHATS_ROUTER_ROUTER_PREFIX,
+                # v1_url.CHATS_ID_ROUTER_ROUTER_PREFIX,
+                f"/{chat_id}",
+                v1_url.ENDPOINT,
+            ],
+        )

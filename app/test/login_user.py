@@ -44,3 +44,13 @@ class LoginUser:
             return True
 
         return False
+
+    def get_websocket_access_token(self):
+        response = self.client.post(
+            AuthURLClass.auth_issue_websocket_access_token(),
+            headers={"Authorization": f"Bearer {self.get_access_token()}"}
+        )
+        if response.status_code == 200:
+            return response.json().get("websocket_access_token")
+        
+        return ""

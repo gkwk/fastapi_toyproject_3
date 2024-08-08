@@ -1,0 +1,15 @@
+{
+    "argnames": "login_name, login_password, chat_session_id, patch_json",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            {
+                "name": "chat_session1_update",
+                "information": "chat_session1_information_update"
+            }
+        ]
+    ],
+    "argvalues_fail": []
+}

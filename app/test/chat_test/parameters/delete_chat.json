@@ -1,0 +1,27 @@
+{
+    "argnames": "login_name, login_password,chat_session_id, chat_id",
+    "argvalues_pass": [
+        [
+            "user0",
+            "12345678aA!",
+            1,
+            3
+        ]
+    ],
+    "argvalues_fail": [
+        [
+            "user0",
+            "12345679aA!",
+            0,
+            1,
+            "유효성 검사,chat session 존재 안함"
+        ],
+        [
+            "user0",
+            "12345679aA!",
+            1,
+            0,
+            "유효성 검사,chat 존재 안함"
+        ]
+    ]
+}
