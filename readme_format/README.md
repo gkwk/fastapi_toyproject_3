@@ -30,7 +30,7 @@
     - [x] 터미널에서의 계정 생성
     - [x] 사용자 리스트 보기
     - [x] 사용자 게시판 접근 권한 수정
-    - [ ] 사용자 차단
+    - [x] 사용자 차단
     - [x] 게시판 추가
 - Board
     - [x] 추가 가능한 개별 게시판
@@ -45,7 +45,7 @@
     - [x] 비동기 작동
     - [x] 비동기 결과 반환 및 저장
 - [x] Log
-- [ ] Test
+- [x] Test
 - [x] MongoDB
 - [x] Redis
 
@@ -58,6 +58,7 @@
 - Post, Comment, AI 삭제시 저장된 파일들을 삭제하는 코드를 작성한다.
 - Post, Comment에 파일 첨부된 생성 요청시 Post와 Comment의 id 부여를 위한 commit 과정을 변경한다.
     - 파일 저장이 완전히 완료되지 않았지만 Post와 Comment가 보이는 문제를 해결해야 한다.
+- DB의 row 삭제 시 Hard Delete 대신 Soft Delete를 사용하고, 스케쥴러를 통해 일정 기간 이후 삭제 처리 기능을 구현한다.
 - AI 파일 저장 방식의 변경 고려
     - 현재 AI 파일의 이름이 update로 인한 name 변경을 반영하지 못하는 문제가 있다. 이를 해결하기 위해, id와 uuid로 파일의 이름을 구성하는 방법 등의 도입을 고려해야 한다.
 
@@ -65,9 +66,6 @@
 - SQLAlchemy를 사용한다.
 - SQLite와 MySQL을 선택할 수 있게 한다.
 
-# 데이터베이스 테이블 구조
-<!-- DB_TABLE_START -->
-<!-- DB_TABLE_END -->
 
 # AI_test.csv
 ```math
@@ -106,6 +104,13 @@ pytest test/test_run.py
     > `main.py`에 Middleware 관련 코드가 모두 포함될 경우 코드의 가독성이 저하가 예상되었다. 이를 해결하기 위해 `http_middleware`폴더를 추가한 뒤, Middleware 코드를 해당 폴더로 옮겼다. 코드 이전 이후, `main.py`에서 Middleware를 추가하는 코드만 유지하여 가독성을 향상시켰다.
 - Board 접근 권한 문제
     > 현재 게시판 접근시 게시판의 공개여부`(is_visible)`에 따라 scope에 포함된 접근 권한을 검사하고 있다. 접근할 게시판의 `is_visible` 값을 검사하기 위해 DB를 조회하는 과정이 발생하고, 성능에 문제를 발생시킬 위험이 있다고 판단하였다. 문제 해결을 위해 메모리에 게시판들의 `is_visible` 값들을 캐싱하는 방법을 도입하였고, 라우터에서 캐싱된 게시판들의 `is_visible` 값들과 Access token에 저장된 scope를 비교하여 게시판 접근 권한을 검사하도록 하였다.
+- `HTTPException`발생 시 cookie 설정이 무시되는 문제
+    > `user-ban`기능을 추가한 뒤 `reissue-access-token`에 유효하지 않은 cookie로 저장된 refresh token을 삭제하는 코드를 추가하였다. 그러나 `HTTPException`이 발생하는 경우 cookie 설정이 무시되는 문제가 발생하였다. FastAPI의 Issues을 참고하여 해결책을 찾아 적용하였다. `ref : https://github.com/fastapi/fastapi/issues/999`
+
+# 데이터베이스 테이블 구조
+<!-- DB_TABLE_START -->
+<!-- DB_TABLE_END -->
+
 
 # 프로젝트 구조
 ```text
