@@ -3,6 +3,10 @@ from sqlalchemy.exc import OperationalError
 
 from models import User, JWTList
 from database.database import database_dependency
+from custom_exception.custom_exception import (
+    BannedUserHTTPException,
+    NotExistUserHTTPException,
+)
 from exception_message import http_exception_params
 from auth.jwt.refresh_token.get_user_refresh_token_payload import (
     current_user_refresh_token_payload,
@@ -27,10 +31,10 @@ def _database_process(
 
 def _validate_user(data_base: database_dependency, user: User | None):
     if not user:
-        raise HTTPException(**http_exception_params.not_exist_user)
+        raise NotExistUserHTTPException(**http_exception_params.not_exist_user)
 
     if user.is_banned:
-        raise HTTPException(**http_exception_params.banned_user)
+        raise BannedUserHTTPException(**http_exception_params.banned_user)
 
 
 def reissue_access_token(

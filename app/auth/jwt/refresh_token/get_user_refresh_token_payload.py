@@ -1,6 +1,6 @@
 from typing import Annotated
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, Response,Request
 from jwt.exceptions import InvalidTokenError
 from sqlalchemy.exc import OperationalError
 
@@ -13,6 +13,7 @@ from data_wrapper.refresh_token_payload import RefreshTokenPayload
 from config.config import get_settings
 from exception_message import http_exception_params
 from models import JWTList
+from custom_exception.custom_exception import InvalidTokenErrorHTTPException
 
 
 def _get_jwt(
@@ -43,7 +44,9 @@ def _validate_before_decoding():
     pass
 
 
-def _validate_after_decoding(data_base: database_dependency, payload: dict):
+def _validate_after_decoding(
+    response: Response, data_base: database_dependency, payload: dict
+):
     try:
         sub: str = payload.get("sub")
         domain: str = payload.get(get_settings().APP_DOMAIN)
@@ -71,17 +74,22 @@ def _validate_after_decoding(data_base: database_dependency, payload: dict):
             raise InvalidTokenError()
 
     except InvalidTokenError:
-        raise HTTPException(**http_exception_params.not_verified_token)
+        response.delete_cookie("refresh_token")
+        headers = {"set-cookie": response.headers.get("set-cookie")}
+        # ref : https://github.com/fastapi/fastapi/issues/999
+        # http exception 발생시 response의 header가 http exception의 header로 덮어씌워져 cookie 설정이 무시되는 것으로 보임
+        # http exception에 header를 추가하여 임시로 문제를 해결하였음
+        raise HTTPException(**http_exception_params.not_verified_token, headers=headers)
 
     return payload
 
 
 def get_user_refresh_token_payload(
-    data_base: database_dependency, token: refresh_token_dependency
+    response: Response, data_base: database_dependency, token: refresh_token_dependency
 ) -> RefreshTokenPayload:
     _validate_before_decoding()
     payload = decode_refresh_token(encoded_refresh_token=token)
-    _validate_after_decoding(data_base=data_base, payload=payload)
+    _validate_after_decoding(response=response, data_base=data_base, payload=payload)
 
     return RefreshTokenPayload(payload)
 

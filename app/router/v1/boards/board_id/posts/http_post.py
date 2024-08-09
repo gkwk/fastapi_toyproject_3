@@ -11,7 +11,7 @@ from service.post.router_logic.create_post import create_post
 def http_post(
     data_base: database_dependency,
     token: current_user_access_token_payload,
-    schema: RequestPostCreate = Depends(RequestFormPostCreate.from_form),
+    schema: RequestPostCreate = Depends(RequestFormPostCreate.to_pydantic),
     board_id: int = Path(ge=1),
 ):
     """

@@ -27,7 +27,7 @@ class RequestFormPostCreate:
     files: List[Optional[UploadFile]] = File(None)
 
     @classmethod
-    def from_form(
+    def to_pydantic(
         cls,
         request: Request,
         name: str = Form(min_length=1, max_length=64),

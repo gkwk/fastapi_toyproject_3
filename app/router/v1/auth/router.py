@@ -8,6 +8,8 @@ from router.v1.auth.issue_websocket_access_token import (
     router as issue_websocket_access_token_router,
 )
 from router.v1.auth.password_reset import router as password_reset_router
+from router.v1.auth.user_ban import router as user_ban_router
+
 
 router = APIRouter(prefix=v1_url.AUTH_ROUTER_PREFIX)
 
@@ -17,3 +19,4 @@ router.include_router(logout_router.router)
 router.include_router(reissue_access_token_router.router)
 router.include_router(issue_websocket_access_token_router.router)
 router.include_router(password_reset_router.router)
+router.include_router(user_ban_router.router)

@@ -14,7 +14,7 @@ from service.comment.router_logic.create_comment import create_comment
 def http_post(
     data_base: database_dependency,
     token: current_user_access_token_payload,
-    schema: RequestCommentCreate = Depends(RequestFormCommentCreate.from_form),
+    schema: RequestCommentCreate = Depends(RequestFormCommentCreate.to_pydantic),
     board_id: int = Path(ge=1),
     post_id: int = Path(ge=1),
 ):

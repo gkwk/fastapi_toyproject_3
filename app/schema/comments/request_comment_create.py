@@ -26,7 +26,7 @@ class RequestFormCommentCreate:
 
     # 불필요한 key값들이 전달되면 422를 반환하도록 수정이 필요하다.
     @classmethod
-    def from_form(
+    def to_pydantic(
         cls,
         request: Request,
         content: str = Form(min_length=1, max_length=256),
