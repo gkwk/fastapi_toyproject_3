@@ -571,6 +571,13 @@ app
 │       │   └── router.py
 │       ├── main
 │       │   ├── __init__.py
+│       │   ├── file_download
+│       │   │   ├── __init__.py
+│       │   │   ├── file_id
+│       │   │   │   ├── __init__.py
+│       │   │   │   ├── http_get.py
+│       │   │   │   └── router.py
+│       │   │   └── router.py
 │       │   ├── http_get.py
 │       │   └── router.py
 │       ├── users
@@ -627,8 +634,8 @@ app
 │   │   ├── __init__.py
 │   │   ├── request_comment_create.py
 │   │   ├── request_comment_detail_patch.py
-│   │   ├── response_comments.py
-│   │   └── response_post_detail.py
+│   │   ├── response_comment_detail.py
+│   │   └── response_comments.py
 │   ├── login
 │   │   └── __init__.py
 │   ├── password_reset
