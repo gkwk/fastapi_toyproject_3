@@ -26,6 +26,7 @@ class ResponseCommentDetailForUser(BaseModel):
     # token의 role을 이용하여 fastapi에서 자동으로 role에 맞는 값을 반환하도록 만든다.
     role: str
     detail: CommentInformationForUser
+    file_name_list: List[str]
 
     @field_validator("role")
     def is_not_user(cls, value: str):
@@ -38,6 +39,7 @@ class ResponseCommentDetailForAdmin(BaseModel):
     # token의 role을 이용하여 fastapi에서 자동으로 role에 맞는 값을 반환하도록 만든다.
     role: str
     detail: CommentInformationForAdmin
+    file_name_list: List[str]
 
     @field_validator("role")
     def is_not_admin(cls, value: str):

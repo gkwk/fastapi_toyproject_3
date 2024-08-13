@@ -157,6 +157,19 @@ def password_reset_token_cache_exist(user_id: int, uuid: str, timestamp: int):
     return redis_handler.exist(f"password_reset_token:{user_id}:{uuid}:{timestamp}")
 
 
+def download_file_lock_cache_set(file_name: str):
+    redis_handler.set(
+        f"download_file_lock:{file_name}",
+        "",
+        kw={"ex": 30 * 24 * 60 * 60},
+        # 60*60*24
+    )
+
+
+def download_file_lock_cache_exist(file_name: str):
+    return redis_handler.exist(f"download_file_lock:{file_name}")
+
+
 @contextmanager
 def redis_lock(lock_name, timeout=60):
     lock: Lock = redis_handler._client.lock(f"redis_lock:{lock_name}", timeout=timeout)

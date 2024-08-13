@@ -1,5 +1,6 @@
 import uuid
 from typing import cast
+import shutil
 
 from fastapi import HTTPException, UploadFile
 from sqlalchemy.exc import IntegrityError
@@ -72,8 +73,8 @@ def create_comment(
                 file_path = (
                     f"volume/staticfile/comment_{file_uuid_name}_{file.filename}"
                 )
-                with open(file_path, "wb+") as file_object:
-                    file_object.write(file.file.read())
+                with open(file_path, "wb+") as buffer:
+                    shutil.copyfileobj(file.file, buffer)
                     comment_file = CommentFile(
                         comment_id=comment.id,
                         post_id=post_id,

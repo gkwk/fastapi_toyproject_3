@@ -53,9 +53,19 @@ def http_get(
             post_id=post_id,
             user_role=token.role,
         )
+
+        file_name_list = []
+
+        for file in post.attached_files:
+            file_name_list.append(file.file_path.split("/")[-1])
+
         record_post_view(data_base=data_base, user_id=token.user_id, post_id=post_id)
 
     except HTTPException as e:
         raise e
 
-    return {"role": token.role, "detail": post}
+    return {
+        "role": token.role,
+        "detail": post,
+        "file_name_list": file_name_list,
+    }

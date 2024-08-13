@@ -8,6 +8,7 @@ from service.comment.router_logic.get_comment_detail import get_comment_detail
 from auth.jwt.scope_checker import scope_checker
 from database.redis_method import board_cache_get
 
+
 def http_get(
     data_base: database_dependency,
     token: current_user_access_token_payload,
@@ -18,7 +19,7 @@ def http_get(
     """
     게시글의 댓글을 조회한다.
     """
-    
+
     if not board_cache_get(board_id=board_id):
         scope_checker(target_scopes=[board_id], token=token)
 
@@ -28,7 +29,17 @@ def http_get(
             post_id=post_id,
             comment_id=comment_id,
         )
+
+        file_name_list = []
+
+        for file in comment.attached_files:
+            file_name_list.append(file.file_path.split("/")[-1])
+
     except HTTPException as e:
         raise e
 
-    return {"role": token.role, "detail": comment}
+    return {
+        "role": token.role,
+        "detail": comment,
+        "file_name_list": file_name_list,
+    }

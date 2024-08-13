@@ -1,5 +1,6 @@
 import uuid
 from typing import cast
+import shutil
 
 from fastapi import HTTPException, UploadFile
 from sqlalchemy.exc import IntegrityError
@@ -67,8 +68,10 @@ def create_post(
 
                 file_uuid_name = str(uuid.uuid4())
                 file_path = f"volume/staticfile/{file_uuid_name}_{file.filename}"
-                with open(file_path, "wb+") as file_object:
-                    file_object.write(file.file.read())
+                # with open(file_path, "wb+") as file_object:
+                #     file_object.write(file.file.read())
+                with open(file_path, "wb+") as buffer:
+                    shutil.copyfileobj(file.file, buffer)
                     post_file = PostFile(
                         post_id=post.id,
                         board_id=board_id,
@@ -88,5 +91,9 @@ def create_post(
                 integrity_error_message_orig=e.orig
             )
             raise HTTPException(**integrity_exception_messages(error_code))
+        finally:
+            if schema.files != None:
+                for file in schema.files:
+                    file.file.close()
 
     return post

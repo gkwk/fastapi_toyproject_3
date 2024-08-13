@@ -13,7 +13,7 @@ from router.v1.boards.board_id.posts.post_id.comments.comment_id.http_patch impo
 from router.v1.boards.board_id.posts.post_id.comments.comment_id.http_delete import (
     http_delete,
 )
-from schema.comments.response_post_detail import (
+from schema.comments.response_comment_detail import (
     ResponseCommentDetailForUser,
     ResponseCommentDetailForAdmin,
 )
